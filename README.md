@@ -6,7 +6,7 @@
 5) Command 2: cd ./flutter_project
 6) Command 3: flutter pub get
 7) Command 5: git pull origin main
-8) Command 4: git checkout (your name for eg: ashutosh or kamal)
+8) Command 4: git checkout -b (your name for eg: ashutosh or kamal or subodh)
 9) You're good to go (do everything in your branch and push in your branch, I'll merge accordingly)
 
 
