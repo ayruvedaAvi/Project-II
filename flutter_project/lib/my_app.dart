@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget{
         appBar: AppBar(
           title: const Text("Project-II"),
         ),
-        body: SplashScreen(),
+        body: const SplashScreen(),
       ),
     );
   }
