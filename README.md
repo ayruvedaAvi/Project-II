@@ -1,5 +1,5 @@
           >>>>>>>>(follow the below steps to configure the project)<<<<<<<<<
-1) Setup vscode and Install flutter (get help from kamal to install flutter)
+1) Setup vscode and Install flutter (get help from kamal to install flutter) and android studio
 2) Kamal ko help milena bhane follow the steps from this link (sajilo chha) link: https://docs.flutter.dev/get-started/install/windows/mobile
 3) After flutter is installed then run the following commands (jun loacation ma project rakhnu man chha)
 4) Command 1: git clone https://github.com/ayruvedaAvi/Project-II.git
