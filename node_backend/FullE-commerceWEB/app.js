@@ -25,7 +25,7 @@ const errorHandlerMiddleware=require('./middleware/error-handler')
 app.use(morgan('tiny'))
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET));
-app.use(express.static('./public'))
+// app.use(express.static('./public'))
 
 app.get('/' , (req , res)=>{
     res.send('hello from simple server')

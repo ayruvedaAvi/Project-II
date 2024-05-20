@@ -28,7 +28,9 @@ const tokenUser={name:user.name,iserId:user._id,role:user.role}
 
 
 const login= async(req,res) =>{
+    
     const {email,password}=req.body;
+    console.log(req.body);
 
     if(!email || !password){
         throw new CustomError.BadRequestError("Invalid email and password")
@@ -41,9 +43,9 @@ const login= async(req,res) =>{
     if(!isPasswordCorrect){
         throw new CustomError.UnauthenticatedError("Password Incorrect")
     }
-    const tokenUser={name:user.name,iserId:user._id,role:user.role}
-  attachCookiesToResponse({res,user:tokenUser})
-  res.status(StatusCodes.CREATED).json({user:tokenUser})
+    const tokenUser={name:user.name,userId:user._id,role:user.role}
+//   attachCookiesToResponse({res, user: tokenUser})
+  res.status(StatusCodes.CREATED).json({name:user.name,userId:user._id,role:user.role})
 
 };
 
