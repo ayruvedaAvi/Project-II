@@ -31,23 +31,23 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: widget.controller,
       validator: widget.validator,
       obscureText: isVisible,
-      cursorColor: Colors.white,
-      style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20),
+      cursorColor: Theme.of(context).colorScheme.onPrimary,
+      style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
       decoration: InputDecoration(
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 248, 247, 246),
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 184, 156, 46),
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
         suffixIconColor: Theme.of(context).colorScheme.onPrimary,
-        labelStyle: const TextStyle(color: Color.fromARGB(255, 251, 226, 128), fontSize: 20),
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
         hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
         labelText: widget.labelText,
         hintText: widget.hintText,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_project/controllers/login_controller.dart';
@@ -21,12 +20,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'Login',
                 style: TextStyle(
@@ -42,13 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Opacity(
                         opacity: 0.8,
-                        child: Image.asset('assets/images/logo.png', height: 600, width: 700),
+                        child: Image.asset('assets/images/logo.png',
+                            height: 600, width: 700),
                       ),
                       Opacity(
                         opacity: 0.5,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           height: 500,
@@ -105,7 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Theme.of(context).colorScheme.onPrimary,
                                   ),
                                   onPressed: () {
-                                    loginController.login();
+                                    if (_formKey.currentState!.validate()) {
+                                      loginController.login();
+                                    }
+                                    loginController.isLoading.value = false;
+                                    return;
                                   },
                                   child: loginController.isLoading.value
                                       ? const CircularProgressIndicator()

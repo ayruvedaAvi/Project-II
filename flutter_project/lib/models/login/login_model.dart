@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'login_model.g.dart';
 
-// flutter pub run build_runner build
+// dart run build_runner build
 
 @JsonSerializable()
 class LoginModel {
