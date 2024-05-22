@@ -9,7 +9,7 @@ final theme = ThemeData(
     seedColor: const Color.fromARGB(255, 130, 0, 142),
     brightness: Brightness.dark,
   ),
-  textTheme: GoogleFonts.robotoMonoTextTheme(),
+  textTheme: GoogleFonts.latoTextTheme(),
 );
 
 class MyApp extends StatelessWidget {

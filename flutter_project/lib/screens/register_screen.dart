@@ -136,6 +136,90 @@ class SignupScreen extends StatelessWidget {
                           suffixIcon: const Icon(Icons.remove_red_eye),
                           suffixIconColor: Color.fromARGB(255, 0, 0, 0)),
                     ),
+                    const SizedBox(height: 32.0),
+                    TextFormField(
+                      expands: false,
+                      cursorColor: Colors.black,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(21),
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                              )),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(21),
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                              )),
+                          labelText: "Confirm Password",
+                          labelStyle: const TextStyle(color: Colors.black),
+                          suffixIcon: const Icon(Icons.remove_red_eye),
+                          suffixIconColor: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    //Terms and condition Checkbox
+                    const SizedBox(height: 32.0),
+                    Row(
+                      children: [
+                        SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Checkbox(
+                              value: false,
+                              onChanged: (value) {
+                                if (value == true) {
+                                  value = false;
+                                } else {
+                                  value = true;
+                                }
+                              },
+                            )),
+                        const SizedBox(width: 16.0),
+                        const Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: "I agree to",
+                              style: TextStyle(
+                                color: Colors.black,
+                              )),
+                          TextSpan(
+                              text: " Privacy Policy ",
+                              style: TextStyle(
+                                color: Colors.blue,
+                              )),
+                          TextSpan(
+                              text: "and",
+                              style: TextStyle(
+                                color: Colors.black,
+                              )),
+                          TextSpan(
+                              text: " Terms of use.",
+                              style: TextStyle(
+                                color: Colors.blue,
+                              )),
+                        ]))
+                      ],
+                    ),
+                    const SizedBox(height: 32.0),
+                    //Sign up button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 24, 224, 198),
+                        ),
+                        onPressed: (){
+                          
+                        },
+                        child: const Text(
+                          "Create Account",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   ],
                 ))
               ],
