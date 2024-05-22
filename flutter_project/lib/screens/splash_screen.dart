@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/login_screen.dart';
+import 'package:flutter_project/screens/register_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
+            builder: (context) => const SignupScreen(),
           ),
         );
       }
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
                 opacity: _animation.value,
                 child: const Hero(
                   tag: 'text',
-                  child:Text(
+                  child: Text(
                     "La second project muji haru",
                     style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
@@ -60,6 +61,7 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
   }
+
   @override
   void dispose() {
     _controller.dispose();
