@@ -1,8 +1,11 @@
 const express= require('express')
 const router=express.Router();
-const { register ,login ,logout}=require('../controller/authController')
+const { register ,verify,login ,logout}=require('../controller/authController');
 
 
+
+
+router.post('/verify',verify)
 router.post('/register',register)
 router.post('/login',login)
 router.get('/logout',logout)
