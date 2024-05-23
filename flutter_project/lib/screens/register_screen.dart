@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/verifyotp_screen.dart';
+// import 'package:flutter_project/screens/verifyOTP_screen.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final firstNameController = TextEditingController();
+  final lastnameController = TextEditingController();
+  final mobileNumberController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +63,12 @@ class SignupScreen extends StatelessWidget {
                               labelStyle: const TextStyle(color: Colors.black),
                               prefixIcon: const Icon(Icons.account_circle),
                               prefixIconColor: Color.fromARGB(255, 0, 0, 0)),
+                          controller: firstNameController,
                         )),
                         const SizedBox(width: 16.0),
                         Expanded(
                             child: TextFormField(
+                          controller: lastnameController,
                           expands: false,
                           cursorColor: Colors.black,
                           keyboardType: TextInputType.name,
@@ -75,6 +91,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32.0),
                     TextFormField(
+                      controller: mobileNumberController,
                       expands: false,
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.phone,
@@ -96,6 +113,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32.0),
                     TextFormField(
+                      controller: emailController,
                       expands: false,
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.emailAddress,
@@ -117,6 +135,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32.0),
                     TextFormField(
+                      controller: passwordController,
                       expands: false,
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.phone,
@@ -138,6 +157,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32.0),
                     TextFormField(
+                      controller: confirmPasswordController,
                       expands: false,
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.phone,
@@ -208,8 +228,12 @@ class SignupScreen extends StatelessWidget {
                           backgroundColor:
                               const Color.fromARGB(255, 24, 224, 198),
                         ),
-                        onPressed: (){
-                          
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VerifyotpScreen()));
+                          // print("$emailController");
                         },
                         child: const Text(
                           "Create Account",
