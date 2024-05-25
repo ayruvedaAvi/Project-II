@@ -101,7 +101,7 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    const out=createJWT({payload:""},'token', 'logout', { httpOnly: true, expire: new Date(Date.now()) });
+    const out = createJWT({payload:""},'token', 'logout', { httpOnly: true, expire: new Date(Date.now()) });
     res.status(StatusCodes.OK).json({ msg: "log out" ,out});
 };
 
