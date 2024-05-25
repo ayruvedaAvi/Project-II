@@ -1,69 +1,113 @@
 const User= require('../models/user')
 const { StatusCodes }=require('http-status-codes')
 const CustomError=require('../errors')
-const jwt=require('jsonwebtoken')
- const {attachCookiesToResponse}=require('../utils')
+const { createJWT }=require('../utils')
+require('dotenv').config();
+const twilio = require('twilio');
 
-// var res = '';
+const client = twilio(process.env.Account_SID, process.env.Auth_Token);
+const otpStore = {};
+const tempUserStore = {}; 
 
-const register= async(req,res) =>{
-    const {email,name,password}=req.body;
-    
-    const emailAlreadyExist=await User.findOne({email})
-    if(emailAlreadyExist){
-        throw new CustomError.BadRequestError('email already registered')
+const register = async (req, res) => {
+    const { name, phoneNumber, email, password } = req.body;
+    const phoneNumberRegex = /^\+977\s\d{10}$/;
+    const isValidPhoneNumber = phoneNumberRegex.test(phoneNumber);
+    console.log(`${phoneNumber} is valid: ${isValidPhoneNumber}`);
+
+    if (!isValidPhoneNumber) {
+        throw new CustomError.BadRequestError('Invalid phone number format');
     }
-    const isMyfirstacc=(await User.countDocuments({}))===0
-     const role = isMyfirstacc ? 'admin' : 'user';
 
-    const user=await User.create({name,email,password,role})
+    if (email) {
+        const existingUserWithEmail = await User.findOne({ email });
+        if (existingUserWithEmail) {
+            throw new CustomError.BadRequestError('Email already registered');
+        }
+    }
 
-const tokenUser={name:user.name,iserId:user._id,role:user.role}
-  attachCookiesToResponse({res,user:tokenUser})
-  res.status(StatusCodes.CREATED).json({user:tokenUser})
+    const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
+    if (existingUserWithPhoneNumber) {
+        throw new CustomError.BadRequestError('Phone number already registered');
+    }
 
-    
-  
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpStore[otp] = phoneNumber;
+    tempUserStore[phoneNumber] = { name, email, password };
+
+    try {
+        await client.messages.create({
+            body: `Your OTP code is ${otp}`,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: phoneNumber,
+        });
+    } catch (error) {
+        console.error('Failed to send OTP:', error);
+        throw new CustomError.BadRequestError('Failed to send OTP');
+    }
+
+    res.status(StatusCodes.CREATED).json({ msg: 'OTP sent to phone number. Please verify to complete registration.' });
 };
 
+const verify = async (req, res) => {
+    const { otp } = req.body;
 
-const login= async(req,res) =>{
-    
-    const {email,password}=req.body;
-    console.log(req.body);
+    const phoneNumber = otpStore[otp];
+    if (!phoneNumber) {
+        throw new CustomError.BadRequestError('Invalid or expired OTP');
+    }
 
-    if(!email || !password){
-        throw new CustomError.BadRequestError("Invalid email and password")
+    const userDetails = tempUserStore[phoneNumber];
+    if (!userDetails) {
+        throw new CustomError.BadRequestError('No registration details found for this phone number');
     }
-    const user = await User.findOne({email});
-    if(!user){
-        // throw new CustomError.UnauthenticatedError("Invalid user")
-        res.status(StatusCodes.UNAUTHORIZED).json({msg:"User not found."})
-    }
-    const isPasswordCorrect=await user.comparePassword(password)
-    if(!isPasswordCorrect){
-        return res.status(StatusCodes.UNAUTHORIZED).json({msg:"Password Incorrect"})
-        // throw new CustomError.UnauthenticatedError("Password Incorrect")
-    }
-    // const tokenUser={name:user.name,userId:user._id,role:user.role}
-//   attachCookiesToResponse({res, user: tokenUser})
-  res.status(StatusCodes.CREATED).json( {name:user.name,userId:user._id,role:user.role, token: '1234'})
 
+    const isFirstUser = (await User.countDocuments({})) === 0;
+    const role = isFirstUser ? 'WorkProvider' : 'Worker';
+
+    const user = await User.create({ ...userDetails, phoneNumber, role, isActive: true });
+
+    delete otpStore[otp];
+    delete tempUserStore[phoneNumber];
+
+    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const token = createJWT({ payload: tokenUser });
+
+    res.status(StatusCodes.OK).json({ msg: 'Phone number verified successfully. Registration complete.', user: tokenUser, token });
 };
 
-
-
-
-
-
-const logout= async(req,res) =>{
-    res.cookie('token','logout',{httpOnly:true,expire:new Date(Date.now())})
-    // res.status(StatusCodes.OK).json({msg:"log out"})
     
+
+
+const login = async (req, res) => {
+    const { phoneNumber, email, password } = req.body;
+    if (!(phoneNumber || email) || !password) {
+        throw new CustomError.BadRequestError("Invalid phoneNumber and password");
+    }
+    const user = await User.findOne({ email }) || await User.findOne({ phoneNumber });
+    if (!user) {
+        throw new CustomError.UnauthenticatedError("Invalid user");
+    }
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
+        throw new CustomError.UnauthenticatedError("Invalid password");
+    }
+    if (!user.isActive) {
+        throw new CustomError.UnauthenticatedError("User not verified");
+    }
+    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const token = createJWT({ payload: tokenUser });
+    res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
 };
 
-module.exports={
+const logout = async (req, res) => {
+    const out=createJWT({payload:""},'token', 'logout', { httpOnly: true, expire: new Date(Date.now()) });
+    res.status(StatusCodes.OK).json({ msg: "log out" ,out});
+};
+
+module.exports = {
     register,
+    verify,
     login,
     logout,
-}
+};

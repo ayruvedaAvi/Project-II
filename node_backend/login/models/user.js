@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const validator=require('validator')
 
-const bcrypt=require('bcryptjs')
+const bcrypt=require('bcryptjs');
+const { optional, required, types } = require('joi');
 
 
 const userSchema = new mongoose.Schema({
@@ -11,24 +12,48 @@ const userSchema = new mongoose.Schema({
         minlength:3,
         maxlength:50,
     },
-    email:{
-        type:String,
-        unique:true,
+    lastName: {
+        type: String,
+        trim: true,
+        maxlength: 20,
+        default: 'lastName',
+      },
+
+      email: {
+        type: String,
         required:[true,'please provide email'],
-        validate:{
-            validator:validator.isEmail,
-            message:'provide valide email'
+        validate: {
+            validator: function(value) {
+                if (value) {
+                    return validator.isEmail(value);
+                }
+                return true; // If email is not provided, validation passes
+            },
+            message: 'Please provide a valid email'
         }
+    },
        
-    },password:{
+    
+    password:{
         type:String,
         required:[true,'please provide password'],
         minlength:6,
     },
+    phoneNumber: {
+        type: String,
+        required: [true, 'Please provide phone number'],
+        unique: true
+      },
+
     role:{
         type:String,
-        enum:['admin','user'],
-        default:'user',
+        enum:['WorkProvider','Worker'],
+        default:'WorkProvide',
+        // required:[true,'please select your role']
+    },
+    isActive: {
+        type: Boolean,
+        default: false,
     },
 });
 
