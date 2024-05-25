@@ -4,7 +4,7 @@ const CustomError=require('../errors')
 const jwt=require('jsonwebtoken')
  const {attachCookiesToResponse}=require('../utils')
 
-
+// var res = '';
 
 const register= async(req,res) =>{
     const {email,name,password}=req.body;
@@ -37,15 +37,17 @@ const login= async(req,res) =>{
     }
     const user = await User.findOne({email});
     if(!user){
-        throw new CustomError.UnauthenticatedError("Invalid user")
+        // throw new CustomError.UnauthenticatedError("Invalid user")
+        res.status(StatusCodes.UNAUTHORIZED).json({msg:"User not found."})
     }
     const isPasswordCorrect=await user.comparePassword(password)
     if(!isPasswordCorrect){
-        throw new CustomError.UnauthenticatedError("Password Incorrect")
+        return res.status(StatusCodes.UNAUTHORIZED).json({msg:"Password Incorrect"})
+        // throw new CustomError.UnauthenticatedError("Password Incorrect")
     }
-    const tokenUser={name:user.name,userId:user._id,role:user.role}
+    // const tokenUser={name:user.name,userId:user._id,role:user.role}
 //   attachCookiesToResponse({res, user: tokenUser})
-  res.status(StatusCodes.CREATED).json({name:user.name,userId:user._id,role:user.role})
+  res.status(StatusCodes.CREATED).json( {name:user.name,userId:user._id,role:user.role, token: '1234'})
 
 };
 
