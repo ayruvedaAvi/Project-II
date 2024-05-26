@@ -21,13 +21,13 @@ class LoginResponseModel {
 
 class User {
   String? name;
-  String? iserId;
+  String? userId;
   String? role;
   String? token;
 
   User({
     required this.name,
-    required this.iserId,
+    required this.userId,
     required this.role,
     required this.token,
   });
