@@ -6,16 +6,14 @@ part 'signup_model.g.dart';
 
 @JsonSerializable()
 class SignupModel {
-  String? firstName;
-  String? lastName;
-  String? mobileNo;
+  String? name;
+  String? phoneNumber;
   String? email;
   String? password;
 
   SignupModel({
-    this.firstName,
-    this.lastName,
-    this.mobileNo,
+    this.name,
+    this.phoneNumber,
     this.email,
     this.password,
   });

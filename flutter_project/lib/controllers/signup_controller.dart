@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/verifyotp_screen.dart';
 import 'package:flutter_project/utils/api/api_endpoint.dart';
 import 'package:get/get.dart';
 import 'package:flutter_project/models/signup/signup_model.dart';
-import 'package:flutter_project/screens/home_screen.dart';
 
 class SignupController extends GetxController {
   final TextEditingController firstNameController = TextEditingController();
@@ -18,32 +18,31 @@ class SignupController extends GetxController {
     isLoading.value = true;
     try {
       final signupModel = SignupModel(
-        firstName: firstNameController.text,
-        lastName: lastnameController.text,
-        mobileNo: mobileNumberController.text,
+        name: "${firstNameController.text} ${lastnameController.text}",
+        phoneNumber: mobileNumberController.text,
         email: emailController.text,
         password: passwordController.text,
       );
       bool isSignup = false;
-      //final isSignup = await ApiEndpoints().signup(signupModel);
-      // if (isSignup) {
-      //   Get.to(const HomeScreen());
-      //   Get.snackbar(
-      //     "Sucess",
-      //     "You are now logged in.",
-      //     backgroundColor: Colors.green,
-      //     snackPosition: SnackPosition.TOP,
-      //   );
-      //   isLoading.value = false;
-      // } else {
-      //   Get.snackbar(
-      //     "Error",
-      //     "Invalid email or password",
-      //     backgroundColor: Colors.red,
-      //     snackPosition: SnackPosition.TOP,
-      //   );
-      //   isLoading.value = false;
-      // }
+      isSignup = await ApiEndpoints().signup(signupModel);
+      if (isSignup) {
+        Get.to(VerifyOtpScreen(mobileNo: mobileNumberController.text,));
+        Get.snackbar(
+          "Sucess",
+          "We've sent you an otp on your phone, please verify.",
+          backgroundColor: Colors.green,
+          snackPosition: SnackPosition.TOP,
+        );
+        isLoading.value = false;
+      } else {
+        Get.snackbar(
+          "Error",
+          "Something went wrong. Please try again.",
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.TOP,
+        );
+        isLoading.value = false;
+      }
     } catch (e) {
       Get.snackbar(
         "Error",

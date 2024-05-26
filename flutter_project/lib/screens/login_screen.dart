@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_project/controllers/login_controller.dart';
+import 'package:flutter_project/screens/register_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 
 import 'package:get/get.dart';
@@ -117,6 +118,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ? const CircularProgressIndicator()
                                       : const Text(
                                           'Login',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                              const SizedBox( height: 15,),
+                              SizedBox(
+                                height: 50,
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    side: BorderSide(width: 2.0, color: Theme.of(context).colorScheme.onPrimary,),
+                                    foregroundColor:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  onPressed: () {
+                                     Get.to(() => const SignupScreen());
+                                    },
+                                  child: loginController.isLoading.value
+                                      ? const CircularProgressIndicator()
+                                      : const Text(
+                                          'New? Register here!',
                                           style: TextStyle(
                                             fontSize: 20,
                                           ),

@@ -23,13 +23,11 @@ class User {
   String? name;
   String? userId;
   String? role;
-  String? token;
 
   User({
     required this.name,
     required this.userId,
     required this.role,
-    required this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
