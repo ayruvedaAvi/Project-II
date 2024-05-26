@@ -19,7 +19,7 @@ class LoginController extends GetxController {
       );
       final isLogin = await ApiEndpoints().login(loginModel);
       if (isLogin) {
-        Get.to(const HomeScreen());
+        Get.to(() => const HomeScreen());
         Get.snackbar(
           "Sucess",
           "You are now logged in.",
