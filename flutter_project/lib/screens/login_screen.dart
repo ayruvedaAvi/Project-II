@@ -63,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               const SizedBox(height: 50),
                               CustomTextFormField(
+                                keyType: TextInputType.emailAddress,
                                 controller: loginController.emailController,
                                 validator: (value) {
                                   if (value == null ||
@@ -78,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               const SizedBox(height: 20),
                               CustomTextFormField(
+                                keyType: TextInputType.visiblePassword,
                                 controller: loginController.passwordController,
                                 obscureText: true,
                                 validator: (value) {
