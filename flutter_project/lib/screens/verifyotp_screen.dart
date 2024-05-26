@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/screens/home_screen.dart';
+import 'package:flutter_project/screens/feed_screen.dart';
 
 class VerifyotpScreen extends StatelessWidget {
+  final String mobileNo;
+
+  const VerifyotpScreen({super.key, required this.mobileNo});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +14,7 @@ class VerifyotpScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 24, 224, 198),
       ),
       backgroundColor: Colors.white,
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(children: [
@@ -22,9 +26,9 @@ class VerifyotpScreen extends StatelessWidget {
                     fontSize: 20),
               ),
               const SizedBox(height: 32.0),
-              const Text(
-                "Enter OTP Sent to +977 9822629582",
-                style: TextStyle(color: Colors.black, fontSize: 15),
+              Text(
+                "Enter OTP Sent to +977 $mobileNo",
+                style: const TextStyle(color: Colors.black, fontSize: 15),
               ),
               const SizedBox(height: 32.0),
               Form(
@@ -42,6 +46,7 @@ class VerifyotpScreen extends StatelessWidget {
                       },
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
+                        hintText: '0',
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: const BorderSide(
@@ -52,7 +57,6 @@ class VerifyotpScreen extends StatelessWidget {
                             borderSide: const BorderSide(
                               color: Colors.black,
                             )),
-                        hintText: "0",
                       ),
                       style: const TextStyle(color: Colors.black),
                       keyboardType: TextInputType.number,
@@ -236,7 +240,7 @@ class VerifyotpScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomeScreen()));
+                            builder: (context) => const FeedScreen()));
                     // print("$emailController");
                   },
                   child: const Text(
@@ -257,7 +261,7 @@ class VerifyotpScreen extends StatelessWidget {
               const Text(
                 "Resend New Code",
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.blue,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),

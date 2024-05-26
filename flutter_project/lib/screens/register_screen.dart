@@ -10,13 +10,13 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final firstNameController = TextEditingController();
-  final lastnameController = TextEditingController();
-  final mobileNumberController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,13 +186,11 @@ class _SignupScreenState extends State<SignupScreen> {
                             width: 24,
                             height: 24,
                             child: Checkbox(
-                              value: false,
-                              onChanged: (value) {
-                                if (value == true) {
-                                  value = false;
-                                } else {
-                                  value = true;
-                                }
+                              value: isChecked,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isChecked = value!;
+                                });
                               },
                             )),
                         const SizedBox(width: 16.0),
@@ -233,7 +231,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => VerifyotpScreen()));
+                                  builder: (context) => VerifyotpScreen(
+                                      mobileNo: mobileNumberController.text
+                                          .toString())));
                           // print("$emailController");
                         },
                         child: const Text(
