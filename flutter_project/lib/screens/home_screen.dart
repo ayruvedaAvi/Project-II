@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/login_screen.dart';
-import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
+import 'package:flutter_project/utils/api/api_endpoint.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -37,8 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 20,
           ),
           ElevatedButton(onPressed: () async {
-            UserSharedPreference.removeDataFromStorage('token');
-            Get.off(() => const LoginScreen());
+            bool isLogout = await ApiEndpoints().logOut();
+            if (isLogout){
+              Get.off(() => const LoginScreen());
+            }
           }, child: const Text("Log out", style: TextStyle(fontSize: 20),)),
 
         ],

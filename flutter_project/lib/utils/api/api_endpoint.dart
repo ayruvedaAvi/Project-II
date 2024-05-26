@@ -29,11 +29,6 @@ class ApiEndpoints {
         // Optionally handle the token or other login-related data
         var token = loginResponse.token;
         await UserSharedPreference.saveDataToStorage('token', token);
-        // if (token != null) {
-        //   isLogin = true;
-        // } else {
-        //   isLogin = false;
-        // }
 
         isLogin = true; // Login successful
       } else {
@@ -44,10 +39,44 @@ class ApiEndpoints {
         String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
-        debugPrint('Error: ${e.toString()}');
         throw Exception('An unexpected error occurred during login');
       }
     }
     return isLogin;
+  }
+
+  Future<bool> logOut() async {
+    bool isLogOut = false; // Default to false indicating logout failed
+    String url = baseUrl + logoutUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token = await UserSharedPreference.getStringDataFromStorage('token');
+    try {
+      response = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Logout successful');
+        UserSharedPreference.removeDataFromStorage('token');
+        isLogOut = true; // Logout successful
+      } else {
+        throw Exception('Failed to logout: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        debugPrint('Error: ${e.toString()}');
+        throw Exception('An unexpected error occurred during logout');
+      }
+    }
+    return isLogOut;
   }
 }
