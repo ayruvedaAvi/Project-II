@@ -105,10 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Theme.of(context).colorScheme.onPrimary,
                                   ),
                                   onPressed: () {
+                                    loginController.isLoading.value = true;
                                     if (_formKey.currentState!.validate()) {
                                       loginController.login();
                                     }
-                                    loginController.isLoading.value = false;
                                     return;
                                   },
                                   child: loginController.isLoading.value
