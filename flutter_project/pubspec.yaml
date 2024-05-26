@@ -41,6 +41,7 @@ dependencies:
   json_annotation: ^4.9.0
   json_serializable: ^6.8.0
   shared_preferences: ^2.2.3
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
