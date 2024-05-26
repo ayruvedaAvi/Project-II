@@ -1,9 +1,11 @@
-const User= require('../models/user')
-const { StatusCodes }=require('http-status-codes')
+const User = require('../models/User');
+
 const CustomError=require('../errors')
 const { createJWT }=require('../utils')
 require('dotenv').config();
 const twilio = require('twilio');
+const { StatusCodes } = require('http-status-codes');
+
 
 const client = twilio(process.env.Account_SID, process.env.Auth_Token);
 const otpStore = {};
@@ -26,10 +28,10 @@ const register = async (req, res) => {
         }
     }
 
-    const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
-    if (existingUserWithPhoneNumber) {
-        throw new CustomError.BadRequestError('Phone number already registered');
-    }
+    // const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
+    // if (existingUserWithPhoneNumber) {
+    //     throw new CustomError.BadRequestError('Phone number already registered');
+    // }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore[otp] = phoneNumber;
@@ -101,13 +103,43 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    const out = createJWT({payload:""},'token', 'logout', { httpOnly: true, expire: new Date(Date.now()) });
-    res.status(StatusCodes.OK).json({ msg: "log out" ,out});
+    res.cookie('token','logout',{
+        httpOnly:true,
+        expires:new Date(Date.now()+5*1000),
+    })
+    res.status(StatusCodes.OK).json({ msg: "log out" });
+};
+
+
+const updateUser = async (req, res) => {
+  const { email, name, lastName, location } = req.body;
+  if (!email || !name || !lastName || !location) {
+    throw new BadRequest('Please provide all values');
+  }
+  const user = await User.findOne({ _id: req.user.userId });
+
+  user.email = email;
+  user.name = name;
+  user.lastName = lastName;
+  user.location = location;
+
+  await user.save();
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({
+    user: {
+      email: user.email,
+      lastName: user.lastName,
+      location: user.location,
+      name: user.name,
+      token,
+    },
+  });
 };
 
 module.exports = {
-    register,
-    verify,
-    login,
-    logout,
+  register,
+  verify,
+  login,
+  logout,
+  updateUser,
 };
