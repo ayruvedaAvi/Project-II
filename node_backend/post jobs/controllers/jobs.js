@@ -4,41 +4,16 @@ const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, NotFoundError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
+const streamifier = require('streamifier');
 
 const createJob = async (req, res) => {
-  // // Check if the image is included in the request
-  // if (!req.files || !req.files.image) {
-  //   throw new BadRequestError('No File Uploaded');
-  // }
+  if (!req.user || !req.user.userId) {
+    throw new BadRequestError('Please provide user');
+  }
 
-  // const productImage = req.files.image;
-
-  // if (!productImage.mimetype.startsWith('image')) {
-  //   throw new BadRequestError('Please Upload Image');
-  // }
-
-  // const maxSize = 1024 * 1024;
-  // if (productImage.size > maxSize) {
-  //   throw new BadRequestError('Please upload image smaller than 1MB');
-  // }
-
-  // // Upload the image to Cloudinary
-  // const result = await cloudinary.uploader.upload(productImage.tempFilePath, {
-  //   use_filename: true,
-  //   folder: 'file-upload',
-  // });
-
-  // // Remove the temporary file
-  // fs.unlinkSync(productImage.tempFilePath);
-
-  // // Include the image URL in the job data
-  // req.body.image = result.secure_url;
-  // req.body.createdBy = req.user.userId;
-
+  req.body.user_ID = req.user.userId;
 
   const job = await Job.create(req.body);
-
- 
   res.status(StatusCodes.CREATED).json({ job });
 };
 
@@ -46,7 +21,7 @@ const getAllJobs = async (req, res) => {
   const { search, status, jobType, sort } = req.query;
 
   const queryObject = {
-    createdBy: req.user.userId,
+    user_ID: req.user.userId,
   };
 
   if (search) {
@@ -94,8 +69,8 @@ const getJob = async (req, res) => {
   } = req;
 
   const job = await Job.findOne({
-    _id: jobId,
-    createdBy: userId,
+    job_id: jobId,
+    user_ID: userId,
   });
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId}`);
@@ -114,7 +89,7 @@ const updateJob = async (req, res) => {
     throw new BadRequestError('Title or Work_Description fields cannot be empty');
   }
   const job = await Job.findByIdAndUpdate(
-    { _id: jobId, createdBy: userId },
+    { _id: jobId, user_ID: userId },
     req.body,
     { new: true, runValidators: true }
   );
@@ -132,7 +107,7 @@ const deleteJob = async (req, res) => {
 
   const job = await Job.findByIdAndRemove({
     _id: jobId,
-    createdBy: userId,
+    user_ID: userId,
   });
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId}`);
@@ -142,7 +117,7 @@ const deleteJob = async (req, res) => {
 
 const showStats = async (req, res) => {
   let stats = await Job.aggregate([
-    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    { $match: { user_ID: mongoose.Types.ObjectId(req.user.userId) } },
     { $group: { _id: '$status', count: { $sum: 1 } } },
   ]);
 
@@ -159,7 +134,7 @@ const showStats = async (req, res) => {
   };
 
   let monthlyApplications = await Job.aggregate([
-    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    { $match: { user_ID: mongoose.Types.ObjectId(req.user.userId) } },
     {
       $group: {
         _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
@@ -186,31 +161,60 @@ const showStats = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
+;
 const uploadProductMedia = async (req, res) => {
-  console.log('Files:', req.files); // Debugging line
-  if (!req.files || !req.files.image) {
-    throw new BadRequestError('No File Uploaded');
+  try {
+    console.log('Incoming files:', req.files);
+
+    if (!req.files || !req.files.media) {
+      throw new BadRequestError('No File Uploaded');
+    }
+    const productMedia = req.files.media;
+    const files = Array.isArray(productMedia) ? productMedia : [productMedia];
+    console.log('Files to process:', files);
+    const areValidFiles = files.every(file => file.mimetype.startsWith('image') || file.mimetype.startsWith('video'));
+    if (!areValidFiles) {
+      throw new BadRequestError('Please upload image or video files only');
+    }
+    const maxImageSize = 5 * 1024 * 1024; // 5MB for images
+    const maxVideoSize = 50 * 1024 * 1024; // 50MB for videos
+
+    files.forEach(file => {
+      if (file.mimetype.startsWith('image') && file.size > maxImageSize) {
+        throw new BadRequestError('Please upload images smaller than 5MB');
+      }
+      if (file.mimetype.startsWith('video') && file.size > maxVideoSize) {
+        throw new BadRequestError('Please upload videos smaller than 50MB');
+      }
+    });
+
+    const uploadPromises = files.map(file => new Promise((resolve, reject) => {
+      const resourceType = file.mimetype.startsWith('image') ? 'image' : 'video';
+      const uploadStream = cloudinary.uploader.upload_stream({
+        use_filename: true,
+        folder: 'file-upload',
+        resource_type: resourceType,
+      }, (error, result) => {
+        if (error) {
+          reject(new InternalServerError('Cloudinary Upload Failed'));
+        } else {
+          resolve({ src: result.secure_url });
+        }
+      });
+
+      streamifier.createReadStream(file.data).pipe(uploadStream);
+    }));
+
+    const uploadedMedia = await Promise.all(uploadPromises);
+
+    return res.status(StatusCodes.OK).json({ media: uploadedMedia });
+  } catch (error) {
+    // Handle errors
+    console.error('Upload error:', error);
+    throw error;
   }
-
-  const productImage = req.files.image;
-
-  if (!productImage.mimetype.startsWith('image')) {
-    throw new BadRequestError('Please Upload Image');
-  }
-
-  const maxSize = 1024 * 1024;
-  if (productImage.size > maxSize) {
-    throw new BadRequestError('Please upload image smaller than 1MB');
-  }
-
-  const result = await cloudinary.uploader.upload(productImage.tempFilePath, {
-    use_filename: true,
-    folder: 'file-upload',
-  });
-
-  fs.unlinkSync(productImage.tempFilePath);
-  return res.status(StatusCodes.OK).json({ image: { src: result.secure_url } });
 };
+
 
 
 

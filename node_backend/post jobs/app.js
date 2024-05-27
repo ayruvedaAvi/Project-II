@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(helmet());
 app.use(xss());
-app.use(fileUpload({ useTempFiles: true }));
+app.use(fileUpload({ useTempFiles: false }));
 
 // Routers
 const authRouter = require('./routes/auth');

@@ -17,11 +17,11 @@ const JobSchema = new mongoose.Schema(
       enum: ['pending', 'Taken', 'completed'],
       default: 'pending',
     },
-    createdBy: {
+    user_ID: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: [true, 'Please provide user'],
-    },
+    }, 
     jobType: {
       type: String,
       enum: ['Electrical', 'shift home', 'Delivery', 'Plumbing','others'],
