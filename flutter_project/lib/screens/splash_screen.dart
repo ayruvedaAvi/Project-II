@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter_project/screens/login_screen.dart';
+import 'package:flutter_project/screens/userprofile_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -45,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
           if (token != null) {
             Get.to(() => const HomeScreen());
           } else {
-            Get.to(() => const LoginScreen());
+            Get.to(() => const UserprofileScreen());
           }
         }
       },

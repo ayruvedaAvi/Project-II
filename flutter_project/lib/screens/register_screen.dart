@@ -35,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
-              const SizedBox(height: 32.0),
+              const SizedBox(height: 25.0),
               //Form
               Form(
                 key: _formkey,
@@ -70,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       )
                     ]),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 22.0),
                     CustomTextFormField(
                       keyType: TextInputType.phone,
                       controller: signUpController.mobileNumberController,
@@ -83,7 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       labelText: "Mobile Number",
                       suffixIcon: const Icon(Icons.local_phone_rounded),
                     ),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 22.0),
                     CustomTextFormField(
                       keyType: TextInputType.emailAddress,
                       controller: signUpController.emailController,
@@ -96,32 +96,35 @@ class _SignupScreenState extends State<SignupScreen> {
                       },
                       suffixIcon: const Icon(Icons.mail),
                     ),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 22.0),
                     CustomTextFormField(
                       keyType: TextInputType.visiblePassword,
                       controller: signUpController.passwordController,
                       labelText: "Enter Password",
                       validator: (value) {
-                        if (value == null || value.isEmpty || value.length < 6) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 6) {
                           return 'Please enter a valid password!';
                         }
                         return null;
                       },
                       suffixIcon: const Icon(Icons.remove_red_eye),
                     ),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 22.0),
                     CustomTextFormField(
-                      validator: (p0) => p0 != signUpController.passwordController.text
-                          ? "Password does not match"
-                          : null,
+                      validator: (p0) =>
+                          p0 != signUpController.passwordController.text
+                              ? "Password does not match"
+                              : null,
                       keyType: TextInputType.visiblePassword,
                       controller: signUpController.confirmPasswordController,
                       labelText: "Confirm Password",
                       suffixIcon: const Icon(Icons.remove_red_eye),
                     ),
                     //Terms and condition Checkbox
-                    const SizedBox(height: 32.0),
-                    Row(
+                    const SizedBox(height: 22.0),
+                    Wrap(
                       children: [
                         SizedBox(
                             width: 24,
@@ -134,7 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 });
                               },
                             )),
-                        const SizedBox(width: 16.0),
+                        const SizedBox(width: 12.0),
                         const Text.rich(TextSpan(children: [
                           TextSpan(
                               text: "I agree to",
@@ -159,7 +162,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ]))
                       ],
                     ),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 22.0),
                     //Sign up button
                     Obx(
                       () => SizedBox(
