@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
+import 'package:get/get.dart';
 
 class AddpostScreen extends StatefulWidget {
   const AddpostScreen({super.key});
@@ -12,6 +14,20 @@ class AddpostScreen extends StatefulWidget {
 }
 
 class _AddpostScreenState extends State<AddpostScreen> {
+  RxString name = ''.obs;
+
+  Future<void> getName() async {
+    name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
+        'Error fetching name';
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,21 +72,23 @@ class _AddpostScreenState extends State<AddpostScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage:
                             AssetImage("assets/images/boy_image.jpg"),
                         radius: 25,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Text(
-                        "Harry Potter",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w300),
+                      Obx(
+                        () => Text(
+                          name.value,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w300),
+                        ),
                       ),
                     ],
                   ),
@@ -108,11 +126,11 @@ class _AddpostScreenState extends State<AddpostScreen> {
                                 type: FileType.custom,
                                 allowedExtensions: ['jpg', 'png', 'mp4']);
                         if (result != null) {
-                        //   List<File> files =
-                        //       result.paths.map((path) => File(path!)).toList();
-                        //   final file = result.files.first;
-                        //   files = file!;
-                        // } else {
+                          //   List<File> files =
+                          //       result.paths.map((path) => File(path!)).toList();
+                          //   final file = result.files.first;
+                          //   files = file!;
+                          // } else {
                           print("User cancelled the picker");
                         }
                         print("Add images button added");
