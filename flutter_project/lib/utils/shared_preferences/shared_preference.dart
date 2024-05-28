@@ -4,7 +4,6 @@ class UserSharedPreference{
   
   static Future<void> saveDataToStorage(String key, value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, value);
     if (value is int) {
       await prefs.setInt(key, value);
     } else if (value is String) {

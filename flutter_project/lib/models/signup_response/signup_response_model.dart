@@ -1,20 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_response_model.g.dart';
+part 'signup_response_model.g.dart';
 
 @JsonSerializable()
 
-class LoginResponseModel {
-  User? user;
-  String? token;
+class SignupResponseModel {
+  final String? msg;
+  final String? token;
+  final User? user;
 
-  LoginResponseModel({
+  SignupResponseModel({
+    required this.msg,
     required this.token,
     required this.user,
   });
 
-  factory LoginResponseModel.fromJson(Map<String, dynamic> json) => _$LoginResponseModelFromJson(json);
-  Map<String, dynamic> toJson() => _$LoginResponseModelToJson(this);
+  factory SignupResponseModel.fromJson(Map<String, dynamic> json) => _$SignupResponseModelFromJson(json);
+  Map<String, dynamic> toJson() => _$SignupResponseModelToJson(this);
+
 }
 
 @JsonSerializable()

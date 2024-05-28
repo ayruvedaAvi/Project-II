@@ -8,7 +8,7 @@ import 'package:flutter_project/screens/home_screen.dart';
 class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final isLoading = false.obs;
+  RxBool isLoading = false.obs;
 
   Future<void> login() async {
     isLoading.value = true;
@@ -19,13 +19,14 @@ class LoginController extends GetxController {
       );
       final isLogin = await ApiEndpoints().login(loginModel);
       if (isLogin) {
-        Get.to(const HomeScreen());
+        Get.to(() => const HomeScreen());
         Get.snackbar(
           "Sucess",
           "You are now logged in.",
           backgroundColor: Colors.green,
           snackPosition: SnackPosition.TOP,
         );
+        isLoading.value = false;
       }else{
         Get.snackbar(
           "Error",
@@ -41,6 +42,7 @@ class LoginController extends GetxController {
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
       );
+      isLoading.value = false;
     }
     finally {
       isLoading.value = false;

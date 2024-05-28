@@ -7,6 +7,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? hintText;
   final TextEditingController controller;
   final Icon? suffixIcon;
+  final TextInputType? keyType;
   bool? obscureText;
 
   CustomTextFormField({
@@ -15,7 +16,8 @@ class CustomTextFormField extends StatefulWidget {
     this.suffixIcon,
     required this.controller,
     required this.labelText,
-    required this.hintText,
+    required this.keyType,
+    this.hintText,
     this.obscureText = false,
   });
 
@@ -28,37 +30,41 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      expands: false, //constant for all
       controller: widget.controller,
       validator: widget.validator,
       obscureText: isVisible,
+      keyboardType: widget.keyType,
       cursorColor: Theme.of(context).colorScheme.onPrimary,
       style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
       decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(21),
+            borderSide: const BorderSide(
+              color: Colors.black,
+            )),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(21),
+            borderSide: const BorderSide(
+              color: Colors.black,
+            )),
         suffixIconColor: Theme.of(context).colorScheme.onPrimary,
-        labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
-        hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+        labelStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+        hintStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
         labelText: widget.labelText,
         hintText: widget.hintText,
-        suffixIcon: widget.obscureText!? IconButton(
-          onPressed: () {
-            setState(() {
-              isVisible = !isVisible;
-            });
-          },
-          icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
-        ) : widget.suffixIcon,
+        suffixIcon: widget.obscureText!
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    isVisible = !isVisible;
+                  });
+                },
+                icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+              )
+            : widget.suffixIcon,
       ),
     );
   }
