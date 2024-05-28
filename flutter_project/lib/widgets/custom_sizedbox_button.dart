@@ -17,35 +17,36 @@ class _CustomSizedboxButtonState extends State<CustomSizedboxButton> {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 242, 242, 242),
-          ),
-          onPressed: () {
-            print("button clicked");
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(children: [
-                Icon(
-                  widget.prefixIcon,
-                  color: Colors.black,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  (widget.labelText).toString(),
-                  style: const TextStyle(color: Colors.black, fontSize: 16),
-                ),
-              ]),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 242, 242, 242),
+        ),
+        onPressed: () {
+          print("button clicked");
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(children: [
+              Icon(
+                widget.prefixIcon,
                 color: Colors.black,
-                size: 17,
               ),
-            ],
-          )),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                (widget.labelText).toString(),
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+              ),
+            ]),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.black,
+              size: 17,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

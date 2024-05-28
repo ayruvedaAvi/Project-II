@@ -169,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  curved_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: curved_navigation_bar
+      sha256: ea6412d00c5d83501bbf1cf9d1ac2ff11a20fbaf910c103c95ace7de82910334
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   dart_style:
     dependency: transitive
     description:
@@ -320,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  iconify:
+    dependency: "direct main"
+    description:
+      name: iconify
+      sha256: e82feccf3c95fcb0bee7da430418e0a503b67c214d59150c876d2e8b49d00cf3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   io:
     dependency: transitive
     description:
