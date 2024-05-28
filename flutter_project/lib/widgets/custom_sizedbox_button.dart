@@ -18,7 +18,7 @@ class _CustomSizedboxButtonState extends State<CustomSizedboxButton> {
       height: 50,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 236, 254, 250),
+            backgroundColor: const Color.fromARGB(255, 242, 242, 242),
           ),
           onPressed: () {
             print("button clicked");

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_project/widgets/custom_sizedbox_button.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 
 class UserprofileScreen extends StatefulWidget {
   const UserprofileScreen({super.key});
@@ -69,13 +68,6 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     height: 15,
                   ),
                   CustomSizedboxButton(
-                    prefixIcon: Icons.privacy_tip_outlined,
-                    labelText: "Privacy",
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  CustomSizedboxButton(
                     prefixIcon: Icons.history,
                     labelText: "Work History",
                   ),
@@ -83,8 +75,15 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     height: 15,
                   ),
                   CustomSizedboxButton(
-                    prefixIcon: Icons.help_outline,
-                    labelText: "Help & Support",
+                    prefixIcon: Icons.privacy_tip_outlined,
+                    labelText: "Privacy & Security",
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  CustomSizedboxButton(
+                    prefixIcon: Icons.person_pin,
+                    labelText: "Invite a Friend",
                   ),
                   SizedBox(
                     height: 15,
@@ -97,8 +96,8 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     height: 15,
                   ),
                   CustomSizedboxButton(
-                    prefixIcon: Icons.person_pin,
-                    labelText: "Invite a Friend",
+                    prefixIcon: Icons.help_outline,
+                    labelText: "Help & Support",
                   ),
                   SizedBox(
                     height: 15,
