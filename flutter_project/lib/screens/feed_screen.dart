@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
+import 'package:get/get.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -8,6 +10,20 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+
+  RxString name = ''.obs;
+
+  Future<void> getName() async{
+    name.value = await UserSharedPreference.getStringDataFromStorage('name') ?? 'Error fetching name';
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,22 +43,24 @@ class _FeedScreenState extends State<FeedScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Hello,",
                           style: TextStyle(
                               fontSize: 21,
                               fontWeight: FontWeight.w300,
                               color: Colors.black),
                         ),
-                        Text("Kamal",
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 188, 2, 185),
-                            )),
+                        Obx( () =>
+                           Text(name.value,
+                              style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 188, 2, 185),
+                              )),
+                        ),
                       ]),
                   SizedBox(
                     width: 70,

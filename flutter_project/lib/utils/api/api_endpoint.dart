@@ -29,6 +29,8 @@ class ApiEndpoints {
 
         debugPrint('Login successful: ${loginResponse.user!.name}');
 
+        await UserSharedPreference.saveDataToStorage('name', loginResponse.user!.name);
+
         // Optionally handle the token or other login-related data
         var token = loginResponse.token;
         await UserSharedPreference.saveDataToStorage('token', token);

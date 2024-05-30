@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Hero(
               tag: 'text',
               child: Text(
-                "Lets start from here.",
+                "Yo chai message wala screen hai.",
                 style: TextStyle(color: Colors.white, fontSize: 30),
               ),
             ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/base_screen.dart';
 import 'package:flutter_project/utils/api/api_endpoint.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_project/models/login/login_model.dart';
-import 'package:flutter_project/screens/home_screen.dart';
 
 class LoginController extends GetxController {
   final emailController = TextEditingController();
@@ -19,7 +19,7 @@ class LoginController extends GetxController {
       );
       final isLogin = await ApiEndpoints().login(loginModel);
       if (isLogin) {
-        Get.to(() => const HomeScreen());
+        Get.to(() => const BaseScreen(initalIndex: 0,));
         Get.snackbar(
           "Sucess",
           "You are now logged in.",
