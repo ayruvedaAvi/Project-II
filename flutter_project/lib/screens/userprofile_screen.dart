@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/login_screen.dart';
+import 'package:flutter_project/utils/api/api_endpoint.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_sizedbox_button.dart';
 import 'package:get/get.dart';
@@ -12,11 +14,11 @@ class UserprofileScreen extends StatefulWidget {
 }
 
 class _UserprofileScreenState extends State<UserprofileScreen> {
-
   RxString name = ''.obs;
 
-  Future<void> getName() async{
-    name.value = await UserSharedPreference.getStringDataFromStorage('name') ?? 'Error fetching name';
+  Future<void> getName() async {
+    name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
+        'Error fetching name';
   }
 
   @override
@@ -57,11 +59,13 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Obx ( () => Text(
-                        name.value,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),),
+                      Obx(
+                        () => Text(
+                          name.value,
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       const SizedBox(
                         width: 7,
                       ),
@@ -82,44 +86,55 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const CustomSizedboxButton(
+                  CustomSizedboxButton(
                     prefixIcon: Icons.history,
                     labelText: "Work History",
+                    onTap: () {},
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  const CustomSizedboxButton(
+                  CustomSizedboxButton(
                     prefixIcon: Icons.privacy_tip_outlined,
                     labelText: "Privacy & Security",
+                    onTap: () {},
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  const CustomSizedboxButton(
+                  CustomSizedboxButton(
                     prefixIcon: Icons.person_pin,
                     labelText: "Invite a Friend",
+                    onTap: () {},
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  const CustomSizedboxButton(
+                  CustomSizedboxButton(
                     prefixIcon: Icons.settings,
                     labelText: "Setting",
+                    onTap: () {},
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  const CustomSizedboxButton(
+                  CustomSizedboxButton(
                     prefixIcon: Icons.help_outline,
                     labelText: "Help & Support",
+                    onTap: () {},
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  const CustomSizedboxButton(
+                  CustomSizedboxButton(
                     prefixIcon: Icons.logout_outlined,
                     labelText: "Logout",
+                    onTap: () async {
+                      bool isLogout = await ApiEndpoints().logOut();
+                      if (isLogout) {
+                        Get.off(() => const LoginScreen());
+                      }
+                    },
                   ),
                 ],
               )),

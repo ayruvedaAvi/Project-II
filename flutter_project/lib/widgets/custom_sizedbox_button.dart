@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class CustomSizedboxButton extends StatefulWidget {
   final IconData? prefixIcon;
   final String? labelText;
+  final void Function()? onTap;
 
-  const CustomSizedboxButton({super.key, this.prefixIcon, this.labelText});
+  const CustomSizedboxButton(
+      {super.key,
+      required this.prefixIcon,
+      required this.labelText,
+      required this.onTap});
 
   @override
   State<CustomSizedboxButton> createState() => _CustomSizedboxButtonState();
@@ -20,9 +25,7 @@ class _CustomSizedboxButtonState extends State<CustomSizedboxButton> {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 242, 242, 242),
         ),
-        onPressed: () {
-          print("button clicked");
-        },
+        onPressed: widget.onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
