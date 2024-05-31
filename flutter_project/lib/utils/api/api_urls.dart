@@ -3,3 +3,4 @@ const loginUrl = "/auth/login";
 const registerUrl = "/auth/register";
 const logoutUrl = "/auth/logout";
 const verifyOtpUrl = "/auth/verify";
+const postJobUrl = "/jobs";

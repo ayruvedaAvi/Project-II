@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/job/job_model.dart';
 
 import 'package:flutter_project/models/login/login_model.dart';
 import 'package:flutter_project/models/login_response/login_response_model.dart';
@@ -148,5 +149,40 @@ class ApiEndpoints {
       }
     }
     return isVerified;
+  }
+
+  Future<bool> postJob(JobModel jobModel) async {
+    bool isJobPosted = false; // Default to false indicating job post failed
+    String url = baseUrl + postJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token = await UserSharedPreference.getStringDataFromStorage('token');
+
+    try {
+      response = await dio.post(
+        url,
+        data: jobModel.toJson(),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        debugPrint('Job posted successfully');
+        isJobPosted = true; // Job post successful
+      } else {
+        throw Exception('Failed to post job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job post');
+      }
+    }
+    return isJobPosted;
   }
 }
