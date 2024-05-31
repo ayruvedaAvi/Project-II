@@ -1,8 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/addpost_screen.dart';
+import 'package:flutter_project/screens/chats_screen.dart';
 import 'package:flutter_project/screens/feed_screen.dart';
-import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter_project/screens/userprofile_screen.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _BaseScreenState extends State<BaseScreen> {
     lstWidget = [
       const FeedScreen(),
       const AddpostScreen(),
-      const HomeScreen(),
+      const ChatsScreen(),
       const UserprofileScreen(),
     ];
   }
