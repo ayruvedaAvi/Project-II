@@ -28,12 +28,13 @@
     "mongodb": "^6.6.2",
     "mongoose": "^6.12.8",
     "morgan": "^1.10.0",
+    "streamifier": "^0.1.1",
     "twilio": "^5.0.4",
     "validator": "^13.12.0",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.9"
   },
   "engines": {
     "node": "14.x"
