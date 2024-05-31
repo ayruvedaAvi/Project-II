@@ -43,7 +43,9 @@ class _SplashScreenState extends State<SplashScreen>
             }
           }
           if (token != null) {
-            Get.off(() => const BaseScreen(initalIndex: 0,));
+            Get.off(() => const BaseScreen(
+                  initalIndex: 0,
+                ));
           } else {
             Get.off(() => const LoginScreen());
           }

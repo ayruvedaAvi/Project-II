@@ -1,10 +1,11 @@
-// import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddpostScreen extends StatefulWidget {
   const AddpostScreen({super.key});
@@ -15,6 +16,8 @@ class AddpostScreen extends StatefulWidget {
 
 class _AddpostScreenState extends State<AddpostScreen> {
   RxString name = ''.obs;
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
 
   Future<void> getName() async {
     name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
@@ -34,7 +37,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 24, right: 8, left: 10),
+          padding: const EdgeInsets.only(top: 24, right: 10, left: 10),
           child: Column(
             children: [
               Row(
@@ -113,45 +116,69 @@ class _AddpostScreenState extends State<AddpostScreen> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 236, 254, 250),
+                    height: 200,
+                    child: _image == null
+                        ? const Text('No image selected.')
+                        : Image.file(File(_image!.path)),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 236, 254, 250),
+                          ),
+                          onPressed: getImage,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Gallery",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.image_outlined,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      onPressed: () async {
-                        FilePickerResult? result = await FilePicker.platform
-                            .pickFiles(
-                                allowMultiple: true,
-                                type: FileType.custom,
-                                allowedExtensions: ['jpg', 'png', 'mp4']);
-                        if (result != null) {
-                          //   List<File> files =
-                          //       result.paths.map((path) => File(path!)).toList();
-                          //   final file = result.files.first;
-                          //   files = file!;
-                          // } else {
-                          print("User cancelled the picker");
-                        }
-                        print("Add images button added");
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Add images/video",
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(
-                            Icons.image,
-                            color: Colors.black,
-                          ),
-                        ],
+                      const SizedBox(
+                        width: 8,
                       ),
-                    ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 236, 254, 250),
+                          ),
+                          onPressed: getImageFromCamera,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Camera",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.camera_alt_outlined,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
@@ -160,5 +187,21 @@ class _AddpostScreenState extends State<AddpostScreen> {
         ),
       ),
     );
+  }
+
+  Future getImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future getImageFromCamera() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = image;
+    });
   }
 }
