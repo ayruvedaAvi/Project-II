@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/login_screen.dart';
-import 'package:flutter_project/utils/api/api_endpoint.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_sizedbox_button.dart';
 import 'package:get/get.dart';
@@ -129,11 +128,9 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   CustomSizedboxButton(
                     prefixIcon: Icons.logout_outlined,
                     labelText: "Logout",
-                    onTap: () async {
-                      bool isLogout = await ApiEndpoints().logOut();
-                      if (isLogout) {
+                    onTap: () {
+                        UserSharedPreference.removeDataFromStorage('token');
                         Get.off(() => const LoginScreen());
-                      }
                     },
                   ),
                 ],

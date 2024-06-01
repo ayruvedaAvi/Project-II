@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const validator=require('validator')
 
 const bcrypt=require('bcryptjs');
-const { optional, required, types } = require('joi');
+
 
 
 const userSchema = new mongoose.Schema({
@@ -14,9 +14,9 @@ const userSchema = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        trim: true,
-        maxlength: 20,
-        default: 'lastName',
+        required:[true,"lastname required"]
+,        maxlength: 20,
+        
       },
 
       email: {

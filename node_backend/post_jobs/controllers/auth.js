@@ -1,3 +1,5 @@
+const User = require('../models/User');
+
 const CustomError=require('../errors')
 const { createJWT }=require('../utils')
 require('dotenv').config();
@@ -101,7 +103,6 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    console.log(token)
     res.cookie('token','logout',{
         httpOnly:true,
         expires:new Date(Date.now()+5*1000),
