@@ -26,7 +26,7 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  var isVisible = false;
+  var isVisible = true;
   @override
   Widget build(BuildContext context) {
     return TextFormField(

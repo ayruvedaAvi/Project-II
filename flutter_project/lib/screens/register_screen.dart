@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/signup_controller.dart';
+import 'package:flutter_project/screens/login_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
 // import 'package:flutter_project/screens/verifyOTP_screen.dart';
@@ -100,7 +101,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     CustomTextFormField(
                       keyType: TextInputType.visiblePassword,
                       controller: signUpController.passwordController,
-                      labelText: "Enter Password",
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      obscureText: true,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -109,7 +112,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         }
                         return null;
                       },
-                      suffixIcon: const Icon(Icons.remove_red_eye),
+                      // suffixIcon: const Icon(Icons.remove_red_eye),
                     ),
                     const SizedBox(height: 22.0),
                     CustomTextFormField(
@@ -167,6 +170,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Obx(
                       () => SizedBox(
                         width: double.infinity,
+                        height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -182,13 +186,36 @@ class _SignupScreenState extends State<SignupScreen> {
                               : const Text(
                                   "Create Account",
                                   style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 22.0),
+                    const Text(
+                      "Or",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15.0),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const Text(
+                        "Already have an account?",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Get.to(() => const LoginScreen());
+                          },
+                          child: const Text(
+                            "Sign in",
+                            style: TextStyle(
+                                color: Colors.purple,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ))
+                    ]),
                   ],
                 ),
               ),
