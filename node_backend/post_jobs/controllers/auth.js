@@ -1,5 +1,4 @@
-const User = require('../models/user');
-
+const User = require('../models/User');
 const CustomError=require('../errors')
 const { createJWT }=require('../utils')
 require('dotenv').config();
