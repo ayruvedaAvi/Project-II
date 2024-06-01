@@ -2,11 +2,11 @@ const fs = require("fs");
 const path = require('path');
 var FCM = require('fcm-node');
 
-const sendPushNotification = async(userId,message) => {
+const sendPushNotification = async(user_ID,message) => {
 
     try {
   
-      console.log('User Id:- '+userId);
+      console.log('User Id:- '+user_ID);
       console.log('message:- '+message);
   
       fs.readFile(path.join(__dirname,'../FireBaseConfig.json'), "utf8", async(err, jsonString) => {
@@ -21,9 +21,9 @@ const sendPushNotification = async(userId,message) => {
           var serverKey = data.SERVER_KEY;
           var fcm = new FCM(serverKey);
   
-          var push_tokens = await Push_Notification.find({ 
+          var push_tokens = await pushMessage.findOne({ 
             where:{
-              user_id:userId
+              user_ID:user_ID
             }
           });
           
@@ -46,7 +46,7 @@ const sendPushNotification = async(userId,message) => {
               },
               // data: {
               //   notification_type: 5,
-              //   conversation_id:inputs.user_id,
+              //   conversation_id:inputs.user_ID,
               // }
             };
           
