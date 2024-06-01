@@ -14,11 +14,10 @@ const userSchema = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        required:[true,"lastname required"]
-,        maxlength: 20,
-        
+        required:[true,"lastname required"],
+        minlength:3,
+        maxlength: 20,
       },
-
       email: {
         type: String,
         required:[true,'please provide email'],
@@ -69,4 +68,6 @@ userSchema.methods.comparePassword = async function(canditatePassword){
     return isMatch
 }
 
-module.exports=mongoose.model('User',userSchema)
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+module.exports = User;
