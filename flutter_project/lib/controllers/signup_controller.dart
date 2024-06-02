@@ -19,14 +19,16 @@ class SignupController extends GetxController {
     try {
       final signupModel = SignupModel(
         name: "${firstNameController.text} ${lastnameController.text}",
-        phoneNumber: mobileNumberController.text,
+        phoneNumber: "977 ${mobileNumberController.text}",
         email: emailController.text,
         password: passwordController.text,
       );
       bool isSignup = false;
       isSignup = await ApiEndpoints().signup(signupModel);
       if (isSignup) {
-        Get.to(VerifyOtpScreen(mobileNo: mobileNumberController.text,));
+        Get.to(VerifyOtpScreen(
+          mobileNo: mobileNumberController.text,
+        ));
         Get.snackbar(
           "Sucess",
           "We've sent you an otp on your phone, please verify.",

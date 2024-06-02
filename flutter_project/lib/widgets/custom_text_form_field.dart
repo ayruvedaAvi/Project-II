@@ -35,7 +35,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       expands: false, //constant for all
       controller: widget.controller,
       validator: widget.validator,
-      obscureText: widget.obscureText? !isVisible: false,
+      obscureText: widget.obscureText ? !isVisible : false,
       keyboardType: widget.keyType,
       cursorColor: Theme.of(context).colorScheme.onPrimary,
       style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
@@ -57,7 +57,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
         labelText: widget.labelText,
         hintText: widget.hintText,
-        suffixIcon: widget.obscureText!
+        suffixIcon: widget.obscureText
             ? IconButton(
                 onPressed: () {
                   setState(() {
