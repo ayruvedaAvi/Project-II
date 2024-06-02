@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_project/models/userdetails_datamodel.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:get/get.dart';
@@ -74,36 +78,44 @@ class _FeedScreenState extends State<FeedScreen> {
               const SizedBox(
                 height: 10,
               ),
-              const CustomPostcard(
-                profileImg: "assets/images/profile_image.jpg",
-                userName: "Ram Parsad",
-                descText:
-                    "Plumber Needed Urgent! Plumber Needed Urgent!Plumber Needed Urgent! Plumber Needed Urgent! Plumber Needed Urgent! Plumber Needed Urgent!",
-                postImg: "assets/images/pipe_leakage.jpg",
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const CustomPostcard(
-                profileImg: "assets/images/profile_image.jpg",
-                userName: "Hari Bahadur",
-                descText:
-                    "Plumber Needed Urgent! Plumber Needed Urgent!Plumber Needed Urgent!",
-                postImg: "assets/images/pipe_leakage.jpg",
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const CustomPostcard(
-                profileImg: "assets/images/profile_image.jpg",
-                userName: "Gopi Krishna",
-                descText: "Plumber Needed Urgent!",
-                postImg: "assets/images/pipe_leakage.jpg",
-              )
+              FutureBuilder(
+                  future: readJsonData(),
+                  builder: (context, data) {
+                    if (data.hasError) {
+                      return Center(child: Text("${data.error}"));
+                    } else if (data.hasData) {
+                      var items = data.data as List<UserDetailsDataModel>;
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.height - 110,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CustomPostcard(
+                                profileImg: items[index].profileImg,
+                                userName: items[index].userName,
+                                descText: items[index].descText,
+                                postImg: items[index].postImg,
+                              );
+                            },
+                            itemCount: items.length,
+                          ));
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  })
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<List<UserDetailsDataModel>> readJsonData() async {
+    final jsonData =
+        await rootBundle.loadString('assets/jsonFile/userdetails.json');
+    final list = jsonDecode(jsonData) as List<dynamic>;
+
+    return list.map((e) => UserDetailsDataModel.fromJson(e)).toList();
   }
 }

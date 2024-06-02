@@ -123,7 +123,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       keyType: TextInputType.visiblePassword,
                       controller: signUpController.confirmPasswordController,
                       labelText: "Confirm Password",
-                      suffixIcon: const Icon(Icons.remove_red_eye),
+                      hintText: 'Confirm password',
+                      obscureText: true,
+                      // suffixIcon: const Icon(Icons.remove_red_eye),
                     ),
                     //Terms and condition Checkbox
                     const SizedBox(height: 22.0),
