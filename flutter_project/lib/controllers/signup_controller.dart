@@ -20,7 +20,7 @@ class SignupController extends GetxController {
       final signupModel = SignupModel(
         name: firstNameController.text,
         lastName: lastnameController.text,
-        phoneNumber: mobileNumberController.text,
+        phoneNumber:"+977 "+ mobileNumberController.text,
         email: emailController.text,
         password: passwordController.text,
       );
