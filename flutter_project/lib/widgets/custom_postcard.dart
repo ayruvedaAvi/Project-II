@@ -32,10 +32,6 @@ class _CustomPostcardState extends State<CustomPostcard> {
               "10 hours ago",
               style: TextStyle(color: Colors.black45),
             ),
-            trailing: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4, left: 4, bottom: 6),
