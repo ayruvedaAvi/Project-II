@@ -18,8 +18,9 @@ class SignupController extends GetxController {
     isLoading.value = true;
     try {
       final signupModel = SignupModel(
-        name: "${firstNameController.text} ${lastnameController.text}",
-        phoneNumber: "977 ${mobileNumberController.text}",
+        name: firstNameController.text,
+        lastName: lastnameController.text,
+        phoneNumber:"+977 "+ mobileNumberController.text,
         email: emailController.text,
         password: passwordController.text,
       );

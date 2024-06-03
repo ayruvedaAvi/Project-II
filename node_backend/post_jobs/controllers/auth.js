@@ -1,5 +1,4 @@
 const User = require('../models/User');
-
 const CustomError=require('../errors')
 const { createJWT }=require('../utils')
 require('dotenv').config();
@@ -12,7 +11,7 @@ const otpStore = {};
 const tempUserStore = {}; 
 
 const register = async (req, res) => {
-    const { name, phoneNumber, email, password } = req.body;
+    const { name,lastName, phoneNumber, email, password } = req.body;
     const phoneNumberRegex = /^\+977\s\d{10}$/;
     const isValidPhoneNumber = phoneNumberRegex.test(phoneNumber);
     console.log(`${phoneNumber} is valid: ${isValidPhoneNumber}`);
@@ -35,7 +34,7 @@ const register = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore[otp] = phoneNumber;
-    tempUserStore[phoneNumber] = { name, email, password };
+    tempUserStore[phoneNumber] = { name,lastName, email, password };
 
     try {
         await client.messages.create({
@@ -72,7 +71,7 @@ const verify = async (req, res) => {
     delete otpStore[otp];
     delete tempUserStore[phoneNumber];
 
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const tokenUser = { name: user.name,lastName:user.lastName, userId: user._id, role: user.role };
     const token = createJWT({ payload: tokenUser });
 
     res.status(StatusCodes.OK).json({ msg: 'Phone number verified successfully. Registration complete.', user: tokenUser, token });
@@ -97,7 +96,7 @@ const login = async (req, res) => {
     if (!user.isActive) {
         throw new CustomError.UnauthenticatedError("User not verified");
     }
-    const tokenUser = { name: user.name, userId: user._id, role: user.role };
+    const tokenUser = { name: user.name, lastName:user.lastName,userId: user._id, role: user.role };
     const token = createJWT({ payload: tokenUser });
     res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
 };
