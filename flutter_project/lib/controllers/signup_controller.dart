@@ -27,7 +27,9 @@ class SignupController extends GetxController {
       bool isSignup = false;
       isSignup = await ApiEndpoints().signup(signupModel);
       if (isSignup) {
-        Get.to(VerifyOtpScreen(mobileNo: mobileNumberController.text,));
+        Get.to(VerifyOtpScreen(
+          mobileNo: mobileNumberController.text,
+        ));
         Get.snackbar(
           "Sucess",
           "We've sent you an otp on your phone, please verify.",

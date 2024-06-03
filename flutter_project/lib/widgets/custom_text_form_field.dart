@@ -1,3 +1,5 @@
+// import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -8,7 +10,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final Icon? suffixIcon;
   final TextInputType? keyType;
-  bool? obscureText;
+  bool obscureText;
 
   CustomTextFormField({
     super.key,
@@ -33,7 +35,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       expands: false, //constant for all
       controller: widget.controller,
       validator: widget.validator,
-      obscureText: isVisible,
+      obscureText: widget.obscureText ? !isVisible : false,
       keyboardType: widget.keyType,
       cursorColor: Theme.of(context).colorScheme.onPrimary,
       style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
@@ -55,14 +57,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
         labelText: widget.labelText,
         hintText: widget.hintText,
-        suffixIcon: widget.obscureText!
+        suffixIcon: widget.obscureText
             ? IconButton(
                 onPressed: () {
                   setState(() {
                     isVisible = !isVisible;
                   });
                 },
-                icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+                icon: Icon(isVisible ? Icons.visibility_off : Icons.visibility),
               )
             : widget.suffixIcon,
       ),

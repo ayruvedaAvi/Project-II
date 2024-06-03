@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color.fromARGB(255, 230, 57, 70),
+    seedColor: const Color.fromARGB(255, 143, 69, 211),
     brightness: Brightness.dark,
   ),
   textTheme: GoogleFonts.latoTextTheme(),
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
       theme: theme,
       home: const Scaffold(
         body: SplashScreen(),

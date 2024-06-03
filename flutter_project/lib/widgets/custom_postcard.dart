@@ -48,7 +48,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
           SizedBox(
             width: double.infinity,
             height: 200,
-            child: Image.asset(widget.postImg.toString(), fit: BoxFit.cover),
+            child: Image.asset(widget.postImg.toString(), fit: BoxFit.fill),
           ),
           const SizedBox(
             height: 10,
