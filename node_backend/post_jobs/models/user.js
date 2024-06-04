@@ -26,13 +26,11 @@ const userSchema = new mongoose.Schema({
                 if (value) {
                     return validator.isEmail(value);
                 }
-                return true; // If email is not provided, validation passes
+                return true; 
             },
             message: 'Please provide a valid email'
         }
     },
-       
-    
     password:{
         type:String,
         required:[true,'please provide password'],
@@ -41,9 +39,8 @@ const userSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: [true, 'Please provide phone number'],
-        unique: true
+        // unique: true
       },
-
     role:{
         type:String,
         enum:['WorkProvider','Worker'],

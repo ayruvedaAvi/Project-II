@@ -11,7 +11,7 @@ const otpStore = {};
 const tempUserStore = {}; 
 
 const register = async (req, res) => {
-    const { name,lastName, phoneNumber, email, password } = req.body;
+    const { name, lastName, phoneNumber, email, password } = req.body;
     const phoneNumberRegex = /^\+977\s\d{10}$/;
     const isValidPhoneNumber = phoneNumberRegex.test(phoneNumber);
     console.log(`${phoneNumber} is valid: ${isValidPhoneNumber}`);
@@ -27,6 +27,7 @@ const register = async (req, res) => {
         }
     }
 
+    // Commented out for testing phase
     // const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
     // if (existingUserWithPhoneNumber) {
     //     throw new CustomError.BadRequestError('Phone number already registered');
@@ -34,7 +35,7 @@ const register = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore[otp] = phoneNumber;
-    tempUserStore[phoneNumber] = { name,lastName, email, password };
+    tempUserStore[phoneNumber] = { name, lastName, email, password };
 
     try {
         await client.messages.create({
@@ -71,11 +72,12 @@ const verify = async (req, res) => {
     delete otpStore[otp];
     delete tempUserStore[phoneNumber];
 
-    const tokenUser = { name: user.name,lastName:user.lastName, userId: user._id, role: user.role };
+    const tokenUser = { name: user.name, lastName: user.lastName, userId: user._id, role: user.role };
     const token = createJWT({ payload: tokenUser });
 
     res.status(StatusCodes.OK).json({ msg: 'Phone number verified successfully. Registration complete.', user: tokenUser, token });
 };
+
 
     
 

@@ -7,13 +7,17 @@ const path = require('path');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const connectDB = require('./db/connect');
 const authenticateUser = require('./middleware/authentication');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const http = require('http')
+const { Server } = require("socket.io");
+const chatSocket = require('./socekts/chatSocket');
 
 const app = express();
+const server = http.createServer(app)
 
 // Cloudinary configuration
 cloudinary.config({
@@ -22,12 +26,19 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
+const io = new Server(server, {
+  cors: {
+    origin: "*"
+  }
+})
+chatSocket(io)
+
 app.set('trust proxy', 1);
 
 app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(xss());
 app.use(fileUpload({ useTempFiles: true }));
@@ -35,10 +46,15 @@ app.use(fileUpload({ useTempFiles: true }));
 // Routers
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
+const chatRoutes=require('./routes/chat');
+const messageRoutes=require('./routes/message')
+
 
 // Use routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+app.use('/api/v1/chat',authenticateUser,chatRoutes)
+app.use('/api/v1/message',authenticateUser,messageRoutes)
 
 // Error handling middleware
 app.use(notFoundMiddleware);

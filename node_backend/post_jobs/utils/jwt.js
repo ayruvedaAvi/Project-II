@@ -22,6 +22,6 @@ const tokenToResponse = ({res,user})=>{
 module.exports = {
     createJWT,
     isTokenValid,
-    // tokenToResponse
+    tokenToResponse
     
 }
