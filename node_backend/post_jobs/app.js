@@ -38,10 +38,10 @@ app.set('trust proxy', 1);
 app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(xss());
-app.use(fileUpload({ useTempFiles: true }));
+app.use(fileUpload({ useTempFiles: false }));
 
 // Routers
 const authRouter = require('./routes/auth');
