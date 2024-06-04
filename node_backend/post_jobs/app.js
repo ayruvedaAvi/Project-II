@@ -38,7 +38,7 @@ app.set('trust proxy', 1);
 app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(xss());
 app.use(fileUpload({ useTempFiles: true }));
