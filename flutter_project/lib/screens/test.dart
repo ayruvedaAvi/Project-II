@@ -7,14 +7,14 @@ import 'package:flutter_project/utils/shared_preferences/shared_preference.dart'
 import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:get/get.dart';
 
-class FeedScreen extends StatefulWidget {
-  const FeedScreen({super.key});
+class Test extends StatefulWidget {
+  const Test({super.key});
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State<Test> createState() => _TestState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _TestState extends State<Test> {
   RxString name = ''.obs;
 
   Future<void> getName() async {
@@ -39,44 +39,53 @@ class _FeedScreenState extends State<FeedScreen> {
       //   titleTextStyle:
       //       const TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
       // ),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 30, right: 10, left: 10, bottom: 10),
+          padding: const EdgeInsets.only(top: 25, bottom: 10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Saral,",
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black),
-                        ),
-                        Obx(
-                          () => Text(name.value,
-                              style: const TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 188, 2, 185),
-                              )),
-                        ),
-                      ]),
-                  SizedBox(
-                    width: 70,
-                    height: 70,
-                    child: Image.asset('assets/images/profile_image.jpg'),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 0,
+                      blurRadius: 10,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Text(
+                        "Saral, We Connect!",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 143, 69, 211)),
+                      ),
+                      SizedBox(
+                        width: 70,
+                        height: 70,
+                        child: Image.asset('assets/images/profile_image.jpg'),
+                      )
+                    ],
+                  ),
+                ),
               ),
               FutureBuilder(
                   future: readJsonData(),
@@ -103,7 +112,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                  })
+                  }),
             ],
           ),
         ),
