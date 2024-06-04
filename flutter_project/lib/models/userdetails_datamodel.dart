@@ -1,16 +1,16 @@
 class UserDetailsDataModel {
   String? profileImg;
   String? userName;
-  String? descText;
-  String? postImg;
+  String? workDescription;
+  String? image;
 
   UserDetailsDataModel(
-      {this.profileImg, this.userName, this.descText, this.postImg});
+      {this.profileImg, this.userName, this.workDescription, this.image});
 
   UserDetailsDataModel.fromJson(Map<String, dynamic> json) {
     profileImg = json['profileImg'];
     userName = json['userName'];
-    descText = json['descText'];
-    postImg = json['postImg'];
+    workDescription = json['Work_Description'];
+    image = json['image'];
   }
 }

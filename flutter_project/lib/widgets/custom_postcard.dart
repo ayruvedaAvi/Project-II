@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class CustomPostcard extends StatefulWidget {
   final String? profileImg;
   final String? userName;
-  final String? descText;
-  final String? postImg;
+  final String? workDescription;
+  final String? image;
   const CustomPostcard(
-      {super.key, this.descText, this.postImg, this.profileImg, this.userName});
+      {super.key, this.workDescription, this.image, this.profileImg, this.userName});
 
   @override
   State<CustomPostcard> createState() => _CustomPostcardState();
@@ -36,7 +36,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
           Padding(
             padding: const EdgeInsets.only(right: 4, left: 4, bottom: 6),
             child: Text(
-              widget.descText.toString(),
+              widget.workDescription.toString(),
               textAlign: TextAlign.left,
               style: const TextStyle(fontSize: 16),
             ),
@@ -44,7 +44,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
           SizedBox(
             width: double.infinity,
             height: 200,
-            child: Image.asset(widget.postImg.toString(), fit: BoxFit.fill),
+            child: Image.asset(widget.image.toString(), fit: BoxFit.fill),
           ),
           const SizedBox(
             height: 10,
