@@ -41,7 +41,7 @@ class _TestState extends State<Test> {
                       'Login',
                       style: TextStyle(
                         fontSize: 25,
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 58, 18, 89),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
