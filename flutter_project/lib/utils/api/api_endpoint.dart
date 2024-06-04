@@ -145,7 +145,7 @@ class ApiEndpoints {
         String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
-        throw Exception('An unexpected error occurred during OTP verification');
+        throw Exception('An unexpected error occurred during OTP verification.');
       }
     }
     return isVerified;

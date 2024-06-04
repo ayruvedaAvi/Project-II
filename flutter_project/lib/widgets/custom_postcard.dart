@@ -32,10 +32,6 @@ class _CustomPostcardState extends State<CustomPostcard> {
               "10 hours ago",
               style: TextStyle(color: Colors.black45),
             ),
-            trailing: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4, left: 4, bottom: 6),
@@ -48,7 +44,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
           SizedBox(
             width: double.infinity,
             height: 200,
-            child: Image.asset(widget.postImg.toString(), fit: BoxFit.cover),
+            child: Image.asset(widget.postImg.toString(), fit: BoxFit.fill),
           ),
           const SizedBox(
             height: 10,

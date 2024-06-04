@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/home_screen.dart';
+import 'package:flutter_project/screens/base_screen.dart';
 import 'package:flutter_project/utils/api/api_endpoint.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +28,7 @@ class VerifyOtpController extends GetxController {
             snackPosition: SnackPosition.TOP,
           );
           isLoading.value = false;
-          Get.to(() => const HomeScreen());
+          Get.off(() => const BaseScreen(initalIndex: 0));
         } else {
           Get.snackbar(
             "Error",

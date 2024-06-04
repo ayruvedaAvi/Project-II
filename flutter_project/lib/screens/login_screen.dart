@@ -21,17 +21,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        // backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               const SizedBox(height: 10),
-              Text(
+              const Text(
                 'Login',
                 style: TextStyle(
                   fontSize: 25,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Center(
@@ -40,16 +42,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Opacity(
-                        opacity: 0.8,
-                        child: Image.asset('assets/images/logo.png',
-                            height: 600, width: 700),
+                      Positioned.fill(
+                        top: -220,
+                        child: Opacity(
+                          opacity: 0.8,
+                          child: Image.asset('assets/images/logo.png',
+                              height: 600, width: 00),
+                        ),
                       ),
                       Opacity(
                         opacity: 0.5,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
+                            // color: Theme.of(context).colorScheme.primary,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           height: 500,
@@ -103,9 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor:
-                                        Theme.of(context).colorScheme.primary,
+                                        // Theme.of(context).colorScheme.primary,
+                                        Colors.white,
                                     backgroundColor:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                        // Theme.of(context).colorScheme.onPrimary,
+                                        const Color.fromARGB(
+                                            255, 168, 105, 227),
                                   ),
                                   onPressed: () {
                                     loginController.isLoading.value = true;
@@ -124,21 +132,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                 ),
                               ),
-                              const SizedBox( height: 15,),
+                              const SizedBox(
+                                height: 15,
+                              ),
                               SizedBox(
                                 height: 50,
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    side: BorderSide(width: 2.0, color: Theme.of(context).colorScheme.onPrimary,),
+                                    // side: BorderSide(
+                                    //   width: 2.0,
+                                    //   color: Theme.of(context)
+                                    //       .colorScheme
+                                    //       .onPrimary,
+                                    // ),
                                     foregroundColor:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                        // Theme.of(context).colorScheme.primary,
+                                        Colors.white,
                                     backgroundColor:
-                                        Theme.of(context).colorScheme.primary,
+                                        // Theme.of(context).colorScheme.onPrimary,
+                                        const Color.fromARGB(
+                                            255, 168, 105, 227),
                                   ),
                                   onPressed: () {
-                                     Get.to(() => const SignupScreen());
-                                    },
+                                    Get.to(() => const SignupScreen());
+                                  },
                                   child: loginController.isLoading.value
                                       ? const CircularProgressIndicator()
                                       : const Text(

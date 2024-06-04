@@ -7,6 +7,7 @@ const testUser = require('../middleware/testUser');
 router.route('/').post(testUser, createJob).get(getAllJobs)
 router.route('/uploads').post(uploadProductMedia);
 router.route('/stats').get(showStats);
+// router.route('/notification').post(sendPushNotification)
 
 
 router
