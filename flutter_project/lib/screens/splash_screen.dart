@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/base_screen.dart';
-// import 'package:flutter_project/screens/login_screen.dart';
-import 'package:flutter_project/screens/test.dart';
+import 'package:flutter_project/screens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -48,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
                   initalIndex: 0,
                 ));
           } else {
-            Get.off(() => const Test());
+            Get.off(() => const LoginScreen());
           }
         }
       },
