@@ -13,4 +13,6 @@ void main() {
 // const borderButtonColor = Color.fromARGB(255, 168, 105, 227); //500
 // const disabledBackgroundColor = Color.fromARGB(255, 243, 235, 252); //100
 // const disabledForegroundColor = Color.fromARGB(255, 192, 146, 238); //400
+// whitesmoke = const Color.fromARGB(255, 245, 245, 245)     
+//button color = const Color.fromARGB(199, 177, 95, 255),
 

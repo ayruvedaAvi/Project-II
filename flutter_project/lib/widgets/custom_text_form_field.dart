@@ -38,6 +38,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: widget.obscureText ? !isVisible : false,
       keyboardType: widget.keyType,
       cursorColor: Theme.of(context).colorScheme.onPrimary,
+      cursorHeight: 22,
       style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(

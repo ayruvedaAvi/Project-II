@@ -1,54 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/login_controller.dart';
-import 'package:flutter_project/screens/register_screen.dart';
-import 'package:flutter_project/widgets/custom_text_form_field.dart';
-
+import 'package:flutter/services.dart';
+import 'package:flutter_project/models/userdetails_datamodel.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
+import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:get/get.dart';
-import 'dart:math';
-
-List<Color> cColors = [
-  Colors.red,
-  Colors.blue,
-  Colors.green,
-  Colors.yellow,
-  Colors.purple,
-  Colors.orange,
-  Colors.pink,
-  Colors.teal,
-  Colors.brown,
-  Colors.grey,
-  Colors.cyan,
-  Colors.lime,
-  Colors.indigo,
-  Colors.amber,
-  Colors.deepOrange,
-  Colors.lightBlue,
-  Colors.lightGreen,
-  Colors.deepPurple,
-  Colors.blueGrey,
-  Colors.black,
-  Colors.white,
-  Colors.redAccent,
-  Colors.blueAccent,
-  Colors.greenAccent,
-  Colors.yellowAccent,
-  Colors.purpleAccent,
-  Colors.orangeAccent,
-  Colors.pinkAccent,
-  Colors.tealAccent,
-  Colors.brown,
-  Colors.grey,
-  Colors.cyan,
-  Colors.lime,
-  Colors.indigo,
-  Colors.amber,
-  Colors.deepOrange,
-  Colors.lightBlue,
-  Colors.lightGreen,
-  Colors.deepPurple,
-  Colors.blueGrey,
-  Colors.black,
-];
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -57,252 +14,117 @@ class Test extends StatefulWidget {
   State<Test> createState() => _TestState();
 }
 
-class _TestState extends State<Test> with TickerProviderStateMixin {
-  final _formKey = GlobalKey<FormState>();
-  final loginController = Get.put(LoginController());
-  Random random = Random();
+class _TestState extends State<Test> {
+  RxString name = ''.obs;
 
-  final List<AnimationController> _controllers = [];
-  final List<Animation<double>> _blinkAnimations = [];
-  final List<Animation<Offset>> _moveAnimations = [];
-  final List<double> _startTops = [];
-  final List<double> _startLefts = [];
-  final List<double> _endTops = [];
-  final List<double> _endLefts = [];
-
-  bool _isInitialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    for (int i = 0; i < 40; i++) {
-      var controller = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 5000 + random.nextInt(2000)),
-      );
-      _controllers.add(controller);
-
-      var blinkAnimation =
-          Tween<double>(begin: 0.5, end: 1.0).animate(controller);
-      _blinkAnimations.add(blinkAnimation);
-
-      controller.forward();
-      controller.addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          Future.delayed(Duration(seconds: random.nextInt(10)), () {
-            if (mounted) controller.forward();
-          });
-        }
-      });
-    }
+  Future<void> getName() async {
+    name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
+        'Error fetching name';
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_isInitialized) {
-      final size = MediaQuery.of(context).size;
-      for (int i = 0; i < 40; i++) {
-        _startTops.add(random.nextDouble() * size.height);
-        _startLefts.add(random.nextDouble() * size.width);
-        _endTops.add(random.nextDouble() * size.height);
-        _endLefts.add(random.nextDouble() * size.width);
-
-        var moveAnimation = Tween<Offset>(
-          begin: Offset(_startLefts[i], _startTops[i]),
-          end: Offset(_endLefts[i], _endTops[i]),
-        ).animate(CurvedAnimation(
-          parent: _controllers[i],
-          curve: Curves.easeInOut,
-        ));
-        _moveAnimations.add(moveAnimation);
-      }
-      _isInitialized = true;
-    }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getName();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            for (int i = 0; i < 40; i++)
-              AnimatedBuilder(
-                animation: _controllers[i],
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: _moveAnimations[i].value,
-                    child: Opacity(
-                      opacity: _blinkAnimations[i].value,
-                      child: Container(
-                        height: 15,
-                        width: 15,
-                        decoration: BoxDecoration(
-                          color: cColors[i % cColors.length],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+    return Scaffold(
+      // appBar: AppBar(
+      //   backgroundColor: const Color.fromARGB(255, 24, 224, 198),
+      //   title: const Text("Welcome to Saral!"),
+      //   centerTitle: true,
+      //   titleTextStyle:
+      //       const TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+      // ),
+      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 25, bottom: 10),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0,
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 0,
+                      blurRadius: 10,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Text(
+                        "Shrami, We Connect!",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 143, 69, 211)),
                       ),
-                    ),
-                  );
-                },
-              ),
-            Opacity(
-              opacity: 0.95,
-              child: Center(
-                child: SizedBox(
-                  height: 450,
-                  width: 350,
-                  child: Card(
-                    elevation: 12,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 15, left: 15),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                              width: 70, child: Divider(thickness: 1.5)),
-                          Form(
-                            key: _formKey,
-                            child: Obx(
-                              () => Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(height: 50),
-                                  SizedBox(
-                                    height: 50,
-                                    child: CustomTextFormField(
-                                      keyType: TextInputType.emailAddress,
-                                      controller: loginController.emailController,
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty ||
-                                            !value.isEmail) {
-                                          return 'Please enter a valid email address';
-                                        }
-                                        return null;
-                                      },
-                                      labelText: 'Email',
-                                      hintText: 'Enter your email',
-                                      suffixIcon:
-                                          const Icon(Icons.person_2_outlined),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  SizedBox(
-                                    height: 50,
-                                    child: CustomTextFormField(
-                                      keyType: TextInputType.visiblePassword,
-                                      controller:
-                                          loginController.passwordController,
-                                      obscureText: true,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter a password';
-                                        } else {
-                                          if (value.length < 6) {
-                                            return 'Password must be at least 6 characters long';
-                                          }
-                                        }
-                                        return null;
-                                      },
-                                      labelText: 'Password',
-                                      hintText: 'Enter your password',
-                                    ),
-                                  ),
-                                  const SizedBox(height: 30),
-                                  SizedBox(
-                                    height: 50,
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 168, 105, 227),
-                                      ),
-                                      onPressed: () {
-                                        loginController.isLoading.value = true;
-                                        if (_formKey.currentState!.validate()) {
-                                          loginController.login();
-                                        }
-                                        return;
-                                      },
-                                      child: loginController.isLoading.value
-                                          ? const CircularProgressIndicator()
-                                          : const Text(
-                                              'Login',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  SizedBox(
-                                    height: 50,
-                                    width: double.infinity,
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        shape: const StadiumBorder(),
-                                        side: const BorderSide(
-                                            width: 2,
-                                            color: Color.fromARGB(
-                                                255, 168, 105, 227)),
-                                        foregroundColor: const Color.fromARGB(
-                                            255, 168, 105, 227),
-                                      ),
-                                      onPressed: () {
-                                        Get.to(() => const SignupScreen());
-                                      },
-                                      child: loginController.isLoading.value
-                                          ? const CircularProgressIndicator()
-                                          : const Text(
-                                              'New? Register here!',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                      SizedBox(
+                        width: 70,
+                        height: 70,
+                        child: Image.asset('assets/images/profile_image.jpg'),
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+              FutureBuilder(
+                  future: readJsonData(),
+                  builder: (context, data) {
+                    if (data.hasError) {
+                      return Center(child: Text("${data.error}"));
+                    } else if (data.hasData) {
+                      var items = data.data as List<UserDetailsDataModel>;
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.height - 200,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CustomPostcard(
+                                profileImg: items[index].profileImg,
+                                userName: items[index].userName,
+                                workDescription: items[index].workDescription,
+                                image: items[index].image,
+                              );
+                            },
+                            itemCount: items.length,
+                          ));
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
+  Future<List<UserDetailsDataModel>> readJsonData() async {
+    final jsonData =
+        await rootBundle.loadString('assets/jsonFile/userdetails.json');
+    final list = jsonDecode(jsonData) as List<dynamic>;
+
+    return list.map((e) => UserDetailsDataModel.fromJson(e)).toList();
   }
 }

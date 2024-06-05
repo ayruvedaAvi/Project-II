@@ -5,6 +5,7 @@ import 'package:flutter_project/controllers/job_controller.dart/post_job_control
 // import 'package:flutter/widgets.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
+import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -106,63 +107,125 @@ class _AddpostScreenState extends State<AddpostScreen> {
                       ],
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 15,
                     ),
-                    Card(
-                      shadowColor: const Color.fromRGBO(197, 197, 197, 0),
-                      color: Colors.black12,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "title field is required";
-                            }
-                            return null;
-                          },
-                          controller: _postJobController.workDescription,
-                          maxLines: 4,
-                          decoration: const InputDecoration.collapsed(
-                              hintStyle: TextStyle(color: Colors.black45),
-                              hintText: "Anything about work?"),
-                        ),
+                    SizedBox(
+                      height: 50,
+                      child: CustomTextFormField(
+                        keyType: TextInputType.text,
+                        controller: _postJobController.title,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a Job title';
+                          }
+                          return null;
+                        },
+                        labelText: 'Job title',
+                        suffixIcon: const Icon(Icons.work),
                       ),
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 15,
                     ),
                     SizedBox(
-                      width: double.infinity,
-                      height: 200,
-                      child: _image == null
-                          ? const Text('No image selected.')
-                          : Image.file(File(_image!.path)),
+                      height: 50,
+                      child: CustomTextFormField(
+                        keyType: TextInputType.text,
+                        controller: _postJobController.workDescription,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a Job Description';
+                          }
+                          return null;
+                        },
+                        labelText: 'Job description',
+                        suffixIcon: const Icon(Icons.description),
+                      ),
                     ),
+                    // Card(
+                    //   shadowColor: const Color.fromRGBO(197, 197, 197, 0),
+                    //   color: const Color.fromARGB(255, 233, 218, 250),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: TextFormField(
+                    //       validator: (value) {
+                    //         if (value == null || value.isEmpty) {
+                    //           return "title field is required";
+                    //         }
+                    //         return null;
+                    //       },
+                    //       controller: _postJobController.workDescription,
+                    //       maxLines: 4,
+                    //       decoration: const InputDecoration.collapsed(
+                    //           hintStyle: TextStyle(color: Colors.black45),
+                    //           hintText: "Anything about work?"),
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: CustomTextFormField(
+                        keyType: TextInputType.number,
+                        controller: _postJobController.price,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a Price';
+                          }
+                          return null;
+                        },
+                        labelText: 'Price',
+                        suffixIcon: const Icon(Icons.attach_money),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    _image == null
+                        ? const SizedBox()
+                        : SizedBox(
+                            width: double.infinity,
+                            height: 200,
+                            child: _image == null
+                                ? const Text('No image selected.')
+                                : Image.file(
+                                    File(_image!.path),
+                                    fit: BoxFit.fill,
+                                  ),
+                          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+
                     Row(
                       children: [
                         Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 236, 254, 250),
-                            ),
-                            onPressed: getImage,
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Gallery",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 16),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(
-                                  Icons.image_outlined,
-                                  color: Colors.black,
-                                ),
-                              ],
+                          child: SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 168, 105, 227),
+                              ),
+                              onPressed: getImage,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Gallery",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Icon(
+                                    Icons.image_outlined,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -170,47 +233,63 @@ class _AddpostScreenState extends State<AddpostScreen> {
                           width: 8,
                         ),
                         Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 236, 254, 250),
+                          child: SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 168, 105, 227),
+                              ),
+                              onPressed: getImageFromCamera,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Camera",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Icon(
+                                    Icons.camera_alt_outlined,
+                                  ),
+                                ],
+                              ),
                             ),
-                            onPressed: getImageFromCamera,
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Camera",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 16),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            debugPrint("Post button clicked");
-                            if (_formKey.currentState!.validate()) {
-                              _postJobController.postJob();
-                            }
-                          },
-                          child: const Text(
-                            "Post",
-                            style: TextStyle(
-                                color: Colors.purple,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          side: const BorderSide(
+                            width: 2,
+                            color: Color.fromARGB(255, 168, 105, 227),
+                          ),
+                          foregroundColor:
+                              const Color.fromARGB(255, 168, 105, 227),
+                        ),
+                        onPressed: () {
+                          debugPrint("Post button clicked");
+                          if (_formKey.currentState!.validate()) {
+                            _postJobController.postJob();
+                          }
+                        },
+                        child: const Text(
+                          "Post",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   ],
                 ),

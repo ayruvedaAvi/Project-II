@@ -53,7 +53,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Hello,",
+                          "Saral,",
                           style: TextStyle(
                               fontSize: 21,
                               fontWeight: FontWeight.w300,
@@ -86,14 +86,14 @@ class _FeedScreenState extends State<FeedScreen> {
                     } else if (data.hasData) {
                       var items = data.data as List<UserDetailsDataModel>;
                       return SizedBox(
-                          height: MediaQuery.of(context).size.height - 110,
+                          height: MediaQuery.of(context).size.height - 200,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
                               return CustomPostcard(
                                 profileImg: items[index].profileImg,
                                 userName: items[index].userName,
-                                descText: items[index].descText,
-                                postImg: items[index].postImg,
+                                workDescription: items[index].workDescription,
+                                image: items[index].image,
                               );
                             },
                             itemCount: items.length,
