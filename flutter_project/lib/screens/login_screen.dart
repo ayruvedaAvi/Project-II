@@ -275,9 +275,10 @@ class _LoginScreenState extends State<LoginScreen>
                                     style: OutlinedButton.styleFrom(
                                       shape: const StadiumBorder(),
                                       side: const BorderSide(
-                                          width: 2,
-                                          color: Color.fromARGB(
-                                              255, 168, 105, 227)),
+                                        width: 2,
+                                        color:
+                                            Color.fromARGB(255, 168, 105, 227),
+                                      ),
                                       foregroundColor: const Color.fromARGB(
                                           255, 168, 105, 227),
                                     ),

@@ -83,6 +83,16 @@ class _CustomPostcardState extends State<CustomPostcard> {
           const SizedBox(
             height: 10,
           ),
+          const Padding(
+            padding: EdgeInsets.only(right: 10.0, left: 10.0),
+            child: Text(
+              "Rs. 1000",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Row(children: [
             const SizedBox(
               width: 10,
@@ -90,7 +100,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
             Expanded(
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 192, 146, 238),
+                    backgroundColor: const Color.fromARGB(255, 168, 105, 227),
                   ),
                   onPressed: () {},
                   child: const Text(

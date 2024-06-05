@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/addpost_screen.dart';
 import 'package:flutter_project/screens/base_screen.dart';
-// import 'package:flutter_project/screens/feed_screen.dart';
 import 'package:flutter_project/screens/test.dart';
 // import 'package:flutter_project/screens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';

@@ -72,7 +72,7 @@ class _TestState extends State<Test> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const Text(
-                        "Saral, We Connect!",
+                        "Shrami, We Connect!",
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
