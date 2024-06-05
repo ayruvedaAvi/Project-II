@@ -4,28 +4,33 @@ const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, NotFoundError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
+const  streamifier=require( 'streamifier')
 
-
-const createJob = async (req, res) => {
+const createJob = async (req, res) => {//job create garcha 
   if (!req.user || !req.user.userId) {
     throw new BadRequestError('Please provide user');
   }
 
-  req.body.user_ID = req.user.userId;
+  req.body.userId = req.user.userId;
 
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
+};
+const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
+  const job = await Job.find({}).limit(10).sort('-createdAt');
+
+  res.status(StatusCodes.OK).json({ job, count: job.length });
 };
 
 const getAllJobs = async (req, res) => {
   const { search, status, jobType, sort } = req.query;
 
   const queryObject = {
-    user_ID: req.user.userId,
+    userId: req.user.userId,
   };
 
   if (search) {
-    queryObject.Work_Description = { $regex: search, $options: 'i' };
+    queryObject.workDescription = { $regex: search, $options: 'i' };
   }
   if (status && status !== 'all') {
     queryObject.status = status;
@@ -42,60 +47,58 @@ const getAllJobs = async (req, res) => {
     result = result.sort('createdAt');
   }
   if (sort === 'a-z') {
-    result = result.sort('Work_Description');
+    result = result.sort('workDescription');
   }
   if (sort === 'z-a') {
-    result = result.sort('-Work_Description');
+    result = result.sort('-workDescription');
   }
 
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
 
-  result = result.skip(skip).limit(limit);
+
 
   const jobs = await result;
 
   const totalJobs = await Job.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalJobs / limit);
 
-  res.status(StatusCodes.OK).json({ jobs, totalJobs, numOfPages });
+
+  res.status(StatusCodes.OK).json({ jobs, totalJobs});
 };
-
 const getJob = async (req, res) => {
-  const {
-    user: { userId },
-    params: { id: jobId },
-  } = req;
+  const { id: jobId } = req.params;
 
-  const job = await Job.findOne({
-    job_id: jobId,
-    user_ID: userId,
-  });
+  console.log(`Fetching job with ID: ${jobId}`);
+
+  const job = await Job.findById(jobId);
+
   if (!job) {
+    console.log(`No job found with ID: ${jobId}`);
     throw new NotFoundError(`No job with id ${jobId}`);
   }
+
   res.status(StatusCodes.OK).json({ job });
 };
 
 const updateJob = async (req, res) => {
   const {
-    body: { Title, Work_Description },
+    body: { Title, workDescription },
     user: { userId },
     params: { id: jobId },
   } = req;
 
-  if (Title === '' || Work_Description === '') {
-    throw new BadRequestError('Title or Work_Description fields cannot be empty');
+  if (!Title || !workDescription) {
+    throw new BadRequestError('Title or workDescription fields cannot be empty');
   }
-  const job = await Job.findByIdAndUpdate(
-    { _id: jobId, user_ID: userId },
-    req.body,
-    { new: true, runValidators: true }
-  );
+
+  const job = await Job.findOne({ _id: jobId, userId: userId });
   if (!job) {
-    throw new NotFoundError(`No job with id ${jobId}`);
+    throw new NotFoundError(`No job with id ${jobId} found for this user`);
   }
+
+  job.Title = Title;
+  job.workDescription = workDescription;
+
+  await job.save();
+
   res.status(StatusCodes.OK).json({ job });
 };
 
@@ -105,13 +108,13 @@ const deleteJob = async (req, res) => {
     params: { id: jobId },
   } = req;
 
-  const job = await Job.findByIdAndRemove({
-    _id: jobId,
-    user_ID: userId,
-  });
+  const job = await Job.findOne({ _id: jobId, userId: userId });
   if (!job) {
-    throw new NotFoundError(`No job with id ${jobId}`);
+    throw new NotFoundError(`No job with id ${jobId} found for this user`);
   }
+
+  await job.remove();
+
   res.status(StatusCodes.OK).send();
 };
 
@@ -129,8 +132,8 @@ const showStats = async (req, res) => {
 
   const defaultStats = {
     pending: stats.pending || 0,
-    interview: stats.interview || 0,
-    declined: stats.declined || 0,
+    Taken: stats.interview || 0,
+    completed: stats.completed || 0,
   };
 
   let monthlyApplications = await Job.aggregate([
@@ -161,7 +164,7 @@ const showStats = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
-;
+
 const uploadProductMedia = async (req, res) => {
   try {
     console.log('Incoming files:', req.files);
@@ -225,5 +228,6 @@ module.exports = {
   updateJob,
   getJob,
   showStats,
-  uploadProductMedia
+  uploadProductMedia,
+  getAllPosts
 };

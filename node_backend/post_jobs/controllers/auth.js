@@ -77,11 +77,6 @@ const verify = async (req, res) => {
 
     res.status(StatusCodes.OK).json({ msg: 'Phone number verified successfully. Registration complete.', user: tokenUser, token });
 };
-
-
-    
-
-
 const login = async (req, res) => {
     const { phoneNumber, email, password } = req.body;
     if (!(phoneNumber || email) || !password) {
@@ -110,37 +105,63 @@ const logout = async (req, res) => {
     })
     res.status(StatusCodes.OK).json({ msg: "log out" });
 };
-
-
-const updateUser = async (req, res) => {
-  const { email, name, lastName, location } = req.body;
-  if (!email || !name || !lastName || !location) {
-    throw new BadRequest('Please provide all values');
-  }
-  const user = await User.findOne({ _id: req.user.userId });
-
-  user.email = email;
-  user.name = name;
-  user.lastName = lastName;
-  user.location = location;
-
-  await user.save();
-  const token = user.createJWT();
-  res.status(StatusCodes.OK).json({
-    user: {
-      email: user.email,
-      lastName: user.lastName,
-      location: user.location,
-      name: user.name,
-      token,
-    },
-  });
-};
+// const updateUserProfile = async (req, res) => {
+//     const { name, lastName, email, phoneNumber, oldPassword, newPassword } = req.body;
+//     const authenticatedUserId = req.user.userId;
+  
+//     // Fetch the user from the database based on the user ID
+//     const user = await User.findById(authenticatedUserId);
+  
+//     // Verify if the user exists
+//     if (!user) {
+//       throw new CustomError.NotFoundError('User not found');
+//     }
+  
+//     // Verify if the authenticated user is the same as the profile owner
+//     if (authenticatedUserId !== req.body.userId) {
+//       throw new CustomError.UnauthenticatedError('You are not authorized to update this user');
+//     }
+  
+//     // Update user's profile fields if provided
+//     if (name !== undefined) {
+//       user.name = name;
+//     }
+//     if (lastName !== undefined) {
+//       user.lastName = lastName;
+//     }
+//     if (email !== undefined) {
+//       user.email = email;
+//     }
+//     if (phoneNumber !== undefined) {
+//       user.phoneNumber = phoneNumber;
+//     }
+  
+//     // Update user's password if both oldPassword and newPassword are provided
+//     if (oldPassword !== undefined && newPassword !== undefined) {
+//       // Verify the old password
+//       const isPasswordCorrect = await user.comparePassword(oldPassword);
+//       if (!isPasswordCorrect) {
+//         throw new CustomError.UnauthenticatedError('Invalid Credentials');
+//       }
+  
+//       // Update the password
+//       user.password = newPassword;
+//     } else if (oldPassword !== undefined || newPassword !== undefined) {
+//       // If only one of oldPassword or newPassword is provided, throw an error
+//       throw new CustomError.BadRequestError('Please provide both old and new passwords');
+//     }
+  
+//     // Save the updated user
+//     await user.save();
+  
+//     res.status(StatusCodes.OK).json({ user, msg: 'User profile updated successfully' });
+//   };
+  
 
 module.exports = {
   register,
   verify,
   login,
   logout,
-  updateUser,
+
 };
