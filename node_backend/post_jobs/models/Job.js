@@ -22,6 +22,18 @@ const JobSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Please provide user'],
     }, 
+    userName: {
+      type: String,
+      required: [true, 'Please provide user name'],
+    },
+    userLastName: {
+      type: String,
+      required: [true, 'Please provide user last name'],
+    },
+    userEmail: {
+      type: String,
+      required: [true, 'Please provide user email'],
+    },
     jobType: {
       type: String,
       enum: ['Electrical', 'shift home', 'Delivery', 'Plumbing','others'],

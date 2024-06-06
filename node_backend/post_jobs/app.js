@@ -8,11 +8,12 @@ const helmet = require('helmet');
 const xss = require('xss-clean');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+
+
 const connectDB = require('./db/connect');
 const authenticateUser = require('./middleware/authentication');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
-const http = require('http')
 
 
 
@@ -41,13 +42,17 @@ app.use(fileUpload({ useTempFiles: false }));
 // Routers
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
+const userRouter = require('./routes/userRoutes');
 
 
-
+app.get('/', (req, res) => {
+  res.send('Welcome to the LaborlanceAPI');
+});
 
 // Use routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+app.use('/api/v1/users', authenticateUser,userRouter);
 
 
 // Error handling middleware

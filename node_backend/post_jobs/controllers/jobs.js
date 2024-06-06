@@ -5,17 +5,29 @@ const { BadRequestError, NotFoundError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const  streamifier=require( 'streamifier')
+const User = require('../models/User'); 
 
-const createJob = async (req, res) => {//job create garcha 
+const createJob = async (req, res) => {
   if (!req.user || !req.user.userId) {
     throw new BadRequestError('Please provide user');
   }
-
-  req.body.userId = req.user.userId;
-
-  const job = await Job.create(req.body);
+  const userId = req.user.userId;
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new BadRequestError('User not found');
+  }
+  const jobData = {
+    ...req.body,
+    userId,
+    userName: user.name,
+    userLastName: user.lastName,
+    userEmail: user.email
+  };
+  const job = await Job.create(jobData);
   res.status(StatusCodes.CREATED).json({ job });
 };
+
+
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
   const job = await Job.find({}).limit(10).sort('-createdAt');
 
@@ -52,38 +64,64 @@ const getAllJobs = async (req, res) => {
   if (sort === 'z-a') {
     result = result.sort('-workDescription');
   }
+
+
+
+
   const jobs = await result;
+
   const totalJobs = await Job.countDocuments(queryObject);
+
+
   res.status(StatusCodes.OK).json({ jobs, totalJobs});
 };
-
 const getJob = async (req, res) => {
   const { id: jobId } = req.params;
+
   console.log(`Fetching job with ID: ${jobId}`);
+
   const job = await Job.findById(jobId);
+
   if (!job) {
     console.log(`No job found with ID: ${jobId}`);
     throw new NotFoundError(`No job with id ${jobId}`);
   }
+
   res.status(StatusCodes.OK).json({ job });
 };
 
 const updateJob = async (req, res) => {
   const {
-    body: { Title, workDescription },
+    body: { Title, workDescription, jobType, jobLocation, price, image },
     user: { userId },
     params: { id: jobId },
   } = req;
-  if (!Title || !workDescription) {
-    throw new BadRequestError('Title or workDescription fields cannot be empty');
-  }
+
   const job = await Job.findOne({ _id: jobId, userId: userId });
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId} found for this user`);
   }
-  job.Title = Title;
-  job.workDescription = workDescription;
+  if (Title !== undefined && Title !== null && Title !== '') {
+    job.Title = Title;
+  }
+  if (workDescription !== undefined && workDescription !== null && workDescription !== '') {
+    job.workDescription = workDescription;
+  }
+  if (jobType !== undefined && jobType !== null && jobType !== '') {
+    job.jobType = jobType;
+  }
+  if (jobLocation !== undefined && jobLocation !== null && jobLocation !== '') {
+    job.jobLocation = jobLocation;
+  }
+  if (price !== undefined && price !== null) {
+    job.price = price;
+  }
+  if (image !== undefined && image !== null && image !== '') {
+    job.image = image;
+  }
+
   await job.save();
+
   res.status(StatusCodes.OK).json({ job });
 };
 
@@ -92,11 +130,14 @@ const deleteJob = async (req, res) => {
     user: { userId },
     params: { id: jobId },
   } = req;
+
   const job = await Job.findOne({ _id: jobId, userId: userId });
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId} found for this user`);
   }
+
   await job.remove();
+
   res.status(StatusCodes.OK).send();
 };
 
@@ -105,16 +146,19 @@ const showStats = async (req, res) => {
     { $match: { user_ID: mongoose.Types.ObjectId(req.user.userId) } },
     { $group: { _id: '$status', count: { $sum: 1 } } },
   ]);
+
   stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
     acc[title] = count;
     return acc;
   }, {});
+
   const defaultStats = {
     pending: stats.pending || 0,
     Taken: stats.interview || 0,
     completed: stats.completed || 0,
   };
+
   let monthlyApplications = await Job.aggregate([
     { $match: { user_ID: mongoose.Types.ObjectId(req.user.userId) } },
     {

@@ -5,7 +5,6 @@ require('dotenv').config();
 const twilio = require('twilio');
 const { StatusCodes } = require('http-status-codes');
 
-
 const client = twilio(process.env.Account_SID, process.env.Auth_Token);
 const otpStore = {};
 const tempUserStore = {}; 
@@ -105,63 +104,11 @@ const logout = async (req, res) => {
     })
     res.status(StatusCodes.OK).json({ msg: "log out" });
 };
-// const updateUserProfile = async (req, res) => {
-//     const { name, lastName, email, phoneNumber, oldPassword, newPassword } = req.body;
-//     const authenticatedUserId = req.user.userId;
-  
-//     // Fetch the user from the database based on the user ID
-//     const user = await User.findById(authenticatedUserId);
-  
-//     // Verify if the user exists
-//     if (!user) {
-//       throw new CustomError.NotFoundError('User not found');
-//     }
-  
-//     // Verify if the authenticated user is the same as the profile owner
-//     if (authenticatedUserId !== req.body.userId) {
-//       throw new CustomError.UnauthenticatedError('You are not authorized to update this user');
-//     }
-  
-//     // Update user's profile fields if provided
-//     if (name !== undefined) {
-//       user.name = name;
-//     }
-//     if (lastName !== undefined) {
-//       user.lastName = lastName;
-//     }
-//     if (email !== undefined) {
-//       user.email = email;
-//     }
-//     if (phoneNumber !== undefined) {
-//       user.phoneNumber = phoneNumber;
-//     }
-  
-//     // Update user's password if both oldPassword and newPassword are provided
-//     if (oldPassword !== undefined && newPassword !== undefined) {
-//       // Verify the old password
-//       const isPasswordCorrect = await user.comparePassword(oldPassword);
-//       if (!isPasswordCorrect) {
-//         throw new CustomError.UnauthenticatedError('Invalid Credentials');
-//       }
-  
-//       // Update the password
-//       user.password = newPassword;
-//     } else if (oldPassword !== undefined || newPassword !== undefined) {
-//       // If only one of oldPassword or newPassword is provided, throw an error
-//       throw new CustomError.BadRequestError('Please provide both old and new passwords');
-//     }
-  
-//     // Save the updated user
-//     await user.save();
-  
-//     res.status(StatusCodes.OK).json({ user, msg: 'User profile updated successfully' });
-//   };
-  
+
 
 module.exports = {
-  register,
-  verify,
-  login,
-  logout,
-
-};
+    register,
+    verify,
+    login,
+    logout,
+  };
