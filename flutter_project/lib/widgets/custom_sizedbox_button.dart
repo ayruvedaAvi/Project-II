@@ -23,7 +23,7 @@ class _CustomSizedboxButtonState extends State<CustomSizedboxButton> {
       height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 242, 242, 242),
+          backgroundColor: const Color.fromARGB(255, 233, 218, 250),
         ),
         onPressed: widget.onTap,
         child: Row(
@@ -32,20 +32,24 @@ class _CustomSizedboxButtonState extends State<CustomSizedboxButton> {
             Row(children: [
               Icon(
                 widget.prefixIcon,
-                color: Colors.black,
+                size: 30,
+                color: Colors.deepPurple,
               ),
               const SizedBox(
                 width: 10,
               ),
               Text(
                 (widget.labelText).toString(),
-                style: const TextStyle(color: Colors.black, fontSize: 16),
+                style: const TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
             ]),
             const Icon(
               Icons.arrow_forward_ios_rounded,
-              color: Colors.black,
-              size: 17,
+              color: Colors.deepPurple,
+              size: 22,
             ),
           ],
         ),

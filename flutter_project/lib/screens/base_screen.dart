@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/main.dart';
 import 'package:flutter_project/screens/addpost_screen.dart';
 import 'package:flutter_project/screens/chats_screen.dart';
 import 'package:flutter_project/screens/feed_screen.dart';
@@ -26,6 +27,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
     lstWidget = [
       const FeedScreen(),
+      const ChatsScreen(),
       const AddpostScreen(),
       const ChatsScreen(),
       const UserprofileScreen(),
@@ -34,27 +36,32 @@ class _BaseScreenState extends State<BaseScreen> {
 
   // Define icon colors for each index
   List<Color> iconColors = [
-    Colors.black, // Index 0: White
-    Colors.black, // Index 1: White
-    Colors.black, // Index 2: White
-    Colors.black, // Index 3: White
-    Colors.black,
+    // const Color.fromARGB(255, 48, 19, 48), // Index 0: White
+    // const Color.fromARGB(255, 48, 19, 48), // Index 1: White
+    // const Color.fromARGB(255, 48, 19, 48), // Index 2: White
+    // const Color.fromARGB(255, 48, 19, 48), // Index 3: White
+    // const Color.fromARGB(255, 48, 19, 48),
+    Colors.white,
+    Colors.white,
+    Colors.white,
+    Colors.white,
+    Colors.white,
   ];
 
   Color getButtonBackgroundColor(int index) {
     switch (index) {
       case 0:
-        return const Color.fromARGB(255, 248, 152, 9);
+        return mainColor;
       case 1:
-        return const Color.fromARGB(255, 248, 152, 9);
+        return mainColor;
       case 2:
-        return const Color.fromARGB(255, 248, 152, 9);
+        return mainColor;
       case 3:
-        return const Color.fromARGB(255, 248, 152, 9);
+        return mainColor;
       case 4:
-        return const Color.fromARGB(255, 248, 152, 9);
+        return mainColor;
       default:
-        return const Color.fromARGB(255, 248, 152, 9); // Default color
+        return mainColor; // Default color
     }
   }
 
@@ -63,10 +70,10 @@ class _BaseScreenState extends State<BaseScreen> {
     for (int i = 0; i < iconColors.length; i++) {
       if (i == _selectedIndex) {
         // Selected index, set icon color to black
-        iconColors[i] = Colors.black;
+        iconColors[i] = Colors.white;
       } else {
         // Unselected index, set icon color to white
-        iconColors[i] = Colors.black;
+        iconColors[i] = Colors.white;
       }
     }
   }
@@ -105,9 +112,9 @@ class _BaseScreenState extends State<BaseScreen> {
           child: CurvedNavigationBar(
             index: widget.initalIndex,
             key: const ValueKey('bottomNav'),
-            height: 55,
+            height: 60,
             backgroundColor: Colors.white,
-            color: Colors.black26,
+            color: disabledForegroundColor,
             animationDuration: const Duration(milliseconds: 300),
             buttonBackgroundColor: getButtonBackgroundColor(_selectedIndex),
             onTap: (index) {
@@ -123,18 +130,23 @@ class _BaseScreenState extends State<BaseScreen> {
                 size: 20,
               ),
               GetIcon(
-                icon: Icons.add,
+                icon: Icons.message,
                 color: iconColors[1],
                 size: 20,
               ),
               GetIcon(
-                icon: Icons.message,
+                icon: Icons.add,
                 color: iconColors[2],
                 size: 20,
               ),
               GetIcon(
-                icon: Icons.person,
+                icon: Icons.notifications,
                 color: iconColors[3],
+                size: 20,
+              ),
+              GetIcon(
+                icon: Icons.person,
+                color: iconColors[4],
                 size: 20,
               ),
             ],
@@ -164,7 +176,7 @@ class GetIcon extends StatelessWidget {
       child: Icon(
         icon,
         color: color,
-        size: 20,
+        size: 30,
       ),
     );
   }

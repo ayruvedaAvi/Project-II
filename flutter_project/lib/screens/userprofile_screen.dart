@@ -30,24 +30,25 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+        body: Center(
           child: Padding(
-              padding: const EdgeInsets.only(top: 40, left: 15, right: 15),
+              padding: const EdgeInsets.only(left: 25, right: 25),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
-                      Icon(
-                        Icons.sunny,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
+                  // const Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Icon(
+                  //       Icons.arrow_back,
+                  //       color: Colors.black,
+                  //     ),
+                  //     Icon(
+                  //       Icons.sunny,
+                  //       color: Colors.black,
+                  //     ),
+                  //   ],
+                  // ),
                   const CircleAvatar(
                     backgroundImage: AssetImage('assets/images/boy_image.jpg'),
                     radius: 60,
@@ -83,7 +84,7 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 50,
                   ),
                   CustomSizedboxButton(
                     prefixIcon: Icons.history,
@@ -129,8 +130,8 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     prefixIcon: Icons.logout_outlined,
                     labelText: "Logout",
                     onTap: () {
-                        UserSharedPreference.removeDataFromStorage('token');
-                        Get.off(() => const LoginScreen());
+                      UserSharedPreference.removeDataFromStorage('token');
+                      Get.off(() => const LoginScreen());
                     },
                   ),
                 ],
