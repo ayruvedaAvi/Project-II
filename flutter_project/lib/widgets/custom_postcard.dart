@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:get/get.dart';
 
 class CustomPostcard extends StatefulWidget {
@@ -6,12 +7,17 @@ class CustomPostcard extends StatefulWidget {
   final String? userName;
   final String? workDescription;
   final String? image;
-  const CustomPostcard(
-      {super.key,
-      this.workDescription,
-      this.image,
-      this.profileImg,
-      this.userName});
+  final String? title;
+  final double? price;
+  const CustomPostcard({
+    super.key,
+    this.workDescription,
+    this.image,
+    this.profileImg,
+    this.userName,
+    this.title,
+    this.price,
+  });
 
   @override
   State<CustomPostcard> createState() => _CustomPostcardState();
@@ -22,7 +28,14 @@ class _CustomPostcardState extends State<CustomPostcard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => const ());
+        Get.to(() => SinglepostScreen(
+              profileImg: widget.profileImg,
+              userName: widget.userName,
+              workDescription: widget.workDescription,
+              image: widget.image,
+              title: widget.title,
+              price: widget.price ?? 0.0,
+            ));
       },
       child: Container(
         color: Colors.white,
@@ -34,7 +47,8 @@ class _CustomPostcardState extends State<CustomPostcard> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15)),
               ),
               child: ListTile(
                 leading: CircleAvatar(
@@ -54,7 +68,8 @@ class _CustomPostcardState extends State<CustomPostcard> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child: Image.asset(widget.image.toString(), fit: BoxFit.fitHeight),
+              child:
+                  Image.asset(widget.image.toString(), fit: BoxFit.fitHeight),
             ),
             const SizedBox(
               height: 10,

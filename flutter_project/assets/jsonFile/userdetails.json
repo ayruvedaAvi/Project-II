@@ -6,7 +6,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -23,7 +23,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -40,7 +40,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -57,7 +57,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -74,7 +74,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -91,7 +91,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -108,7 +108,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
@@ -125,7 +125,7 @@
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
-        "price": 123,
+        "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":

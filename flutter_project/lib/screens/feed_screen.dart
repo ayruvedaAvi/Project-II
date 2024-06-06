@@ -103,6 +103,8 @@ class _FeedScreenState extends State<FeedScreen> {
                                 userName: items[index].userName,
                                 workDescription: items[index].workDescription,
                                 image: items[index].image,
+                                title: items[index].title,
+                                price: items[index].price,
                               );
                             },
                             itemCount: items.length,
