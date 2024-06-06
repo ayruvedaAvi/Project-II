@@ -7,13 +7,18 @@ const path = require('path');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+
 const connectDB = require('./db/connect');
 const authenticateUser = require('./middleware/authentication');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
+
+
 const app = express();
+
 
 // Cloudinary configuration
 cloudinary.config({
@@ -22,23 +27,33 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
+
+
 app.set('trust proxy', 1);
 
 app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(xss());
-app.use(fileUpload({ useTempFiles: true }));
+app.use(fileUpload({ useTempFiles: false }));
 
 // Routers
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
+const userRouter = require('./routes/userRoutes');
+
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the LaborlanceAPI');
+});
 
 // Use routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+app.use('/api/v1/users', authenticateUser,userRouter);
+
 
 // Error handling middleware
 app.use(notFoundMiddleware);

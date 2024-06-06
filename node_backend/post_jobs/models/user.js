@@ -6,6 +6,9 @@ const bcrypt=require('bcryptjs');
 
 
 const userSchema = new mongoose.Schema({
+    profilePicture:{
+      type: String
+    },
     name:{
         type:String,
         required:[true,'please provide name'],
@@ -26,29 +29,23 @@ const userSchema = new mongoose.Schema({
                 if (value) {
                     return validator.isEmail(value);
                 }
-                return true; // If email is not provided, validation passes
+                return true; 
             },
             message: 'Please provide a valid email'
         }
     },
-       
-    
     password:{
         type:String,
         required:[true,'please provide password'],
-        minlength:6,
     },
     phoneNumber: {
         type: String,
         required: [true, 'Please provide phone number'],
-        unique: true
       },
-
     role:{
         type:String,
         enum:['WorkProvider','Worker'],
-        default:'WorkProvide',
-        // required:[true,'please select your role']
+        default:'WorkProvide'
     },
     isActive: {
         type: Boolean,
@@ -56,17 +53,16 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-userSchema.pre('save',async function(){
-    const salt=await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password,salt)
-      
-})
-
-
-userSchema.methods.comparePassword = async function(canditatePassword){
-    const isMatch=await bcrypt.compare(canditatePassword,this.password);
-    return isMatch
-}
+userSchema.pre('save', async function () {
+    if (!this.isModified('password')) return;
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  });
+  
+  userSchema.methods.comparePassword = async function (canditatePassword) {
+    const isMatch = await bcrypt.compare(canditatePassword, this.password);
+    return isMatch;
+  };
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 

@@ -7,21 +7,33 @@ const JobSchema = new mongoose.Schema(
       required: [true, 'Please provide Title name'],
       maxlength: 50,
     },
-    Work_Description: {
+    workDescription: {
       type: String,
-      required: [true, 'Please provide Work_Description'],
+      required: [true, 'Please provide workDescription'],
       maxlength: 100,
     },
     status: {
       type: String,
-      enum: ['pending', 'Taken', 'completed'],
+      enum: ['pending', 'Taken','completed'],
       default: 'pending',
     },
-    user_ID: {
+    userId: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: [true, 'Please provide user'],
     }, 
+    userName: {
+      type: String,
+      required: [true, 'Please provide user name'],
+    },
+    userLastName: {
+      type: String,
+      required: [true, 'Please provide user last name'],
+    },
+    userEmail: {
+      type: String,
+      required: [true, 'Please provide user email'],
+    },
     jobType: {
       type: String,
       enum: ['Electrical', 'shift home', 'Delivery', 'Plumbing','others'],

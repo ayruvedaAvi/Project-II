@@ -5,13 +5,12 @@ require('dotenv').config();
 const twilio = require('twilio');
 const { StatusCodes } = require('http-status-codes');
 
-
 const client = twilio(process.env.Account_SID, process.env.Auth_Token);
 const otpStore = {};
 const tempUserStore = {}; 
 
 const register = async (req, res) => {
-    const { name,lastName, phoneNumber, email, password } = req.body;
+    const { name, lastName, phoneNumber, email, password } = req.body;
     const phoneNumberRegex = /^\+977\s\d{10}$/;
     const isValidPhoneNumber = phoneNumberRegex.test(phoneNumber);
     console.log(`${phoneNumber} is valid: ${isValidPhoneNumber}`);
@@ -27,6 +26,7 @@ const register = async (req, res) => {
         }
     }
 
+    // Commented out for testing phase
     // const existingUserWithPhoneNumber = await User.findOne({ phoneNumber });
     // if (existingUserWithPhoneNumber) {
     //     throw new CustomError.BadRequestError('Phone number already registered');
@@ -34,7 +34,7 @@ const register = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore[otp] = phoneNumber;
-    tempUserStore[phoneNumber] = { name,lastName, email, password };
+    tempUserStore[phoneNumber] = { name, lastName, email, password };
 
     try {
         await client.messages.create({
@@ -71,15 +71,11 @@ const verify = async (req, res) => {
     delete otpStore[otp];
     delete tempUserStore[phoneNumber];
 
-    const tokenUser = { name: user.name,lastName:user.lastName, userId: user._id, role: user.role };
+    const tokenUser = { name: user.name, lastName: user.lastName, userId: user._id, role: user.role };
     const token = createJWT({ payload: tokenUser });
 
     res.status(StatusCodes.OK).json({ msg: 'Phone number verified successfully. Registration complete.', user: tokenUser, token });
 };
-
-    
-
-
 const login = async (req, res) => {
     const { phoneNumber, email, password } = req.body;
     if (!(phoneNumber || email) || !password) {
@@ -110,35 +106,9 @@ const logout = async (req, res) => {
 };
 
 
-const updateUser = async (req, res) => {
-  const { email, name, lastName, location } = req.body;
-  if (!email || !name || !lastName || !location) {
-    throw new BadRequest('Please provide all values');
-  }
-  const user = await User.findOne({ _id: req.user.userId });
-
-  user.email = email;
-  user.name = name;
-  user.lastName = lastName;
-  user.location = location;
-
-  await user.save();
-  const token = user.createJWT();
-  res.status(StatusCodes.OK).json({
-    user: {
-      email: user.email,
-      lastName: user.lastName,
-      location: user.location,
-      name: user.name,
-      token,
-    },
-  });
-};
-
 module.exports = {
-  register,
-  verify,
-  login,
-  logout,
-  updateUser,
-};
+    register,
+    verify,
+    login,
+    logout,
+  };
