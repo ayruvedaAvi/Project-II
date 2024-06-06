@@ -187,13 +187,12 @@ class _AddpostScreenState extends State<AddpostScreen> {
                         ? const SizedBox()
                         : SizedBox(
                             width: double.infinity,
-                            
                             height: 200,
                             child: _image == null
                                 ? const Text('No image selected.')
                                 : Image.file(
                                     File(_image!.path),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.fitHeight,
                                   ),
                           ),
                     const SizedBox(

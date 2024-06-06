@@ -67,7 +67,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -79,8 +79,8 @@ class _FeedScreenState extends State<FeedScreen> {
                             color: Color.fromARGB(255, 143, 69, 211)),
                       ),
                       SizedBox(
-                        width: 90,
-                        height: 90,
+                        width: 80,
+                        height: 80,
                         child: Image.asset('assets/images/profile_image.jpg'),
                       )
                     ],
@@ -95,7 +95,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     } else if (data.hasData) {
                       var items = data.data as List<UserDetailsDataModel>;
                       return SizedBox(
-                          height: MediaQuery.of(context).size.height - 200,
+                          height: MediaQuery.of(context).size.height - 160,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
                               return CustomPostcard(
