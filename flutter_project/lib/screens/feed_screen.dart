@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/controllers/job_controller.dart/get_all_jobs_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/models/userdetails_datamodel.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';

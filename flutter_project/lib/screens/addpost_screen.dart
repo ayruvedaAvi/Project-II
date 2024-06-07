@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/job_controller.dart/post_job_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/post_job_controller.dart';
 // import 'package:flutter/widgets.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
@@ -31,7 +31,6 @@ class _AddpostScreenState extends State<AddpostScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getName();
   }
@@ -52,23 +51,22 @@ class _AddpostScreenState extends State<AddpostScreen> {
                     Icons.close,
                     color: Colors.black,
                   ),
-                  const Text(
-                    "Create New Post",
-                    style: TextStyle(
+                  Text(
+                    "createNewJobPost".tr,
+                    style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
                   TextButton(
                     onPressed: () {
-                      debugPrint("Post button clicked");
                       if (_formKey.currentState!.validate()) {
                         _postJobController.postJob();
                       }
                     },
-                    child: const Text(
-                      "Post",
-                      style: TextStyle(
+                    child: Text(
+                      "post".tr,
+                      style: const TextStyle(
                           color: Colors.purple,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
@@ -120,7 +118,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                           }
                           return null;
                         },
-                        labelText: 'Job title',
+                        labelText: 'title'.tr,
                         suffixIcon: const Icon(Icons.work),
                       ),
                     ),
@@ -138,7 +136,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                           }
                           return null;
                         },
-                        labelText: 'Job description',
+                        labelText: 'description'.tr,
                         suffixIcon: const Icon(Icons.description),
                       ),
                     ),
@@ -176,7 +174,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                           }
                           return null;
                         },
-                        labelText: 'Price',
+                        labelText: 'price'.tr,
                         suffixIcon: const Icon(Icons.attach_money),
                       ),
                     ),
@@ -211,17 +209,17 @@ class _AddpostScreenState extends State<AddpostScreen> {
                                     const Color.fromARGB(255, 168, 105, 227),
                               ),
                               onPressed: getImage,
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Gallery",
-                                    style: TextStyle(fontSize: 16),
+                                    "gallery".tr,
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.image_outlined,
                                   ),
                                 ],
@@ -242,17 +240,17 @@ class _AddpostScreenState extends State<AddpostScreen> {
                                     const Color.fromARGB(255, 168, 105, 227),
                               ),
                               onPressed: getImageFromCamera,
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Camera",
-                                    style: TextStyle(fontSize: 16),
+                                    "camera".tr,
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.camera_alt_outlined,
                                   ),
                                 ],
@@ -279,17 +277,31 @@ class _AddpostScreenState extends State<AddpostScreen> {
                               const Color.fromARGB(255, 168, 105, 227),
                         ),
                         onPressed: () {
-                          debugPrint("Post button clicked");
                           if (_formKey.currentState!.validate()) {
                             _postJobController.postJob();
                           }
                         },
-                        child: const Text(
-                          "Post",
-                          style: TextStyle(
+                        child: Text(
+                          "post".tr,
+                          style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Get.updateLocale(const Locale('ne', 'NP'));
+                      },
+                      child: const Text("Change language to Nepali"),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Get.updateLocale(const Locale('en', 'US'));
+                      },
+                      child: const Text("Change language to English"),
                     ),
                   ],
                 ),

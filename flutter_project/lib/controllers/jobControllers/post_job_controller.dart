@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
-import 'package:flutter_project/utils/api/api_endpoint.dart';
+import 'package:flutter_project/core/api/api_endpoint.dart';
 import 'package:get/get.dart';
 
 class PostJobController extends GetxController {

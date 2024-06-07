@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/login_screen.dart';
-import 'package:flutter_project/utils/api/api_endpoint.dart';
+import 'package:flutter_project/core/api/api_endpoint.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {

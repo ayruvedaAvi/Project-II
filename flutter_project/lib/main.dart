@@ -3,7 +3,7 @@ import 'package:flutter_project/my_app.dart';
 //main
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 
