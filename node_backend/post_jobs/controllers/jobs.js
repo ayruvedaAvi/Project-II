@@ -29,9 +29,25 @@ const createJob = async (req, res) => {
 
 
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
-  const job = await Job.find({}).limit(10).sort('-createdAt');
-
-  res.status(StatusCodes.OK).json({ job, count: job.length });
+  const jobs = await Job.find({}).limit(10).sort('-createdAt');
+  
+  const formattedJobs = jobs.map(job => ({
+    id: job._id,
+    Title: job.Title,
+    workDescription: job.workDescription,
+    status: job.status,
+    userId: job.userId,
+    userName: job.userName,
+    userLastName: job.userLastName,
+    userEmail: job.userEmail,
+    jobType: job.jobType,
+    jobLocation: job.jobLocation,
+    price: job.price,
+    image: job.image,
+    createdAt: job.createdAt,
+    updatedAt: job.updatedAt
+  }));
+  res.status(StatusCodes.OK).json({ jobs: formattedJobs, count: formattedJobs.length });
 };
 
 const getAllJobs = async (req, res) => {
@@ -69,11 +85,11 @@ const getAllJobs = async (req, res) => {
 
 
   const jobs = await result;
-
+  
   const totalJobs = await Job.countDocuments(queryObject);
 
 
-  res.status(StatusCodes.OK).json({ jobs, totalJobs});
+  res.status(StatusCodes.OK).json({jobs, totalJobs});
 };
 const getJob = async (req, res) => {
   const { id: jobId } = req.params;
