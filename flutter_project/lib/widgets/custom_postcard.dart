@@ -84,11 +84,12 @@ class _CustomPostcardState extends State<CustomPostcard> {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 10.0, left: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0, left: 10.0),
               child: Text(
-                "Rs. 1000",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                widget.price.toString(),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             // const SizedBox(

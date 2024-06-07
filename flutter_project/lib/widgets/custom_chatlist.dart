@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/inbox_screen.dart';
+import 'package:get/get.dart';
 
 class CustomChatlist extends StatefulWidget {
   final String? userName;
@@ -15,6 +17,12 @@ class _CustomChatlistState extends State<CustomChatlist> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        Get.to(() => InboxScreen(
+              userName: widget.userName,
+              imagePath: widget.imagePath,
+            ));
+      },
       leading: CircleAvatar(
         backgroundImage: AssetImage(widget.imagePath.toString()),
         radius: 25,
