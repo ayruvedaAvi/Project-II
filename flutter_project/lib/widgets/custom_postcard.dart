@@ -26,20 +26,20 @@ class CustomPostcard extends StatefulWidget {
 class _CustomPostcardState extends State<CustomPostcard> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Get.to(() => SinglepostScreen(
-              profileImg: widget.profileImg,
-              userName: widget.userName,
-              workDescription: widget.workDescription,
-              image: widget.image,
-              title: widget.title,
-              price: widget.price ?? 0.0,
-            ));
-      },
-      child: Container(
-        color: Colors.white,
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+    return Container(
+      color: Colors.white,
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+      child: InkWell(
+        onTap: () {
+          Get.to(() => SinglepostScreen(
+                profileImg: widget.profileImg,
+                userName: widget.userName,
+                workDescription: widget.workDescription,
+                image: widget.image,
+                title: widget.title,
+                price: widget.price ?? 0.0,
+              ));
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
