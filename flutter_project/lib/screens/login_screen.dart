@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final loginController = Get.put(LoginController());
+  bool signUpLoading = false;
   Random random = Random();
 
   final List<AnimationController> _controllers = [];
@@ -75,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   void initState() {
+    // loginController.isLoading = <RxBool>false;
     super.initState();
     for (int i = 0; i < 40; i++) {
       var controller = AnimationController(
@@ -155,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen>
               opacity: 0.95,
               child: Center(
                 child: Container(
-                  height: 450,
+                  height: 470,
                   width: 350,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -197,48 +199,40 @@ class _LoginScreenState extends State<LoginScreen>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 50),
-                                SizedBox(
-                                  height: 50,
-                                  child: CustomTextFormField(
-                                    keyType: TextInputType.emailAddress,
-                                    controller: loginController.emailController,
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty ||
-                                          !value.isEmail) {
-                                        return 'Please enter a valid email address';
-                                      }
-                                      return null;
-                                    },
-                                    labelText: 'Email',
-                                    hintText: 'Enter your email',
-                                    suffixIcon:
-                                        const Icon(Icons.person_2_outlined),
-                                  ),
+                                CustomTextFormField(
+                                  keyType: TextInputType.emailAddress,
+                                  controller: loginController.emailController,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.isEmail) {
+                                      return 'Please enter a valid email address';
+                                    }
+                                    return null;
+                                  },
+                                  labelText: 'Email',
+                                  hintText: 'Enter your email',
+                                  suffixIcon:
+                                      const Icon(Icons.person_2_outlined),
                                 ),
-                                const SizedBox(height: 20),
-                                SizedBox(
-                                  height: 50,
-                                  child: CustomTextFormField(
-                                    keyType: TextInputType.visiblePassword,
-                                    controller:
-                                        loginController.passwordController,
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter a password';
-                                      } else {
-                                        if (value.length < 6) {
-                                          return 'Password must be at least 6 characters long';
-                                        }
+                                CustomTextFormField(
+                                  keyType: TextInputType.visiblePassword,
+                                  controller:
+                                      loginController.passwordController,
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a password';
+                                    } else {
+                                      if (value.length < 6) {
+                                        return 'Password must be at least 6 characters long';
                                       }
-                                      return null;
-                                    },
-                                    labelText: 'Password',
-                                    hintText: 'Enter your password',
-                                  ),
+                                    }
+                                    return null;
+                                  },
+                                  labelText: 'Password',
+                                  hintText: 'Enter your password',
                                 ),
-                                const SizedBox(height: 30),
                                 SizedBox(
                                   height: 50,
                                   width: double.infinity,
@@ -284,8 +278,11 @@ class _LoginScreenState extends State<LoginScreen>
                                     ),
                                     onPressed: () {
                                       Get.to(() => const SignupScreen());
+                                      setState(() {
+                                        signUpLoading = true;
+                                      });
                                     },
-                                    child: loginController.isLoading.value
+                                    child: signUpLoading
                                         ? const CircularProgressIndicator()
                                         : const Text(
                                             'New? Register here!',
