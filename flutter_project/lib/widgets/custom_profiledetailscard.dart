@@ -18,10 +18,11 @@ class CustomProfiledetailscard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.fromLTRB(5, 0, 0, 0),
         decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 233, 218, 250),
-            borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(10),
-                bottomRight: Radius.circular(10)),
+            // color: const Color.fromARGB(255, 233, 218, 250),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            // topRight: Radius.circular(10),
+            // bottomRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF000000)
