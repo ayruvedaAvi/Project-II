@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/login_screen.dart';
+import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_sizedbox_button.dart';
 import 'package:get/get.dart';

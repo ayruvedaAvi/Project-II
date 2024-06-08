@@ -68,17 +68,16 @@ class _CustomPostcardState extends State<CustomPostcard> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child:
-                  Image.asset(widget.image.toString(), fit: BoxFit.fitHeight),
+              child: Image.network(widget.image.toString(), fit: BoxFit.fitHeight),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 10.0, left: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0, left: 10.0),
               child: Text(
-                "Looking for a Plumber!",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                widget.workDescription.toString(),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(

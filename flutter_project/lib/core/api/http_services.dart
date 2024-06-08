@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_project/utils/api/api_urls.dart';
+import 'package:flutter_project/core/api/api_urls.dart';
 
 class HttpServices{
   static final HttpServices _instance = HttpServices._internal();

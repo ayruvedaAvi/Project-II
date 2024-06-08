@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/models/job/job_model.dart';
+import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
+import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
 
 import 'package:flutter_project/models/login/login_model.dart';
 import 'package:flutter_project/models/login_response/login_response_model.dart';
 import 'package:flutter_project/models/signup/signup_model.dart';
 import 'package:flutter_project/models/signup_response/signup_response_model.dart';
-import 'package:flutter_project/utils/api/api_urls.dart';
-import 'package:flutter_project/utils/api/dio_exception_handler.dart';
-import 'package:flutter_project/utils/api/http_services.dart';
+import 'package:flutter_project/core/api/api_urls.dart';
+import 'package:flutter_project/core/api/dio_exception_handler.dart';
+import 'package:flutter_project/core/api/http_services.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 
 class ApiEndpoints {
@@ -184,5 +185,32 @@ class ApiEndpoints {
       }
     }
     return isJobPosted;
+  }
+
+  Future<GetAllJobsModel> getAllJobs() async {
+    GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
+    String url = baseUrl + getAllJobsUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token = await UserSharedPreference.getStringDataFromStorage('token');
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        getAllJobsModel = GetAllJobsModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to get jobs: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred while fetching jobs');
+      }
+    }
+    return getAllJobsModel;
   }
 }

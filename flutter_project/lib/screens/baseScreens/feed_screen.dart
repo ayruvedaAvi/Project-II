@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
+import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/models/userdetails_datamodel.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_postcard.dart';
@@ -16,16 +18,28 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   RxString name = ''.obs;
+  GetAllJobsController getAllJobsController = Get.put(GetAllJobsController());
+  GetAllJobsModel? jobs;
 
   Future<void> getName() async {
     name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
         'Error fetching name';
   }
 
-  @override
+  Future<void> getPosts() async {
+    var fetchedJobs = await getAllJobsController.getAllJobs();
+    setState(() {
+      jobs = fetchedJobs;
+    });
+    debugPrint(jobs?.jobs?[1].workDescription ?? 'No data');
+  }
+
+   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getPosts().then((_) {
+      debugPrint(jobs?.jobs?[1].workDescription ?? 'No data');
+    });
     getName();
   }
 
@@ -87,34 +101,23 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                 ),
               ),
-              FutureBuilder(
-                  future: readJsonData(),
-                  builder: (context, data) {
-                    if (data.hasError) {
-                      return Center(child: Text("${data.error}"));
-                    } else if (data.hasData) {
-                      var items = data.data as List<UserDetailsDataModel>;
-                      return SizedBox(
-                          height: MediaQuery.of(context).size.height - 160,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return CustomPostcard(
-                                profileImg: items[index].profileImg,
-                                userName: items[index].userName,
-                                workDescription: items[index].workDescription,
-                                image: items[index].image,
-                                title: items[index].title,
-                                price: items[index].price,
-                              );
-                            },
-                            itemCount: items.length,
-                          ));
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+              jobs != null?
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 160,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return CustomPostcard(
+                        profileImg: 'assets/images/profile_image.jpg',
+                        userName: jobs!.jobs![index].userName,
+                        workDescription: jobs!.jobs![index].workDescription,
+                        image: jobs!.jobs![index].image,
                       );
-                    }
-                  }),
+                    },
+                    itemCount: jobs?.jobs?.length?? 0,
+                  ),
+                ) : const Center(
+                  child: CircularProgressIndicator(),
+                ),
             ],
           ),
         ),
