@@ -60,6 +60,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen>
     with TickerProviderStateMixin {
+  bool termsnCondition = false;
   bool isChecked = false;
   final _formkey = GlobalKey<FormState>();
   final signUpController = Get.put(SignupController());
@@ -208,7 +209,7 @@ class _SignupScreenState extends State<SignupScreen>
                                           signUpController.firstNameController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please enter a valid name!';
+                                          return 'Invalid Firstname!';
                                         }
                                         return null;
                                       },
@@ -225,7 +226,7 @@ class _SignupScreenState extends State<SignupScreen>
                                           signUpController.lastnameController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please enter a valid name!';
+                                          return 'Invalid Lastname!';
                                         }
                                         return null;
                                       },
@@ -301,10 +302,13 @@ class _SignupScreenState extends State<SignupScreen>
                                         width: 24,
                                         height: 24,
                                         child: Checkbox(
+                                          checkColor: Colors.white,
+                                          activeColor: Colors.purple,
                                           value: isChecked,
                                           onChanged: (bool? value) {
                                             setState(() {
                                               isChecked = value!;
+                                              termsnCondition = value;
                                             });
                                           },
                                         )),
@@ -341,14 +345,20 @@ class _SignupScreenState extends State<SignupScreen>
                                     height: 50,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
+                                        disabledBackgroundColor:
+                                            const Color.fromARGB(
+                                                255, 210, 180, 240),
                                         backgroundColor: const Color.fromARGB(
                                             255, 168, 105, 227),
                                       ),
-                                      onPressed: () {
-                                        if (_formkey.currentState!.validate()) {
-                                          signUpController.signup();
-                                        }
-                                      },
+                                      onPressed: termsnCondition
+                                          ? () {
+                                              if (_formkey.currentState!
+                                                  .validate()) {
+                                                signUpController.signup();
+                                              }
+                                            }
+                                          : null,
                                       child: signUpController.isLoading.value
                                           ? const CircularProgressIndicator()
                                           : const Text(
