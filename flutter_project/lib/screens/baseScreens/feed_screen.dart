@@ -90,31 +90,33 @@ class _FeedScreenState extends State<FeedScreen> {
                 ),
               ),
               Obx(() {
-                if (getAllJobsController.isLoading.value) {
+                if (getAllJobsController.isLoading.value == true) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (jobs.value != null) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height - 160,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return CustomPostcard(
-                          profileImg: 'assets/images/profile_image.jpg',
-                          userName: jobs.value!.jobs![index].userName,
-                          workDescription: jobs.value!.jobs![index].workDescription,
-                          image: jobs.value!.jobs![index].image,
-                          title: jobs.value!.jobs![index].Title,
-                          price: jobs.value!.jobs![index].price,
-                        );
-                      },
-                      itemCount: jobs.value?.jobs?.length ?? 0,
-                    ),
-                  );
                 } else {
-                  return const Center(
-                    child: Text("Error fetching data! Please try again later."),
-                  );
+                  return jobs.value == null
+                      ? const Center(
+                          child: Text(
+                              'Error fetching jobs, something went wrong, please try again later.'),
+                        )
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.height - 160,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CustomPostcard(
+                                profileImg: 'assets/images/profile_image.jpg',
+                                userName: jobs.value!.jobs![index].userName,
+                                workDescription:
+                                    jobs.value!.jobs![index].workDescription,
+                                image: jobs.value!.jobs![index].image,
+                                title: jobs.value!.jobs![index].Title,
+                                price: jobs.value!.jobs![index].price,
+                              );
+                            },
+                            itemCount: jobs.value?.jobs?.length ?? 0,
+                          ),
+                        );
                 }
               }),
             ],
