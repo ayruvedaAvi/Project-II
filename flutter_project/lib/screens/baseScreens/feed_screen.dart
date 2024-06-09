@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,17 @@ class _FeedScreenState extends State<FeedScreen> {
     }
   }
 
+  final items = [
+    'Technical',
+    'Household',
+    'Repair',
+    'Construction',
+    'Cleaning',
+    'Gardening',
+    'Cooking',
+    'Shifting Service',
+    'Others',
+  ];
   @override
   void initState() {
     super.initState();
@@ -42,53 +54,66 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: const Text(
+          "Shrami",
+          style: TextStyle(
+              fontSize: 24, color: mainColor, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Text(
+                "Categories",
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: boldTextColor),
+              ),
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            Column(
+              children: items.map((item) {
+                return ListTile(
+                  // leading: const Icon(Icons.contacts),
+                  title: Text(
+                    item,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 25, bottom: 10),
           child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(15),
-                      bottomLeft: Radius.circular(15)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0,
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 0,
-                      blurRadius: 10,
-                      offset: const Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Text(
-                        "Shrami, We Connect!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 143, 69, 211)),
-                      ),
-                      SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: Image.asset('assets/images/profile_image.jpg'),
-                      )
-                    ],
-                  ),
-                ),
-              ),
               Obx(() {
                 if (getAllJobsController.isLoading.value == true) {
                   return const Center(
