@@ -208,7 +208,7 @@ class ApiEndpoints {
         String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
-        throw Exception('An unexpected error occurred while fetching jobs');
+        throw Exception('An unexpected error occurred while fetching jobs.');
       }
     }
     return getAllJobsModel;

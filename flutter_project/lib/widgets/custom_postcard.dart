@@ -68,7 +68,16 @@ class _CustomPostcardState extends State<CustomPostcard> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child: Image.network(widget.image.toString(), fit: BoxFit.fitHeight),
+              child: Image.network(
+                widget.image.toString(),
+                fit: BoxFit.fitHeight,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(
+                    child:
+                        Text("Image for this job was corrupted or not found!"),
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -77,7 +86,8 @@ class _CustomPostcardState extends State<CustomPostcard> {
               padding: const EdgeInsets.only(right: 10.0, left: 10.0),
               child: Text(
                 widget.workDescription.toString(),
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(

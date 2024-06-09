@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
-import 'package:flutter_project/models/userdetails_datamodel.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:get/get.dart';
@@ -19,7 +15,7 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   RxString name = ''.obs;
   GetAllJobsController getAllJobsController = Get.put(GetAllJobsController());
-  GetAllJobsModel? jobs;
+  Rxn<GetAllJobsModel> jobs = Rxn<GetAllJobsModel>();
 
   Future<void> getName() async {
     name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
@@ -28,31 +24,23 @@ class _FeedScreenState extends State<FeedScreen> {
 
   Future<void> getPosts() async {
     var fetchedJobs = await getAllJobsController.getAllJobs();
-    setState(() {
-      jobs = fetchedJobs;
-    });
-    debugPrint(jobs?.jobs?[1].workDescription ?? 'No data');
+    if (fetchedJobs != null) {
+      jobs.value = fetchedJobs;
+    } else {
+      debugPrint('No jobs fetched');
+    }
   }
 
-   @override
+  @override
   void initState() {
     super.initState();
-    getPosts().then((_) {
-      debugPrint(jobs?.jobs?[1].workDescription ?? 'No data');
-    });
+    getPosts();
     getName();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromARGB(255, 24, 224, 198),
-      //   title: const Text("Welcome to Saral!"),
-      //   centerTitle: true,
-      //   titleTextStyle:
-      //       const TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
-      // ),
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
         child: Padding(
@@ -101,35 +89,38 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                 ),
               ),
-              jobs != null?
-                SizedBox(
-                  height: MediaQuery.of(context).size.height - 160,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return CustomPostcard(
-                        profileImg: 'assets/images/profile_image.jpg',
-                        userName: jobs!.jobs![index].userName,
-                        workDescription: jobs!.jobs![index].workDescription,
-                        image: jobs!.jobs![index].image,
-                      );
-                    },
-                    itemCount: jobs?.jobs?.length?? 0,
-                  ),
-                ) : const Center(
-                  child: CircularProgressIndicator(),
-                ),
+              Obx(() {
+                if (getAllJobsController.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (jobs.value != null) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height - 160,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return CustomPostcard(
+                          profileImg: 'assets/images/profile_image.jpg',
+                          userName: jobs.value!.jobs![index].userName,
+                          workDescription: jobs.value!.jobs![index].workDescription,
+                          image: jobs.value!.jobs![index].image,
+                          title: jobs.value!.jobs![index].Title,
+                          price: jobs.value!.jobs![index].price,
+                        );
+                      },
+                      itemCount: jobs.value?.jobs?.length ?? 0,
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: Text("Error fetching data! Please try again later."),
+                  );
+                }
+              }),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future<List<UserDetailsDataModel>> readJsonData() async {
-    final jsonData =
-        await rootBundle.loadString('assets/jsonFile/userdetails.json');
-    final list = jsonDecode(jsonData) as List<dynamic>;
-
-    return list.map((e) => UserDetailsDataModel.fromJson(e)).toList();
   }
 }
