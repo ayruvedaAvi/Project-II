@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/authScreens/login_screen.dart';
 // import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_profiledetailscard.dart';
@@ -182,18 +183,24 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomProfiledetailscard(
+                      const CustomProfiledetailscard(
                         name: "Settings",
                         contextIcon: Icons.settings,
                         numCount: "All",
                       ),
-                      CustomProfiledetailscard(
-                        name: "Logout",
-                        contextIcon: Icons.logout_outlined,
-                        numCount: "Bye!",
+                      InkWell(
+                        onTap: () {
+                          UserSharedPreference.removeDataFromStorage('token');
+                          Get.off(() => const LoginScreen());
+                        },
+                        child: const CustomProfiledetailscard(
+                          name: "Logout",
+                          contextIcon: Icons.logout_outlined,
+                          numCount: "Bye!",
+                        ),
                       )
                     ],
                   ),

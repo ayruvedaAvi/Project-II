@@ -85,7 +85,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
             Padding(
               padding: const EdgeInsets.only(right: 10.0, left: 10.0),
               child: Text(
-                widget.workDescription.toString(),
+                widget.title.toString(),
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),

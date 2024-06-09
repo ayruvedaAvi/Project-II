@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/post_job_controller.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:flutter_project/screens/baseScreens/base_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
@@ -36,6 +35,18 @@ class _AddpostScreenState extends State<AddpostScreen> {
     getName();
   }
 
+  final items = [
+    'Technical',
+    'Household',
+    'Repair',
+    'Construction',
+    'Cleaning',
+    'Gardening',
+    'Cooking',
+    'Shifting Service',
+    'Others',
+  ];
+  List<String> selectedItem = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,80 +119,80 @@ class _AddpostScreenState extends State<AddpostScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: CustomTextFormField(
-                        keyType: TextInputType.text,
-                        controller: _postJobController.title,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a Job title';
-                          }
-                          return null;
-                        },
-                        labelText: 'title'.tr,
-                        suffixIcon: const Icon(Icons.work),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: items.map((item) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: FilterChip(
+                              label: Text(item),
+                              labelStyle: const TextStyle(color: Colors.white),
+                              selected: selectedItem.contains(item),
+                              selectedColor: Colors.grey,
+                              backgroundColor: Colors.deepPurple[400],
+                              // shape: const CircleBorder(),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  if (selected) {
+                                    selectedItem.add(item);
+                                  } else {
+                                    selectedItem.remove(item);
+                                  }
+                                });
+                              },
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: CustomTextFormField(
-                        keyType: TextInputType.text,
-                        controller: _postJobController.workDescription,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a Job Description';
-                          }
-                          return null;
-                        },
-                        labelText: 'description'.tr,
-                        suffixIcon: const Icon(Icons.description),
-                      ),
+                    CustomTextFormField(
+                      keyType: TextInputType.text,
+                      controller: _postJobController.title,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a Job title';
+                        }
+                        return null;
+                      },
+                      labelText: 'title'.tr,
+                      suffixIcon: const Icon(Icons.work),
                     ),
-                    // Card(
-                    //   shadowColor: const Color.fromRGBO(197, 197, 197, 0),
-                    //   color: const Color.fromARGB(255, 233, 218, 250),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: TextFormField(
-                    //       validator: (value) {
-                    //         if (value == null || value.isEmpty) {
-                    //           return "title field is required";
-                    //         }
-                    //         return null;
-                    //       },
-                    //       controller: _postJobController.workDescription,
-                    //       maxLines: 4,
-                    //       decoration: const InputDecoration.collapsed(
-                    //           hintStyle: TextStyle(color: Colors.black45),
-                    //           hintText: "Anything about work?"),
-                    //     ),
-                    //   ),
+
+                    CustomTextFormField(
+                      keyType: TextInputType.text,
+                      controller: _postJobController.workDescription,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a Job Description';
+                        }
+                        return null;
+                      },
+                      labelText: 'description'.tr,
+                      suffixIcon: const Icon(Icons.description),
+                      descField: true,
+                    ),
+
+                    CustomTextFormField(
+                      keyType: TextInputType.number,
+                      controller: _postJobController.price,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a Price';
+                        }
+                        return null;
+                      },
+                      labelText: 'price'.tr,
+                      suffixIcon: const Icon(Icons.attach_money),
+                    ),
+                    // const SizedBox(
+                    //   height: 15,
                     // ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      child: CustomTextFormField(
-                        keyType: TextInputType.number,
-                        controller: _postJobController.price,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a Price';
-                          }
-                          return null;
-                        },
-                        labelText: 'price'.tr,
-                        suffixIcon: const Icon(Icons.attach_money),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+
                     _image == null
                         ? const SizedBox()
                         : SizedBox(
@@ -280,6 +291,9 @@ class _AddpostScreenState extends State<AddpostScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _postJobController.postJob(_image);
+                            Get.off(() => const BaseScreen(
+                                  initalIndex: 0,
+                                ));
                           }
                         },
                         child: Text(
