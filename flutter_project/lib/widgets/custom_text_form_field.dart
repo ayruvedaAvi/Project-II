@@ -11,6 +11,7 @@ class CustomTextFormField extends StatefulWidget {
   final Icon? suffixIcon;
   final TextInputType? keyType;
   bool obscureText;
+  bool descField;
 
   CustomTextFormField({
     super.key,
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.keyType,
     this.hintText,
     this.obscureText = false,
+    this.descField = false,
   });
 
   @override
@@ -32,10 +34,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 85,
+      height: widget.descField ? 180 : 85,
       child: TextFormField(
-        // maxLength: 5,
-
+        maxLines: widget.descField ? 4 : 1,
         expands: false, //constant for all
         controller: widget.controller,
         validator: widget.validator,

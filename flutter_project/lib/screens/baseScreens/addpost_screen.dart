@@ -35,6 +35,18 @@ class _AddpostScreenState extends State<AddpostScreen> {
     getName();
   }
 
+  final items = [
+    'Technical',
+    'Household',
+    'Repair',
+    'Construction',
+    'Cleaning',
+    'Gardening',
+    'Cooking',
+    'Shifting Service',
+    'Others',
+  ];
+  List<String> selectedItem = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +119,37 @@ class _AddpostScreenState extends State<AddpostScreen> {
                     const SizedBox(
                       height: 15,
                     ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: items.map((item) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: FilterChip(
+                              label: Text(item),
+                              labelStyle: const TextStyle(color: Colors.white),
+                              selected: selectedItem.contains(item),
+                              selectedColor: Colors.grey,
+                              backgroundColor: Colors.deepPurple[400],
+                              // shape: const CircleBorder(),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  if (selected) {
+                                    selectedItem.add(item);
+                                  } else {
+                                    selectedItem.remove(item);
+                                  }
+                                });
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     CustomTextFormField(
                       keyType: TextInputType.text,
                       controller: _postJobController.title,
@@ -131,28 +174,8 @@ class _AddpostScreenState extends State<AddpostScreen> {
                       },
                       labelText: 'description'.tr,
                       suffixIcon: const Icon(Icons.description),
+                      descField: true,
                     ),
-
-                    // Card(
-                    //   shadowColor: const Color.fromRGBO(197, 197, 197, 0),
-                    //   color: const Color.fromARGB(255, 233, 218, 250),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: TextFormField(
-                    //       validator: (value) {
-                    //         if (value == null || value.isEmpty) {
-                    //           return "title field is required";
-                    //         }
-                    //         return null;
-                    //       },
-                    //       controller: _postJobController.workDescription,
-                    //       maxLines: 4,
-                    //       decoration: const InputDecoration.collapsed(
-                    //           hintStyle: TextStyle(color: Colors.black45),
-                    //           hintText: "Anything about work?"),
-                    //     ),
-                    //   ),
-                    // ),
 
                     CustomTextFormField(
                       keyType: TextInputType.number,
@@ -166,6 +189,9 @@ class _AddpostScreenState extends State<AddpostScreen> {
                       labelText: 'price'.tr,
                       suffixIcon: const Icon(Icons.attach_money),
                     ),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
 
                     _image == null
                         ? const SizedBox()
