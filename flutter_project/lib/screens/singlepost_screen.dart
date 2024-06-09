@@ -96,10 +96,18 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                   height: 20,
                 ),
                 SizedBox(
-                  width: double.infinity,
-                  height: 300,
-                  child: Image.asset(widget.image.toString(), fit: BoxFit.fill),
-                ),
+                    width: double.infinity,
+                    height: 300,
+                    child: Image.network(
+                      widget.image.toString(),
+                      fit: BoxFit.fitHeight,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Text(
+                              "Image for this job was corrupted or not found!"),
+                        );
+                      },
+                    )),
                 const SizedBox(
                   height: 20,
                 ),

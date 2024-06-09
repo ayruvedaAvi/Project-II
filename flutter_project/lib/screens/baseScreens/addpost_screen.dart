@@ -7,6 +7,7 @@ import 'package:flutter_project/controllers/jobControllers/post_job_controller.d
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
 import 'package:image_picker/image_picker.dart';
 
 class AddpostScreen extends StatefulWidget {
@@ -61,7 +62,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                   TextButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        _postJobController.postJob();
+                        _postJobController.postJob(_image);
                       }
                     },
                     child: Text(
@@ -278,7 +279,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _postJobController.postJob();
+                            _postJobController.postJob(_image);
                           }
                         },
                         child: Text(

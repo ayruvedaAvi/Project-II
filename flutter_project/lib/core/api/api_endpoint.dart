@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
-import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
 
 import 'package:flutter_project/models/login/login_model.dart';
 import 'package:flutter_project/models/login_response/login_response_model.dart';
@@ -11,9 +10,9 @@ import 'package:flutter_project/core/api/api_urls.dart';
 import 'package:flutter_project/core/api/dio_exception_handler.dart';
 import 'package:flutter_project/core/api/http_services.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
-
+// ignore: depend_on_referenced_packages
+import 'package:image_picker/image_picker.dart';
 class ApiEndpoints {
-
   Future<bool> login(LoginModel loginModel) async {
     bool isLogin = false; // Default to false indicating login failed
     String url = baseUrl + loginUrl;
@@ -27,11 +26,13 @@ class ApiEndpoints {
       );
 
       if (response.statusCode == 201) {
-        LoginResponseModel loginResponse = LoginResponseModel.fromJson(response.data);
+        LoginResponseModel loginResponse =
+            LoginResponseModel.fromJson(response.data);
 
         debugPrint('Login successful: ${loginResponse.user!.name}');
 
-        await UserSharedPreference.saveDataToStorage('name', loginResponse.user!.name);
+        await UserSharedPreference.saveDataToStorage(
+            'name', loginResponse.user!.name);
 
         // Optionally handle the token or other login-related data
         var token = loginResponse.token;
@@ -43,7 +44,8 @@ class ApiEndpoints {
       }
     } catch (e) {
       if (e is DioException) {
-        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
         throw Exception('An unexpected error occurred during login');
@@ -57,7 +59,8 @@ class ApiEndpoints {
     String url = baseUrl + logoutUrl;
     Response response;
     var dio = HttpServices().getDioInstance();
-    String? token = await UserSharedPreference.getStringDataFromStorage('token');
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
     try {
       response = await dio.get(
         url,
@@ -77,7 +80,8 @@ class ApiEndpoints {
       }
     } catch (e) {
       if (e is DioException) {
-        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
         debugPrint('Error: ${e.toString()}');
@@ -107,7 +111,8 @@ class ApiEndpoints {
       }
     } catch (e) {
       if (e is DioException) {
-        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
         throw Exception('An unexpected error occurred during signup');
@@ -132,7 +137,8 @@ class ApiEndpoints {
 
       if (response.statusCode == 200) {
         debugPrint('OTP verification successful');
-        SignupResponseModel signupResponse = SignupResponseModel.fromJson(response.data);
+        SignupResponseModel signupResponse =
+            SignupResponseModel.fromJson(response.data);
 
         var token = signupResponse.token;
         await UserSharedPreference.saveDataToStorage('token', token);
@@ -143,56 +149,77 @@ class ApiEndpoints {
       }
     } catch (e) {
       if (e is DioException) {
-        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
-        throw Exception('An unexpected error occurred during OTP verification.');
+        throw Exception(
+            'An unexpected error occurred during OTP verification.');
       }
     }
     return isVerified;
   }
 
-  Future<bool> postJob(JobModel jobModel) async {
-    bool isJobPosted = false; // Default to false indicating job post failed
-    String url = baseUrl + postJobUrl;
-    Response response;
-    var dio = HttpServices().getDioInstance();
-    String? token = await UserSharedPreference.getStringDataFromStorage('token');
+  Future<bool> postJob({
+  required TextEditingController title,
+  required TextEditingController workDescription,
+  required TextEditingController price,
+  XFile? imageFile,
+}) async {
+  bool isJobPosted = false; // Default to false indicating job post failed
+  String url = baseUrl + postJobUrl;
+  Response response;
+  var dio = HttpServices().getDioInstance();
+  String? token = await UserSharedPreference.getStringDataFromStorage('token');
 
-    try {
-      response = await dio.post(
-        url,
-        data: jobModel.toJson(),
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-
-      if (response.statusCode == 201) {
-        debugPrint('Job posted successfully');
-        isJobPosted = true; // Job post successful
-      } else {
-        throw Exception('Failed to post job: ${response.data}');
-      }
-    } catch (e) {
-      if (e is DioException) {
-        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
-        throw Exception(errorMessage);
-      } else {
-        throw Exception('An unexpected error occurred during job post');
-      }
-    }
-    return isJobPosted;
+  // Check if the token is null or empty
+  if (token == null || token.isEmpty) {
+    throw Exception('Authentication token is missing');
   }
+
+  FormData formData = FormData.fromMap({
+    "Title": title.text,
+    "workDescription": workDescription.text,
+    "price": price.text,
+    if (imageFile != null) "media": await MultipartFile.fromFile(imageFile.path),
+  });
+
+  try {
+    response = await dio.post(
+      url,
+      data: formData,
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      ),
+    );
+
+    if (response.statusCode == 201) {
+      debugPrint('Job posted successfully');
+      isJobPosted = true; // Job post successful
+    } else {
+      throw Exception('Failed to post job: ${response.data}');
+    }
+  } catch (e) {
+    if (e is DioException) {
+      String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+      throw Exception(errorMessage);
+    } else {
+      throw Exception('An unexpected error occurred during job post');
+    }
+  }
+  return isJobPosted;
+}
+
 
   Future<GetAllJobsModel> getAllJobs() async {
     GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
     String url = baseUrl + getAllJobsUrl;
     Response response;
     var dio = HttpServices().getDioInstance();
-    String? token = await UserSharedPreference.getStringDataFromStorage('token');
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
     dio.options.headers['Authorization'] = 'Bearer $token';
 
     try {
@@ -205,7 +232,8 @@ class ApiEndpoints {
       }
     } catch (e) {
       if (e is DioException) {
-        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
         throw Exception('An unexpected error occurred while fetching jobs.');
