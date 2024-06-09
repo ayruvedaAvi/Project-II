@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/signup_controller.dart';
-import 'package:flutter_project/screens/login_screen.dart';
+import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
 import 'dart:math';
@@ -60,6 +60,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen>
     with TickerProviderStateMixin {
+  bool termsnCondition = false;
   bool isChecked = false;
   final _formkey = GlobalKey<FormState>();
   final signUpController = Get.put(SignupController());
@@ -160,7 +161,7 @@ class _SignupScreenState extends State<SignupScreen>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 590,
+                    height: 650,
                     width: 350,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -202,15 +203,13 @@ class _SignupScreenState extends State<SignupScreen>
                               children: [
                                 Row(children: [
                                   Expanded(
-                                      child: SizedBox(
-                                    height: 50,
                                     child: CustomTextFormField(
                                       keyType: TextInputType.name,
                                       controller:
                                           signUpController.firstNameController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please enter a valid name!';
+                                          return 'Invalid Firstname!';
                                         }
                                         return null;
                                       },
@@ -218,114 +217,98 @@ class _SignupScreenState extends State<SignupScreen>
                                       suffixIcon:
                                           const Icon(Icons.account_circle),
                                     ),
-                                  )),
+                                  ),
                                   const SizedBox(width: 16.0),
                                   Expanded(
-                                    child: SizedBox(
-                                      height: 50,
-                                      child: CustomTextFormField(
-                                        keyType: TextInputType.name,
-                                        controller:
-                                            signUpController.lastnameController,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter a valid name!';
-                                          }
-                                          return null;
-                                        },
-                                        labelText: "Last Name",
-                                      ),
+                                    child: CustomTextFormField(
+                                      keyType: TextInputType.name,
+                                      controller:
+                                          signUpController.lastnameController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Invalid Lastname!';
+                                        }
+                                        return null;
+                                      },
+                                      labelText: "Last Name",
                                     ),
                                   )
                                 ]),
-                                const SizedBox(height: 22.0),
-                                SizedBox(
-                                  height: 50,
-                                  child: CustomTextFormField(
-                                    keyType: TextInputType.phone,
-                                    controller:
-                                        signUpController.mobileNumberController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter a valid number!';
-                                      }
-                                      return null;
-                                    },
-                                    labelText: "Mobile Number",
-                                    suffixIcon:
-                                        const Icon(Icons.local_phone_rounded),
-                                  ),
+                                CustomTextFormField(
+                                  keyType: TextInputType.phone,
+                                  controller:
+                                      signUpController.mobileNumberController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a valid number!';
+                                    }
+                                    return null;
+                                  },
+                                  labelText: "Mobile Number",
+                                  suffixIcon:
+                                      const Icon(Icons.local_phone_rounded),
                                 ),
-                                const SizedBox(height: 22.0),
-                                SizedBox(
-                                  height: 50,
-                                  child: CustomTextFormField(
-                                    keyType: TextInputType.emailAddress,
-                                    controller:
-                                        signUpController.emailController,
-                                    labelText: "Email",
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty ||
-                                          !value.isEmail) {
-                                        return 'Please enter a valid email!';
-                                      }
-                                      return null;
-                                    },
-                                    suffixIcon: const Icon(Icons.mail),
-                                  ),
+
+                                CustomTextFormField(
+                                  keyType: TextInputType.emailAddress,
+                                  controller: signUpController.emailController,
+                                  labelText: "Email",
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.isEmail) {
+                                      return 'Please enter a valid email!';
+                                    }
+                                    return null;
+                                  },
+                                  suffixIcon: const Icon(Icons.mail),
                                 ),
-                                const SizedBox(height: 22.0),
-                                SizedBox(
-                                  height: 50,
-                                  child: CustomTextFormField(
-                                    keyType: TextInputType.visiblePassword,
-                                    controller:
-                                        signUpController.passwordController,
-                                    labelText: 'Password',
-                                    // hintText: 'Enter your password',
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty ||
-                                          value.length < 6) {
-                                        return 'Please enter a valid password!';
-                                      }
-                                      return null;
-                                    },
-                                    // suffixIcon: const Icon(Icons.remove_red_eye),
-                                  ),
+                                CustomTextFormField(
+                                  keyType: TextInputType.visiblePassword,
+                                  controller:
+                                      signUpController.passwordController,
+                                  labelText: 'Password',
+                                  // hintText: 'Enter your password',
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        value.length < 6) {
+                                      return 'Please enter a valid password!';
+                                    }
+                                    return null;
+                                  },
+                                  // suffixIcon: const Icon(Icons.remove_red_eye),
                                 ),
-                                const SizedBox(height: 22.0),
-                                SizedBox(
-                                  height: 50,
-                                  child: CustomTextFormField(
-                                    validator: (p0) => p0 !=
-                                            signUpController
-                                                .passwordController.text
-                                        ? "Password does not match"
-                                        : null,
-                                    keyType: TextInputType.visiblePassword,
-                                    controller: signUpController
-                                        .confirmPasswordController,
-                                    labelText: "Confirm Password",
-                                    // hintText: 'Confirm password',
-                                    obscureText: true,
-                                    // suffixIcon: const Icon(Icons.remove_red_eye),
-                                  ),
+                                CustomTextFormField(
+                                  validator: (p0) => p0 !=
+                                          signUpController
+                                              .passwordController.text
+                                      ? "Password does not match"
+                                      : null,
+                                  keyType: TextInputType.visiblePassword,
+                                  controller: signUpController
+                                      .confirmPasswordController,
+                                  labelText: "Confirm Password",
+                                  // hintText: 'Confirm password',
+                                  obscureText: true,
+                                  // suffixIcon: const Icon(Icons.remove_red_eye),
                                 ),
+
                                 //Terms and condition Checkbox
-                                const SizedBox(height: 22.0),
                                 Wrap(
                                   children: [
                                     SizedBox(
                                         width: 24,
                                         height: 24,
                                         child: Checkbox(
+                                          checkColor: Colors.white,
+                                          activeColor: Colors.purple,
                                           value: isChecked,
                                           onChanged: (bool? value) {
                                             setState(() {
                                               isChecked = value!;
+                                              termsnCondition = value;
                                             });
                                           },
                                         )),
@@ -362,14 +345,20 @@ class _SignupScreenState extends State<SignupScreen>
                                     height: 50,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
+                                        disabledBackgroundColor:
+                                            const Color.fromARGB(
+                                                255, 210, 180, 240),
                                         backgroundColor: const Color.fromARGB(
                                             255, 168, 105, 227),
                                       ),
-                                      onPressed: () {
-                                        if (_formkey.currentState!.validate()) {
-                                          signUpController.signup();
-                                        }
-                                      },
+                                      onPressed: termsnCondition
+                                          ? () {
+                                              if (_formkey.currentState!
+                                                  .validate()) {
+                                                signUpController.signup();
+                                              }
+                                            }
+                                          : null,
                                       child: signUpController.isLoading.value
                                           ? const CircularProgressIndicator()
                                           : const Text(

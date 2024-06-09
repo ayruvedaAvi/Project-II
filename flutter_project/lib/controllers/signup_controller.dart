@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/verifyotp_screen.dart';
-import 'package:flutter_project/utils/api/api_endpoint.dart';
+import 'package:flutter_project/screens/authScreens/verifyotp_screen.dart';
+import 'package:flutter_project/core/api/api_endpoint.dart';
 import 'package:get/get.dart';
 import 'package:flutter_project/models/signup/signup_model.dart';
 

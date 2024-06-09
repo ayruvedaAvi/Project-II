@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/login_screen.dart';
+// import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
-import 'package:flutter_project/widgets/custom_sizedbox_button.dart';
+import 'package:flutter_project/widgets/custom_profiledetailscard.dart';
+// import 'package:flutter_project/widgets/custom_sizedbox_button.dart';
 import 'package:get/get.dart';
-// import 'package:get/get.dart';
 
 class UserprofileScreen extends StatefulWidget {
   const UserprofileScreen({super.key});
@@ -29,9 +29,69 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Padding(
+      backgroundColor: Colors.white,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned(
+            left: -90,
+            top: 175,
+            // right: 0,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 162, 223, 244),
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+          ),
+          Positioned(
+            right: -70,
+            top: -30,
+            // right: 0,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                // color: Color.fromARGB(255, 100, 189, 218),
+                color: const Color.fromARGB(255, 162, 223, 244),
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 80,
+            top: 280,
+            // right: 0,
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 162, 223, 244),
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 20,
+            top: 40,
+            // right: 0,
+            child: Container(
+              height: 80,
+              width: 80,
+              decoration: BoxDecoration(
+                // color: const Color.fromARGB(255, 162, 223, 244),
+                borderRadius: BorderRadius.circular(100),
+                border: Border.all(
+                  width: 5,
+                  color: const Color.fromARGB(255, 162, 223, 244),
+                ),
+              ),
+            ),
+          ),
+          Center(
+            child: Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -86,56 +146,66 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 50,
                   ),
-                  CustomSizedboxButton(
-                    prefixIcon: Icons.history,
-                    labelText: "Work History",
-                    onTap: () {},
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomProfiledetailscard(
+                        name: "Pending Jobs",
+                        contextIcon: Icons.pending_actions_outlined,
+                        numCount: "25",
+                      ),
+                      CustomProfiledetailscard(
+                        name: "Active Jobs",
+                        contextIcon: Icons.directions_run_rounded,
+                        numCount: "15",
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  CustomSizedboxButton(
-                    prefixIcon: Icons.privacy_tip_outlined,
-                    labelText: "Privacy & Security",
-                    onTap: () {},
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomProfiledetailscard(
+                        name: "Completed Jobs",
+                        contextIcon: Icons.check_circle,
+                        numCount: "10",
+                      ),
+                      CustomProfiledetailscard(
+                        name: "Refer a friend",
+                        contextIcon: Icons.offline_share,
+                        numCount: "25",
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  CustomSizedboxButton(
-                    prefixIcon: Icons.person_pin,
-                    labelText: "Invite a Friend",
-                    onTap: () {},
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomProfiledetailscard(
+                        name: "Settings",
+                        contextIcon: Icons.settings,
+                        numCount: "All",
+                      ),
+                      CustomProfiledetailscard(
+                        name: "Logout",
+                        contextIcon: Icons.logout_outlined,
+                        numCount: "Bye!",
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
-                  ),
-                  CustomSizedboxButton(
-                    prefixIcon: Icons.settings,
-                    labelText: "Setting",
-                    onTap: () {},
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  CustomSizedboxButton(
-                    prefixIcon: Icons.help_outline,
-                    labelText: "Help & Support",
-                    onTap: () {},
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  CustomSizedboxButton(
-                    prefixIcon: Icons.logout_outlined,
-                    labelText: "Logout",
-                    onTap: () {
-                      UserSharedPreference.removeDataFromStorage('token');
-                      Get.off(() => const LoginScreen());
-                    },
                   ),
                 ],
-              )),
-        ));
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -10,7 +10,7 @@
         "profileImg": "assets/images/profile_image.jpg",
         "userName": "Ram Parsad",
         "Work_Description":
-            "Plumber Needed Urgent! Plumber Needed Urgent!Plumber Needed Urgent! Plumber Needed Urgent! Plumber Needed Urgent! Plumber Needed Urgent!",
+            "Plumber Needed Urgent! Plumber Needed Urgent!",
         "image": "assets/images/pipe_leakage.jpg",
         "createdAt": "2024-05-26T09:40:18.206Z",
         "updatedAt": "2024-05-26T09:40:18.206Z",
@@ -18,16 +18,15 @@
     },
     {
         "_id": "123456789",
-        "Title": "Plumber Needed",
+        "Title": "Painter",
         "status": "pending",
         "user_ID": "123456789",
         "jobType": "others",
         "jobLocation": "my city",
         "price": 123.0,
         "profileImg": "assets/images/profile_image.jpg",
-        "userName": "Ram Parsad",
-        "Work_Description":
-            "Plumber Needed Urgent! Plumber Needed Urgent!Plumber Needed Urgent! Plumber Needed Urgent! Plumber Needed Urgent! Plumber Needed Urgent!",
+        "userName": "Hari Bahadur",
+        "Work_Description":"Euta babal painter chaiyo wall paint garna",
         "image": "assets/images/pipe_leakage.jpg",
         "createdAt": "2024-05-26T09:40:18.206Z",
         "updatedAt": "2024-05-26T09:40:18.206Z",

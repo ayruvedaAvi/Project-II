@@ -31,43 +31,53 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   var isVisible = false;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      expands: false, //constant for all
-      controller: widget.controller,
-      validator: widget.validator,
-      obscureText: widget.obscureText ? !isVisible : false,
-      keyboardType: widget.keyType,
-      cursorColor: Theme.of(context).colorScheme.onPrimary,
-      cursorHeight: 22,
-      style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(21),
-            borderSide: const BorderSide(
-              color: Colors.black,
-            )),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(21),
-            borderSide: const BorderSide(
-              color: Colors.black,
-            )),
-        suffixIconColor: Theme.of(context).colorScheme.onPrimary,
-        labelStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
-        hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        suffixIcon: widget.obscureText
-            ? IconButton(
-                onPressed: () {
-                  setState(() {
-                    isVisible = !isVisible;
-                  });
-                },
-                icon: Icon(isVisible ? Icons.visibility_off : Icons.visibility),
-              )
-            : widget.suffixIcon,
+    return SizedBox(
+      height: 85,
+      child: TextFormField(
+        // maxLength: 5,
+
+        expands: false, //constant for all
+        controller: widget.controller,
+        validator: widget.validator,
+        obscureText: widget.obscureText ? !isVisible : false,
+        keyboardType: widget.keyType,
+        cursorColor: Theme.of(context).colorScheme.onPrimary,
+        cursorHeight: 22,
+        style:
+            TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
+        decoration: InputDecoration(
+          errorStyle: const TextStyle(color: Colors.red),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(21),
+              borderSide: const BorderSide(
+                color: Colors.black,
+              )),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(21),
+              borderSide: const BorderSide(
+                color: Colors.black,
+              )),
+          suffixIconColor: Theme.of(context).colorScheme.onPrimary,
+          labelStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+          hintStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          suffixIcon: widget.obscureText
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isVisible = !isVisible;
+                    });
+                  },
+                  icon:
+                      Icon(isVisible ? Icons.visibility_off : Icons.visibility),
+                )
+              : widget.suffixIcon,
+        ),
       ),
     );
   }

@@ -26,20 +26,20 @@ class CustomPostcard extends StatefulWidget {
 class _CustomPostcardState extends State<CustomPostcard> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Get.to(() => SinglepostScreen(
-              profileImg: widget.profileImg,
-              userName: widget.userName,
-              workDescription: widget.workDescription,
-              image: widget.image,
-              title: widget.title,
-              price: widget.price ?? 0.0,
-            ));
-      },
-      child: Container(
-        color: Colors.white,
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+    return Container(
+      color: Colors.white,
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+      child: InkWell(
+        onTap: () {
+          Get.to(() => SinglepostScreen(
+                profileImg: widget.profileImg,
+                userName: widget.userName,
+                workDescription: widget.workDescription,
+                image: widget.image,
+                title: widget.title,
+                price: widget.price ?? 0.0,
+              ));
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,27 +68,37 @@ class _CustomPostcardState extends State<CustomPostcard> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child:
-                  Image.asset(widget.image.toString(), fit: BoxFit.fitHeight),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 10.0, left: 10.0),
-              child: Text(
-                "Looking for a Plumber!",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              child: Image.network(
+                widget.image.toString(),
+                fit: BoxFit.fitHeight,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(
+                    child:
+                        Text("Image for this job was corrupted or not found!"),
+                  );
+                },
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 10.0, left: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0, left: 10.0),
               child: Text(
-                "Rs. 1000",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                widget.workDescription.toString(),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+              child: Text(
+                widget.price.toString(),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             // const SizedBox(

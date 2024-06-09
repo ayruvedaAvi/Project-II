@@ -95,6 +95,26 @@ class _ChatsScreenState extends State<ChatsScreen> {
               latestMessage: "Why not",
               imagePath: "assets/images/boy_image.jpg",
             ),
+            const CustomChatlist(
+              userName: "Xi Jinping",
+              latestMessage: "Thank you man!",
+              imagePath: "assets/images/Xi Jinping.png",
+            ),
+            const CustomChatlist(
+              userName: "Benjamin Netanyahu",
+              latestMessage: "Ok sure",
+              imagePath: "assets/images/Benjamin Netanyahu.jpg",
+            ),
+            const CustomChatlist(
+              userName: "Ted Bundy",
+              latestMessage: "Why not",
+              imagePath: "assets/images/boy_image.jpg",
+            ),
+            const CustomChatlist(
+              userName: "Pedro Lopez",
+              latestMessage: "Ok sure",
+              imagePath: "assets/images/profile_image.jpg",
+            ),
           ],
         ),
       )),

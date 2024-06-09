@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/models/job/job_model.dart';
-import 'package:flutter_project/utils/api/api_endpoint.dart';
+import 'package:flutter_project/core/api/api_endpoint.dart';
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
+import 'package:image_picker/image_picker.dart';
+
 
 class PostJobController extends GetxController {
   var title = TextEditingController();
@@ -9,19 +11,13 @@ class PostJobController extends GetxController {
   var price = TextEditingController();
   var image = TextEditingController();
   RxBool isLoading = false.obs;
+  XFile? imageFile;
 
-  Future<void> postJob() async {
+  Future<void> postJob(imageFile) async {
     isLoading.value = true;
     bool isJobPosted = false;
     try {
-      final jobModel = JobModel(
-        Title: title.text,
-        workDescription: workDescription.text,
-        price: double.parse(price.text),
-        image:
-            "https://res.cloudinary.com/dxy2fzsii/image/upload/v1717665329/file-upload/file_rrjwly.jpg",
-      );
-      isJobPosted = await ApiEndpoints().postJob(jobModel);
+      isJobPosted = await ApiEndpoints().postJob(title:title, workDescription: workDescription, price: price, imageFile: imageFile);
       if (isJobPosted) {
         Get.snackbar(
           "Success",

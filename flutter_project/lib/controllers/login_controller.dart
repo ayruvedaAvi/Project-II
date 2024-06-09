@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/base_screen.dart';
-import 'package:flutter_project/utils/api/api_endpoint.dart';
+import 'package:flutter_project/screens/baseScreens/base_screen.dart';
+import 'package:flutter_project/core/api/api_endpoint.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_project/models/login/login_model.dart';

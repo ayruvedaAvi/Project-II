@@ -1,10 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/main.dart';
-import 'package:flutter_project/screens/addpost_screen.dart';
-import 'package:flutter_project/screens/chats_screen.dart';
-import 'package:flutter_project/screens/feed_screen.dart';
+import 'package:flutter_project/screens/baseScreens/addpost_screen.dart';
+import 'package:flutter_project/screens/baseScreens/chats_screen.dart';
+import 'package:flutter_project/screens/baseScreens/feed_screen.dart';
 import 'package:flutter_project/screens/userprofile_screen.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 
 class BaseScreen extends StatefulWidget {
   final int initalIndex;
