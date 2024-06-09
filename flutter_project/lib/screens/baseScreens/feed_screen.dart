@@ -32,7 +32,7 @@ class _FeedScreenState extends State<FeedScreen> {
     }
   }
 
-  final items = [
+  final categories = [
     'Technical',
     'Household',
     'Repair',
@@ -41,7 +41,8 @@ class _FeedScreenState extends State<FeedScreen> {
     'Gardening',
     'Cooking',
     'Shifting Service',
-    'Others',
+    'Location',
+    'Others'
   ];
   @override
   void initState() {
@@ -90,7 +91,7 @@ class _FeedScreenState extends State<FeedScreen> {
             //   height: 10,
             // ),
             Column(
-              children: items.map((item) {
+              children: categories.map((item) {
                 return ListTile(
                   // leading: const Icon(Icons.contacts),
                   title: Text(

@@ -35,7 +35,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
     getName();
   }
 
-  final items = [
+  final categories = [
     'Technical',
     'Household',
     'Repair',
@@ -46,7 +46,8 @@ class _AddpostScreenState extends State<AddpostScreen> {
     'Shifting Service',
     'Others',
   ];
-  List<String> selectedItem = [];
+  String? selectedItem;
+  // List<String> selectedItem = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,27 +120,50 @@ class _AddpostScreenState extends State<AddpostScreen> {
                     const SizedBox(
                       height: 15,
                     ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: categories.map((item) {
+                    //       return Padding(
+                    //         padding:
+                    //             const EdgeInsets.symmetric(horizontal: 4.0),
+                    //         child: FilterChip(
+                    //           label: Text(item),
+                    //           labelStyle: const TextStyle(color: Colors.white),
+                    //           selected: selectedItem.contains(item),
+                    //           selectedColor: Colors.grey,
+                    //           backgroundColor: Colors.deepPurple[400],
+                    //           // shape: const CircleBorder(),
+                    //           onSelected: (bool selected) {
+                    //             setState(() {
+                    //               if (selected) {
+                    //                 selectedItem.add(item);
+                    //               } else {
+                    //                 selectedItem.remove(item);
+                    //               }
+                    //             });
+                    //           },
+                    //         ),
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: items.map((item) {
+                        children: categories.map((item) {
                           return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: FilterChip(
+                            child: ChoiceChip(
                               label: Text(item),
                               labelStyle: const TextStyle(color: Colors.white),
-                              selected: selectedItem.contains(item),
+                              selected: selectedItem == item,
                               selectedColor: Colors.grey,
                               backgroundColor: Colors.deepPurple[400],
-                              // shape: const CircleBorder(),
                               onSelected: (bool selected) {
                                 setState(() {
-                                  if (selected) {
-                                    selectedItem.add(item);
-                                  } else {
-                                    selectedItem.remove(item);
-                                  }
+                                  selectedItem = selected ? item : null;
                                 });
                               },
                             ),
