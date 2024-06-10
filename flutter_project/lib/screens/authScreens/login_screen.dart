@@ -245,11 +245,14 @@ class _LoginScreenState extends State<LoginScreen>
                                             255, 168, 105, 227),
                                       ),
                                       onPressed: () {
-                                        loginController.isLoading.value = true;
                                         if (_formKey.currentState!.validate()) {
                                           loginController.login();
+                                          loginController.isLoading.value =
+                                              true;
+                                        } else {
+                                          loginController.isLoading.value =
+                                              false;
                                         }
-                                        return;
                                       },
                                       child: loginController.isLoading.value
                                           ? const CircularProgressIndicator()
