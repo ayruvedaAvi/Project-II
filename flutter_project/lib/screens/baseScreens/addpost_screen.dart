@@ -51,45 +51,29 @@ class _AddpostScreenState extends State<AddpostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 10.0,
+        automaticallyImplyLeading: false,
+        shadowColor: Colors.grey,
+        // shape: const RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.only(
+        //       bottomRight: Radius.circular(25),
+        //       bottomLeft: Radius.circular(25)),
+        // ),
+        title: const Text(
+          "Create Job Post",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 24, right: 10, left: 10),
+          padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(
-                    Icons.close,
-                    color: Colors.black,
-                  ),
-                  Text(
-                    "createNewJobPost".tr,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _postJobController.postJob(_image);
-                      }
-                    },
-                    child: Text(
-                      "post".tr,
-                      style: const TextStyle(
-                          color: Colors.purple,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-              const Divider(
-                color: Colors.black38,
-              ),
               Form(
                 key: _formKey,
                 child: Column(
@@ -120,34 +104,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    // SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Row(
-                    //     children: categories.map((item) {
-                    //       return Padding(
-                    //         padding:
-                    //             const EdgeInsets.symmetric(horizontal: 4.0),
-                    //         child: FilterChip(
-                    //           label: Text(item),
-                    //           labelStyle: const TextStyle(color: Colors.white),
-                    //           selected: selectedItem.contains(item),
-                    //           selectedColor: Colors.grey,
-                    //           backgroundColor: Colors.deepPurple[400],
-                    //           // shape: const CircleBorder(),
-                    //           onSelected: (bool selected) {
-                    //             setState(() {
-                    //               if (selected) {
-                    //                 selectedItem.add(item);
-                    //               } else {
-                    //                 selectedItem.remove(item);
-                    //               }
-                    //             });
-                    //           },
-                    //         ),
-                    //       );
-                    //     }).toList(),
-                    //   ),
-                    // ),
+
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(

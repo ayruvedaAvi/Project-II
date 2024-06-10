@@ -156,147 +156,149 @@ class _LoginScreenState extends State<LoginScreen>
             Opacity(
               opacity: 0.95,
               child: Center(
-                child: Container(
-                  height: 470,
-                  width: 350,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 0,
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 0,
-                        blurRadius: 10,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15, left: 15),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: 470,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 0,
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
                         ),
-                        const SizedBox(
-                            width: 70, child: Divider(thickness: 1.5)),
-                        Form(
-                          key: _formKey,
-                          child: Obx(
-                            () => Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SizedBox(height: 50),
-                                CustomTextFormField(
-                                  keyType: TextInputType.emailAddress,
-                                  controller: loginController.emailController,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        !value.isEmail) {
-                                      return 'Please enter a valid email address';
-                                    }
-                                    return null;
-                                  },
-                                  labelText: 'Email',
-                                  hintText: 'Enter your email',
-                                  suffixIcon:
-                                      const Icon(Icons.person_2_outlined),
-                                ),
-                                CustomTextFormField(
-                                  keyType: TextInputType.visiblePassword,
-                                  controller:
-                                      loginController.passwordController,
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter a password';
-                                    } else {
-                                      if (value.length < 6) {
-                                        return 'Password must be at least 6 characters long';
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                  labelText: 'Password',
-                                  hintText: 'Enter your password',
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 168, 105, 227),
-                                    ),
-                                    onPressed: () {
-                                      loginController.isLoading.value = true;
-                                      if (_formKey.currentState!.validate()) {
-                                        loginController.login();
-                                      }
-                                      return;
-                                    },
-                                    child: loginController.isLoading.value
-                                        ? const CircularProgressIndicator()
-                                        : const Text(
-                                            'Login',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      shape: const StadiumBorder(),
-                                      side: const BorderSide(
-                                        width: 2,
-                                        color:
-                                            Color.fromARGB(255, 168, 105, 227),
-                                      ),
-                                      foregroundColor: const Color.fromARGB(
-                                          255, 168, 105, 227),
-                                    ),
-                                    onPressed: () {
-                                      Get.to(() => const SignupScreen());
-                                      setState(() {
-                                        signUpLoading = true;
-                                      });
-                                    },
-                                    child: signUpLoading
-                                        ? const CircularProgressIndicator()
-                                        : const Text(
-                                            'New? Register here!',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: const Offset(0, 6),
                         ),
                       ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 15, left: 15),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                              width: 70, child: Divider(thickness: 1.5)),
+                          Form(
+                            key: _formKey,
+                            child: Obx(
+                              () => Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 50),
+                                  CustomTextFormField(
+                                    keyType: TextInputType.emailAddress,
+                                    controller: loginController.emailController,
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty ||
+                                          !value.isEmail) {
+                                        return 'Please enter a valid email address';
+                                      }
+                                      return null;
+                                    },
+                                    labelText: 'Email',
+                                    hintText: 'Enter your email',
+                                    suffixIcon:
+                                        const Icon(Icons.person_2_outlined),
+                                  ),
+                                  CustomTextFormField(
+                                    keyType: TextInputType.visiblePassword,
+                                    controller:
+                                        loginController.passwordController,
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a password';
+                                      } else {
+                                        if (value.length < 6) {
+                                          return 'Password must be at least 6 characters long';
+                                        }
+                                      }
+                                      return null;
+                                    },
+                                    labelText: 'Password',
+                                    hintText: 'Enter your password',
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 168, 105, 227),
+                                      ),
+                                      onPressed: () {
+                                        loginController.isLoading.value = true;
+                                        if (_formKey.currentState!.validate()) {
+                                          loginController.login();
+                                        }
+                                        return;
+                                      },
+                                      child: loginController.isLoading.value
+                                          ? const CircularProgressIndicator()
+                                          : const Text(
+                                              'Login',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    width: double.infinity,
+                                    child: OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        shape: const StadiumBorder(),
+                                        side: const BorderSide(
+                                          width: 2,
+                                          color: Color.fromARGB(
+                                              255, 168, 105, 227),
+                                        ),
+                                        foregroundColor: const Color.fromARGB(
+                                            255, 168, 105, 227),
+                                      ),
+                                      onPressed: () {
+                                        Get.to(() => const SignupScreen());
+                                        setState(() {
+                                          signUpLoading = true;
+                                        });
+                                      },
+                                      child: signUpLoading
+                                          ? const CircularProgressIndicator()
+                                          : const Text(
+                                              'New? Register here!',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

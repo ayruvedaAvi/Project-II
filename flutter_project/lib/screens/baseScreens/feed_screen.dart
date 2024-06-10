@@ -44,6 +44,7 @@ class _FeedScreenState extends State<FeedScreen> {
     'Location',
     'Others'
   ];
+  final workerCategories = ['Highly Rated', 'Top Performer', 'Most Loved'];
   @override
   void initState() {
     super.initState();
@@ -76,30 +77,76 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
             const Padding(
               padding: EdgeInsets.only(left: 10.0),
-              child: Text(
-                "Categories",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: boldTextColor),
+              child: Row(
+                children: [
+                  Text(
+                    "Welcome to Shrami",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: boldTextColor),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Icon(
+                    Icons.man_2_outlined,
+                    color: boldTextColor,
+                  )
+                ],
               ),
             ),
-            const Divider(
-              thickness: 1,
-            ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            Column(
+            ExpansionTile(
+              leading: const Icon(
+                Icons.category_outlined,
+                color: Colors.black,
+              ),
+              title: const Text(
+                "Categories",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+              childrenPadding: const EdgeInsets.only(left: 40),
               children: categories.map((item) {
                 return ListTile(
                   // leading: const Icon(Icons.contacts),
                   title: Text(
                     item,
                     style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }).toList(),
+            ),
+            ExpansionTile(
+              leading: const Icon(
+                Icons.work_rounded,
+                color: Colors.black,
+              ),
+              title: const Text(
+                "Workers",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+              childrenPadding: const EdgeInsets.only(left: 40),
+              children: workerCategories.map((item) {
+                return ListTile(
+                  // leading: const Icon(Icons.contacts),
+                  title: Text(
+                    item,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pop(context);
