@@ -73,11 +73,12 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 10.0, left: 10.0),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0, left: 10.0),
                   child: Text(
-                    "Looking for a Plumber!",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    widget.title.toString(),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(
