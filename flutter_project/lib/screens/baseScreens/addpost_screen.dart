@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/post_job_controller.dart';
 import 'package:flutter_project/screens/baseScreens/base_screen.dart';
@@ -47,6 +48,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
     'Others',
   ];
   String? selectedItem;
+  bool _switchValue = false;
   // List<String> selectedItem = [];
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,23 @@ class _AddpostScreenState extends State<AddpostScreen> {
         ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        centerTitle: true,
+        // centerTitle: true,
+        actions: [
+          CupertinoSwitch(
+            activeColor: Colors.deepPurple,
+            value: _switchValue,
+            onChanged: (value) {
+              setState(() {
+                _switchValue = value;
+              });
+              if (_switchValue) {
+                Get.updateLocale(const Locale('ne', 'NP'));
+              } else {
+                Get.updateLocale(const Locale('en', 'US'));
+              }
+            },
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -284,21 +302,24 @@ class _AddpostScreenState extends State<AddpostScreen> {
                         ),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Get.updateLocale(const Locale('ne', 'NP'));
-                      },
-                      child: const Text("Change language to Nepali"),
-                    ),
                     const SizedBox(
-                      height: 10,
+                      height: 25,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Get.updateLocale(const Locale('en', 'US'));
-                      },
-                      child: const Text("Change language to English"),
-                    ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Get.updateLocale(const Locale('ne', 'NP'));
+                    //   },
+                    //   child: const Text("Change language to Nepali"),
+                    // ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Get.updateLocale(const Locale('en', 'US'));
+                    //   },
+                    //   child: const Text("Change language to English"),
+                    // ),
                   ],
                 ),
               ),
