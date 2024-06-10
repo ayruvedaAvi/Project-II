@@ -111,7 +111,7 @@ const getAllJobs = async (req, res) => {
 
 
   const jobs = await result;
-  
+
   const totalJobs = await Job.countDocuments(queryObject);
   const formattedJobs = jobs.map(job => ({
     id: job._id,

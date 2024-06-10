@@ -36,8 +36,8 @@ const JobSchema = new mongoose.Schema(
     },
     jobType: {
       type: String,
-      enum: ['Electrical', 'shift home', 'Delivery', 'Plumbing','others'],
-      default: 'others',
+      enum: ['Technical','Household','Repair','Construction','Cleaning','Gardening','Cooking','Shifting Service','Others'],
+      required:[true,'Select the job categories ']
     },
     jobLocation: {
       type: String,

@@ -10,11 +10,10 @@ const apiLimiter = rateLimiter({
     msg: 'Too many requests from this IP, please try again after 15 minutes',
   },
 });
-const  {passwordVerify}=require('../controllers/userController')
+
 const { register, login,logout,verify } = require('../controllers/auth');
 router.post('/register', apiLimiter, register);
-router.post('/verify',apiLimiter,verify,passwordVerify)
-// router.post('/verify',passwordVerify)
+router.post('/verify',apiLimiter,verify)
 router.post('/login', apiLimiter, login);
 router.get('/logout',logout)
 

@@ -5,31 +5,14 @@ const CustomError = require('../errors');
 const {createJWT}= require('../utils');
 const twilio = require('twilio');
 
-const getAllUsers = async (req, res) => {
-  console.log(req.user);
-  const users = await User.find({ role: 'user' }).select('-password');
-  res.status(StatusCodes.OK).json({ users });
-};
 
-const getSingleUser = async (req, res) => {
-  const user = await User.findOne({ _id: req.params.id }).select('-password');
-  if (!user) {
-    throw new CustomError.NotFoundError(`No user with id : ${req.params.id}`);
-  }
-  res.status(StatusCodes.OK).json({ user });
-};
-
-const showCurrentUser = async (req, res) => {
-  res.status(StatusCodes.OK).json({ user: req.user });
-};
 
 
 
 const updateUser = async (req, res) => {
-  const {name, lastName, profilePicture, phoneNumber } = req.body;
+  const {name, lastName, profilePicture} = req.body;
   const userId = req.user.userId;
-  const phoneNumberRegex = /^\+977\s\d{10}$/;
-    const isValidPhoneNumber = phoneNumberRegex.test(phoneNumber);
+
 
   console.log('Received request to update user with ID:', userId);
 
@@ -56,11 +39,7 @@ const updateUser = async (req, res) => {
   user.name = name || user.name;
   user.lastName = lastName || user.lastName;
   user.profilePicture = profilePicture || user.profilePicture;
-  if (isValidPhoneNumber) {
-    user.phoneNumber = phoneNumber || user.phoneNumber;
-  }else{
-  throw new CustomError.BadRequestError('Invalid phone number format');
-  }
+
 
   await user.save();
 
@@ -70,7 +49,6 @@ const updateUser = async (req, res) => {
     userId: user._id,
     role: user.role,
     profilePicture: user.profilePicture,
-    phoneNumber: user.phoneNumber,
   };
 
   const token = createJWT({ payload: tokenUser });
@@ -151,9 +129,6 @@ const passwordVerify = async (req, res) => {
 };
 
 module.exports = {
-  getAllUsers,
-  getSingleUser,
-  showCurrentUser,
   updateUser,
   updateUserPassword,
   passwordVerify

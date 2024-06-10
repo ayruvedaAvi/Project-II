@@ -3,7 +3,9 @@ const router = express.Router();
 const authenticateUser = require('../middleware/authentication');
 const { createJob, deleteJob, getAllJobs, updateJob, getJob, showStats, getAllPosts } = require('../controllers/jobs');
 const testUser = require('../middleware/testUser');
+const searchJobs=require('../controllers/filterJobs')
 
+router.route('/search').get(searchJobs)
 router.route('/').post(authenticateUser, createJob).get(authenticateUser,getAllPosts)
 router.route('/user').get(authenticateUser,getAllJobs)
 // router.route('/uploads').post(authenticateUser,uploadProductMedia);
