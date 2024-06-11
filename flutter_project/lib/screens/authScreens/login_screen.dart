@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/login_controller.dart';
+import 'package:flutter_project/screens/authScreens/forgotpass_first_screen.dart';
 import 'package:flutter_project/screens/authScreens/register_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 
@@ -158,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen>
               child: Center(
                 child: SingleChildScrollView(
                   child: Container(
-                    height: 470,
+                    height: 490,
                     width: 350,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -244,11 +245,14 @@ class _LoginScreenState extends State<LoginScreen>
                                             255, 168, 105, 227),
                                       ),
                                       onPressed: () {
-                                        loginController.isLoading.value = true;
                                         if (_formKey.currentState!.validate()) {
                                           loginController.login();
+                                          loginController.isLoading.value =
+                                              true;
+                                        } else {
+                                          loginController.isLoading.value =
+                                              false;
                                         }
-                                        return;
                                       },
                                       child: loginController.isLoading.value
                                           ? const CircularProgressIndicator()
@@ -261,7 +265,22 @@ class _LoginScreenState extends State<LoginScreen>
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 30,
+                                    height: 10,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.to(
+                                          () => const ForgotpassFirstScreen());
+                                    },
+                                    child: const Text(
+                                      "Forget Password?",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 168, 105, 227)),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
                                   SizedBox(
                                     height: 50,
