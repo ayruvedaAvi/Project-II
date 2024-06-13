@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/custom_chatbubble.dart';
+// import 'package:flutter_project/widgets/custom_chatbubble.dart';
 
 class InboxScreen extends StatefulWidget {
   final String? userName;
@@ -37,33 +37,33 @@ class _InboxScreenState extends State<InboxScreen> {
         shadowColor: Colors.grey,
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        // scrollDirection: axisDirectionToAxis(AxisDirection.up),
-        child: ListView(
-          children: const [
-            CustomChatbubble(
-              text: 'How was the concert?',
-              isCurrentUser: false,
-            ),
-            CustomChatbubble(
-              text: 'Awesome! Next time you gotta come as well!',
-              isCurrentUser: true,
-            ),
-            CustomChatbubble(
-              text: 'Ok, when is the next date?',
-              isCurrentUser: false,
-            ),
-            CustomChatbubble(
-              text: 'They\'re playing on the 20th of November',
-              isCurrentUser: true,
-            ),
-            CustomChatbubble(
-              text: 'Let\'s do it!',
-              isCurrentUser: false,
-            ),
-          ],
-        ),
-      ),
+      body: const SingleChildScrollView(
+          // scrollDirection: axisDirectionToAxis(AxisDirection.up),
+          // child: ListView(
+          //   children: const [
+          //     CustomChatbubble(
+          //       text: 'How was the concert?',
+          //       isCurrentUser: false,
+          //     ),
+          //     CustomChatbubble(
+          //       text: 'Awesome! Next time you gotta come as well!',
+          //       isCurrentUser: true,
+          //     ),
+          //     CustomChatbubble(
+          //       text: 'Ok, when is the next date?',
+          //       isCurrentUser: false,
+          //     ),
+          //     CustomChatbubble(
+          //       text: 'They\'re playing on the 20th of November',
+          //       isCurrentUser: true,
+          //     ),
+          //     CustomChatbubble(
+          //       text: 'Let\'s do it!',
+          //       isCurrentUser: false,
+          //     ),
+          //   ],
+          // ),
+          ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
+// import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:get/get.dart';
 
 class CustomPostcard extends StatefulWidget {
@@ -9,26 +10,55 @@ class CustomPostcard extends StatefulWidget {
   final String? image;
   final String? title;
   final double? price;
-  const CustomPostcard({
-    super.key,
-    this.workDescription,
-    this.image,
-    this.profileImg,
-    this.userName,
-    this.title,
-    this.price,
-  });
+  final String? createdAt;
+  const CustomPostcard(
+      {super.key,
+      this.workDescription,
+      this.image,
+      this.profileImg,
+      this.userName,
+      this.title,
+      this.price,
+      this.createdAt});
 
   @override
   State<CustomPostcard> createState() => _CustomPostcardState();
 }
 
 class _CustomPostcardState extends State<CustomPostcard> {
+  String timeDifference = '';
+
+  @override
+  void initState() {
+    super.initState();
+    calculateTimeDifference();
+  }
+
+  void calculateTimeDifference() {
+    if (widget.createdAt != null) {
+      DateTime createdAtDateTime = DateTime.parse(widget.createdAt!);
+      DateTime now = DateTime.now();
+      Duration difference = now.difference(createdAtDateTime);
+
+      if (difference.inDays > 0) {
+        timeDifference = '${difference.inDays} days ago';
+      } else if (difference.inHours > 0) {
+        timeDifference = '${difference.inHours} hours ago';
+      } else if (difference.inMinutes > 0) {
+        timeDifference = '${difference.inMinutes} minutes ago';
+      } else {
+        timeDifference = 'Just now';
+      }
+
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
       child: InkWell(
         onTap: () {
           Get.to(() => SinglepostScreen(
@@ -38,31 +68,49 @@ class _CustomPostcardState extends State<CustomPostcard> {
                 image: widget.image,
                 title: widget.title,
                 price: widget.price ?? 0.0,
+                createdAt: timeDifference,
               ));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    topLeft: Radius.circular(15)),
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage(widget.profileImg.toString()),
-                  radius: 20,
-                ),
-                title: Text(
-                  widget.userName.toString(),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                subtitle: const Text(
-                  "10 hours ago",
-                  style: TextStyle(color: Colors.black45),
-                ),
+            SizedBox(
+              child: Stack(
+                children: [
+                  ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(widget.profileImg.toString()),
+                      radius: 20,
+                    ),
+                    title: Text(
+                      widget.userName.toString(),
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    subtitle: Text(
+                      // widget.createdAt.toString(),
+                      timeDifference,
+                      style: const TextStyle(color: Colors.black45),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      decoration: const BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.only(
+                            // topRight: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                          ) // green shaped
+                          ),
+                      child: const Text(
+                        "Household",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
