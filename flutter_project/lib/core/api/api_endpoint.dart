@@ -164,6 +164,7 @@ class ApiEndpoints {
   required TextEditingController title,
   required TextEditingController workDescription,
   required TextEditingController price,
+  required String category,
   XFile? imageFile,
 }) async {
   bool isJobPosted = false; // Default to false indicating job post failed
@@ -181,6 +182,7 @@ class ApiEndpoints {
     "Title": title.text,
     "workDescription": workDescription.text,
     "price": price.text,
+    "jobType": category,
     if (imageFile != null) "media": await MultipartFile.fromFile(imageFile.path),
   });
 

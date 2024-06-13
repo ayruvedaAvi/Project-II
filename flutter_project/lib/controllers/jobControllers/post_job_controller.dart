@@ -10,6 +10,7 @@ class PostJobController extends GetxController {
   var workDescription = TextEditingController();
   var price = TextEditingController();
   var image = TextEditingController();
+  String? selectedCategory;
   RxBool isLoading = false.obs;
   XFile? imageFile;
 
@@ -17,7 +18,7 @@ class PostJobController extends GetxController {
     isLoading.value = true;
     bool isJobPosted = false;
     try {
-      isJobPosted = await ApiEndpoints().postJob(title:title, workDescription: workDescription, price: price, imageFile: imageFile);
+      isJobPosted = await ApiEndpoints().postJob(title:title, workDescription: workDescription, price: price, imageFile: imageFile, category: selectedCategory ?? "Others");
       if (isJobPosted) {
         Get.snackbar(
           "Success",

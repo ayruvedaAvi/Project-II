@@ -139,6 +139,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
                               onSelected: (bool selected) {
                                 setState(() {
                                   selectedItem = selected ? item : null;
+                                  _postJobController.selectedCategory = selectedItem;
                                 });
                               },
                             ),
