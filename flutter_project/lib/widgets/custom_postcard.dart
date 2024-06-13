@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
+// import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:get/get.dart';
 
 class CustomPostcard extends StatefulWidget {
@@ -57,7 +58,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
       child: InkWell(
         onTap: () {
           Get.to(() => SinglepostScreen(
@@ -73,27 +74,43 @@ class _CustomPostcardState extends State<CustomPostcard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    topLeft: Radius.circular(15)),
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage(widget.profileImg.toString()),
-                  radius: 20,
-                ),
-                title: Text(
-                  widget.userName.toString(),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                subtitle: Text(
-                  // widget.createdAt.toString(),
-                  timeDifference,
-                  style: const TextStyle(color: Colors.black45),
-                ),
+            SizedBox(
+              child: Stack(
+                children: [
+                  ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(widget.profileImg.toString()),
+                      radius: 20,
+                    ),
+                    title: Text(
+                      widget.userName.toString(),
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    subtitle: Text(
+                      // widget.createdAt.toString(),
+                      timeDifference,
+                      style: const TextStyle(color: Colors.black45),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      decoration: const BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.only(
+                            // topRight: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                          ) // green shaped
+                          ),
+                      child: const Text(
+                        "Household",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(

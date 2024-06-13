@@ -47,29 +47,69 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        topLeft: Radius.circular(15)),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(widget.profileImg.toString()),
-                      radius: 40,
-                    ),
-                    title: Text(
-                      widget.userName.toString(),
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18),
-                    ),
-                    subtitle: Text(
-                      widget.createdAt.toString(),
-                      style: const TextStyle(color: Colors.black45),
-                    ),
+                // Container(
+                //   decoration: const BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.only(
+                //         topRight: Radius.circular(15),
+                //         topLeft: Radius.circular(15)),
+                //   ),
+                //   child: ListTile(
+                //     leading: CircleAvatar(
+                //       backgroundImage: AssetImage(widget.profileImg.toString()),
+                //       radius: 40,
+                //     ),
+                //     title: Text(
+                //       widget.userName.toString(),
+                //       style: const TextStyle(
+                //           color: Colors.black,
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 18),
+                //     ),
+                //     subtitle: Text(
+                //       widget.createdAt.toString(),
+                //       style: const TextStyle(color: Colors.black45),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(
+                  child: Stack(
+                    children: [
+                      ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              AssetImage(widget.profileImg.toString()),
+                          radius: 20,
+                        ),
+                        title: Text(
+                          widget.userName.toString(),
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        subtitle: Text(
+                          widget.createdAt.toString(),
+                          // timeDifference,
+                          style: const TextStyle(color: Colors.black45),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          decoration: const BoxDecoration(
+                              color: Colors.teal,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(8),
+                                bottomLeft: Radius.circular(8),
+                              ) // green shaped
+                              ),
+                          child: const Text(
+                            "Household",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(

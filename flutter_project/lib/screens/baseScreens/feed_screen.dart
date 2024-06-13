@@ -159,7 +159,7 @@ class _FeedScreenState extends State<FeedScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 25, bottom: 10),
+          padding: const EdgeInsets.only(top: 15, bottom: 10),
           child: Column(
             children: [
               Obx(() {
@@ -174,7 +174,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               'Error fetching jobs, something went wrong, please try again later.'),
                         )
                       : SizedBox(
-                          height: MediaQuery.of(context).size.height - 160,
+                          height: MediaQuery.of(context).size.height - 170,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
                               return CustomPostcard(
