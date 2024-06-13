@@ -7,6 +7,7 @@ class SinglepostScreen extends StatefulWidget {
   final String? image;
   final String? title;
   final double? price;
+  final String? createdAt;
   const SinglepostScreen(
       {super.key,
       this.workDescription,
@@ -14,7 +15,8 @@ class SinglepostScreen extends StatefulWidget {
       this.profileImg,
       this.userName,
       this.title,
-      this.price});
+      this.price,
+      this.createdAt});
 
   @override
   State<SinglepostScreen> createState() => _SinglepostScreenState();
@@ -64,14 +66,14 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                           fontWeight: FontWeight.w500,
                           fontSize: 18),
                     ),
-                    subtitle: const Text(
-                      "10 hours ago",
-                      style: TextStyle(color: Colors.black45),
+                    subtitle: Text(
+                      widget.createdAt.toString(),
+                      style: const TextStyle(color: Colors.black45),
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0, left: 10.0),
@@ -82,7 +84,7 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Padding(
                   padding:
@@ -94,7 +96,7 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 SizedBox(
                     width: double.infinity,
@@ -110,7 +112,7 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                       },
                     )),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0, left: 10.0),
@@ -121,7 +123,7 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Row(children: [
                   const SizedBox(

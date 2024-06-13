@@ -36,16 +36,28 @@ class _AddpostScreenState extends State<AddpostScreen> {
     getName();
   }
 
-  final categories = [
-    'Technical',
-    'Household',
-    'Repair',
-    'Construction',
-    'Cleaning',
-    'Gardening',
-    'Cooking',
-    'Shifting Service',
-    'Others',
+  // final categories = [
+  //   'Technical',
+  //   'Household',
+  //   'Repair',
+  //   'Construction',
+  //   'Cleaning',
+  //   'Gardening',
+  //   'Cooking',
+  //   'Shifting Service',
+  //   'Others',
+  // ];
+
+  final List<Map<String, dynamic>> categories = [
+    {'name': 'Technical', 'color': Colors.red},
+    {'name': 'Household', 'color': Colors.blue},
+    {'name': 'Repair', 'color': Colors.green},
+    {'name': 'Construction', 'color': Colors.teal},
+    {'name': 'Cleaning', 'color': Colors.purple},
+    {'name': 'Gardening', 'color': Colors.orange},
+    {'name': 'Cooking', 'color': Colors.indigo},
+    {'name': 'Shifting Service', 'color': Colors.brown},
+    {'name': 'Others', 'color': Colors.pink},
   ];
   String? selectedItem;
   bool _switchValue = false;
@@ -126,19 +138,38 @@ class _AddpostScreenState extends State<AddpostScreen> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: categories.map((item) {
+                        // children: categories.map((item) {
+                        //   return Padding(
+                        //     padding:
+                        //         const EdgeInsets.symmetric(horizontal: 4.0),
+                        //     child: ChoiceChip(
+                        //       label: Text(item),
+                        //       labelStyle: const TextStyle(color: Colors.white),
+                        //       selected: selectedItem == item,
+                        //       selectedColor: Colors.grey,
+                        //       backgroundColor: Colors.deepPurple[400],
+                        //       onSelected: (bool selected) {
+                        //         setState(() {
+                        //           selectedItem = selected ? item : null;
+                        //         });
+                        //       },
+                        //     ),
+                        //   );
+                        // }).toList(),
+                        children: categories.map((category) {
                           return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 4.0),
                             child: ChoiceChip(
-                              label: Text(item),
+                              label: Text(category['name']),
                               labelStyle: const TextStyle(color: Colors.white),
-                              selected: selectedItem == item,
-                              selectedColor: Colors.grey,
-                              backgroundColor: Colors.deepPurple[400],
+                              selected: selectedItem == category['name'],
+                              selectedColor: category['color'],
+                              backgroundColor: Colors.grey,
                               onSelected: (bool selected) {
                                 setState(() {
-                                  selectedItem = selected ? item : null;
+                                  selectedItem =
+                                      selected ? category['name'] : null;
                                 });
                               },
                             ),

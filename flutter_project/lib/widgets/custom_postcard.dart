@@ -9,21 +9,50 @@ class CustomPostcard extends StatefulWidget {
   final String? image;
   final String? title;
   final double? price;
-  const CustomPostcard({
-    super.key,
-    this.workDescription,
-    this.image,
-    this.profileImg,
-    this.userName,
-    this.title,
-    this.price,
-  });
+  final String? createdAt;
+  const CustomPostcard(
+      {super.key,
+      this.workDescription,
+      this.image,
+      this.profileImg,
+      this.userName,
+      this.title,
+      this.price,
+      this.createdAt});
 
   @override
   State<CustomPostcard> createState() => _CustomPostcardState();
 }
 
 class _CustomPostcardState extends State<CustomPostcard> {
+  String timeDifference = '';
+
+  @override
+  void initState() {
+    super.initState();
+    calculateTimeDifference();
+  }
+
+  void calculateTimeDifference() {
+    if (widget.createdAt != null) {
+      DateTime createdAtDateTime = DateTime.parse(widget.createdAt!);
+      DateTime now = DateTime.now();
+      Duration difference = now.difference(createdAtDateTime);
+
+      if (difference.inDays > 0) {
+        timeDifference = '${difference.inDays} days ago';
+      } else if (difference.inHours > 0) {
+        timeDifference = '${difference.inHours} hours ago';
+      } else if (difference.inMinutes > 0) {
+        timeDifference = '${difference.inMinutes} minutes ago';
+      } else {
+        timeDifference = 'Just now';
+      }
+
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,6 +67,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
                 image: widget.image,
                 title: widget.title,
                 price: widget.price ?? 0.0,
+                createdAt: timeDifference,
               ));
         },
         child: Column(
@@ -59,9 +89,10 @@ class _CustomPostcardState extends State<CustomPostcard> {
                   widget.userName.toString(),
                   style: const TextStyle(color: Colors.black),
                 ),
-                subtitle: const Text(
-                  "10 hours ago",
-                  style: TextStyle(color: Colors.black45),
+                subtitle: Text(
+                  // widget.createdAt.toString(),
+                  timeDifference,
+                  style: const TextStyle(color: Colors.black45),
                 ),
               ),
             ),
