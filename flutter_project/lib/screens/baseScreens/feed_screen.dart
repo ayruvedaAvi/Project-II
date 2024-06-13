@@ -195,6 +195,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     image: jobs.value!.jobs![index].image,
                     title: jobs.value!.jobs![index].Title,
                     price: jobs.value!.jobs![index].price,
+                    jobType: jobs.value!.jobs![index].jobType,
                   );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,
