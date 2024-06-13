@@ -6,3 +6,4 @@ const logoutUrl = "/auth/logout";
 const verifyOtpUrl = "/auth/verify";
 const postJobUrl = "/jobs";
 const getAllJobsUrl = "/jobs";
+const getJobByFilterUrl = "/jobs/search";
