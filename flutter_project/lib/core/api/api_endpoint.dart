@@ -164,6 +164,7 @@ class ApiEndpoints {
   required TextEditingController title,
   required TextEditingController workDescription,
   required TextEditingController price,
+  required String category,
   XFile? imageFile,
 }) async {
   bool isJobPosted = false; // Default to false indicating job post failed
@@ -181,6 +182,7 @@ class ApiEndpoints {
     "Title": title.text,
     "workDescription": workDescription.text,
     "price": price.text,
+    "jobType": category,
     if (imageFile != null) "media": await MultipartFile.fromFile(imageFile.path),
   });
 
@@ -224,6 +226,35 @@ class ApiEndpoints {
 
     try {
       response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        getAllJobsModel = GetAllJobsModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to get jobs: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred while fetching jobs.');
+      }
+    }
+    return getAllJobsModel;
+  }
+
+  Future<GetAllJobsModel> getAllJobsByFilter(String jobType) async {
+    GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
+    String url = baseUrl + getJobByFilterUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      response = await dio.get(url, data: {"jobType": jobType});
 
       if (response.statusCode == 200) {
         getAllJobsModel = GetAllJobsModel.fromJson(response.data);

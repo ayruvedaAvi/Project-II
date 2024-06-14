@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/controllers/jobControllers/get_all_jobs_by_filter_controller.dart';
 import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
@@ -16,6 +17,8 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   RxString name = ''.obs;
   GetAllJobsController getAllJobsController = Get.put(GetAllJobsController());
+  GetAllJobsByFilterController getAllJobsByFilterController =
+      Get.put(GetAllJobsByFilterController());
   Rxn<GetAllJobsModel> jobs = Rxn<GetAllJobsModel>();
 
   Future<void> getName() async {
@@ -32,6 +35,28 @@ class _FeedScreenState extends State<FeedScreen> {
     }
   }
 
+  Future<void> filterPosts(String category) async {
+    var filteredJobs =
+        await getAllJobsByFilterController.getAllJobsByFilter(category);
+    debugPrint(filteredJobs?.count.toString()?? 'No jobs found');
+    if (filteredJobs != null) {
+      jobs.value = filteredJobs;
+    } else {
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Error",
+          message: 'No jobs found',
+          duration: Duration(seconds: 4),
+          borderRadius: 10.0,
+          snackPosition: SnackPosition.TOP,
+          borderWidth: 5,
+          borderColor: mainColor,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   final categories = [
     'Technical',
     'Household',
@@ -45,6 +70,7 @@ class _FeedScreenState extends State<FeedScreen> {
     'Others'
   ];
   final workerCategories = ['Highly Rated', 'Top Performer', 'Most Loved'];
+
   @override
   void initState() {
     super.initState();
@@ -69,12 +95,9 @@ class _FeedScreenState extends State<FeedScreen> {
       drawer: Drawer(
         backgroundColor: Colors.white,
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             const Padding(
               padding: EdgeInsets.only(left: 10.0),
               child: Row(
@@ -82,25 +105,21 @@ class _FeedScreenState extends State<FeedScreen> {
                   Text(
                     "Welcome to Shrami",
                     style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: boldTextColor),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: boldTextColor,
+                    ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  SizedBox(width: 10),
                   Icon(
                     Icons.man_2_outlined,
                     color: boldTextColor,
-                  )
+                  ),
                 ],
               ),
             ),
             ExpansionTile(
-              leading: const Icon(
-                Icons.category_outlined,
-                color: Colors.black,
-              ),
+              leading: const Icon(Icons.category_outlined, color: Colors.black),
               title: const Text(
                 "Categories",
                 style: TextStyle(
@@ -111,7 +130,6 @@ class _FeedScreenState extends State<FeedScreen> {
               childrenPadding: const EdgeInsets.only(left: 40),
               children: categories.map((item) {
                 return ListTile(
-                  // leading: const Icon(Icons.contacts),
                   title: Text(
                     item,
                     style: const TextStyle(
@@ -119,17 +137,16 @@ class _FeedScreenState extends State<FeedScreen> {
                       fontSize: 15,
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
+                    debugPrint('Filtering by $item');
+                    await filterPosts(item);
                   },
                 );
               }).toList(),
             ),
             ExpansionTile(
-              leading: const Icon(
-                Icons.work_rounded,
-                color: Colors.black,
-              ),
+              leading: const Icon(Icons.work_rounded, color: Colors.black),
               title: const Text(
                 "Workers",
                 style: TextStyle(
@@ -140,7 +157,6 @@ class _FeedScreenState extends State<FeedScreen> {
               childrenPadding: const EdgeInsets.only(left: 40),
               children: workerCategories.map((item) {
                 return ListTile(
-                  // leading: const Icon(Icons.contacts),
                   title: Text(
                     item,
                     style: const TextStyle(
@@ -157,45 +173,36 @@ class _FeedScreenState extends State<FeedScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 25, bottom: 10),
-          child: Column(
-            children: [
-              Obx(() {
-                if (getAllJobsController.isLoading.value == true) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+      body: Obx(() {
+        if (getAllJobsController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (jobs.value == null) {
+          return const Center(
+            child: Text(
+                'Error fetching jobs, something went wrong, please try again later.'),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.only(top: 25, bottom: 10),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 160,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return CustomPostcard(
+                    profileImg: 'assets/images/profile_image.jpg',
+                    userName: jobs.value!.jobs![index].userName,
+                    workDescription: jobs.value!.jobs![index].workDescription,
+                    image: jobs.value!.jobs![index].image,
+                    title: jobs.value!.jobs![index].Title,
+                    price: jobs.value!.jobs![index].price,
                   );
-                } else {
-                  return jobs.value == null
-                      ? const Center(
-                          child: Text(
-                              'Error fetching jobs, something went wrong, please try again later.'),
-                        )
-                      : SizedBox(
-                          height: MediaQuery.of(context).size.height - 160,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return CustomPostcard(
-                                profileImg: 'assets/images/profile_image.jpg',
-                                userName: jobs.value!.jobs![index].userName,
-                                workDescription:
-                                    jobs.value!.jobs![index].workDescription,
-                                image: jobs.value!.jobs![index].image,
-                                title: jobs.value!.jobs![index].Title,
-                                price: jobs.value!.jobs![index].price,
-                              );
-                            },
-                            itemCount: jobs.value?.jobs?.length ?? 0,
-                          ),
-                        );
-                }
-              }),
-            ],
-          ),
-        ),
-      ),
+                },
+                itemCount: jobs.value?.jobs?.length ?? 0,
+              ),
+            ),
+          );
+        }
+      }),
     );
   }
 }
