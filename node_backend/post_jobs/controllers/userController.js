@@ -19,7 +19,6 @@ const updateUser = async (req, res) => {
   if (!userId) {
     throw new CustomError.BadRequestError('User ID is missing in the request');
   }
-
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     throw new CustomError.BadRequestError('Invalid user ID format');
   }

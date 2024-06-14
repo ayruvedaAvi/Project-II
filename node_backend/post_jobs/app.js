@@ -43,7 +43,7 @@ app.use(fileUpload({ useTempFiles: false }));
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
 const userRouter = require('./routes/userRoutes');
-
+const forgetPassword=require('./routes/forgetPassword')
 
 app.get('/', (req, res) => {
   res.send('Welcome to the LaborlanceAPI');
@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 app.use('/api/v1/users', authenticateUser,userRouter);
-
+app.use('/api/v1/forgetPassword',forgetPassword)
 
 // Error handling middleware
 app.use(notFoundMiddleware);
