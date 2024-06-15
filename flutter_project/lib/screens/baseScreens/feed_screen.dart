@@ -38,7 +38,7 @@ class _FeedScreenState extends State<FeedScreen> {
   Future<void> filterPosts(String category) async {
     var filteredJobs =
         await getAllJobsByFilterController.getAllJobsByFilter(category);
-    debugPrint(filteredJobs?.count.toString()?? 'No jobs found');
+    debugPrint(filteredJobs?.count.toString() ?? 'No jobs found');
     if (filteredJobs != null) {
       jobs.value = filteredJobs;
     } else {
@@ -195,6 +195,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     image: jobs.value!.jobs![index].image,
                     title: jobs.value!.jobs![index].Title,
                     price: jobs.value!.jobs![index].price,
+                    // category: jobs.value!.jobs![index].category,
                   );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,

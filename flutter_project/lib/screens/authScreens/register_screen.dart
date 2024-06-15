@@ -4,6 +4,7 @@ import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
 import 'dart:math';
+import 'dart:async';
 
 // import 'package:flutter_project/screens/verifyOTP_screen.dart';
 
@@ -75,6 +76,12 @@ class _SignupScreenState extends State<SignupScreen>
   final List<double> _endLefts = [];
 
   bool _isInitialized = false;
+  // String? firstNameError;
+  // String? lastNameError;
+  // String? mobileNumberError;
+  // String? emailError;
+  // String? passwordError;
+  // String? confirmPasswordError;
 
   @override
   void initState() {
@@ -126,6 +133,20 @@ class _SignupScreenState extends State<SignupScreen>
       _isInitialized = true;
     }
   }
+
+  // void _startErrorTimer() {
+  //   Timer(const Duration(seconds: 6), () {
+  //     setState(() {
+  //       print("hello there error check");
+  //       firstNameError = null;
+  //       lastNameError = null;
+  //       mobileNumberError = null;
+  //       emailError = null;
+  //       passwordError = null;
+  //       confirmPasswordError = null;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -239,8 +260,10 @@ class _SignupScreenState extends State<SignupScreen>
                                   controller:
                                       signUpController.mobileNumberController,
                                   validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter a valid number!';
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !RegExp(r'^\d{10}$').hasMatch(value)) {
+                                      return 'Please enter a valid 10 digit number!';
                                     }
                                     return null;
                                   },

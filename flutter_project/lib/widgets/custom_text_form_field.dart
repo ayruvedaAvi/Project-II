@@ -1,5 +1,4 @@
 // import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -31,6 +30,31 @@ class CustomTextFormField extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   var isVisible = false;
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    _errorText = null;
+    print("yo kaam gardaixa?");
+  }
+
+  void _setErrorText(String? errorText) {
+    // setState(() {
+    //   _errorText = errorText;
+    // });
+
+    if (errorText != null) {
+      Future.delayed(const Duration(seconds: 5), () {
+        if (mounted) {
+          setState(() {
+            _errorText = null;
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,7 +63,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         maxLines: widget.descField ? 4 : 1,
         expands: false, //constant for all
         controller: widget.controller,
-        validator: widget.validator,
+        validator: (value) {
+          final validationResult = widget.validator?.call(value);
+          _setErrorText(validationResult);
+          return validationResult;
+        },
         obscureText: widget.obscureText ? !isVisible : false,
         keyboardType: widget.keyType,
         cursorColor: Theme.of(context).colorScheme.onPrimary,
@@ -47,6 +75,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         style:
             TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20),
         decoration: InputDecoration(
+          errorText: _errorText,
           errorStyle: const TextStyle(color: Colors.red),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
