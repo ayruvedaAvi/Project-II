@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "703497688414",
+    "project_id": "shrami-329b1",
+    "storage_bucket": "shrami-329b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703497688414:android:dcb3e1c21fd999e2d02bcf",
+        "android_client_info": {
+          "package_name": "com.example.flutter_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgwtUp0vMb21wn_gl25jVg2vOB7QLunX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

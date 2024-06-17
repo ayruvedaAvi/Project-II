@@ -11,17 +11,18 @@ class CustomPostcard extends StatefulWidget {
   final String? title;
   final double? price;
   final String? createdAt;
-  final String? category;
-  const CustomPostcard(
-      {super.key,
-      this.workDescription,
-      this.image,
-      this.profileImg,
-      this.userName,
-      this.title,
-      this.price,
-      this.createdAt,
-      this.category});
+  final String? jobType;
+  const CustomPostcard({
+    super.key,
+    this.workDescription,
+    this.image,
+    this.profileImg,
+    this.userName,
+    this.title,
+    this.price,
+    this.createdAt,
+    this.jobType,
+  });
 
   @override
   State<CustomPostcard> createState() => _CustomPostcardState();
@@ -107,7 +108,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
                           ) // green shaped
                           ),
                       child: Text(
-                        widget.category.toString(),
+                        widget.jobType.toString(),
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),

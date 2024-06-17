@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/jobControllers/get_all_jobs_by_filter_controller.dart';
-import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_by_filter_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
@@ -195,7 +195,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     image: jobs.value!.jobs![index].image,
                     title: jobs.value!.jobs![index].Title,
                     price: jobs.value!.jobs![index].price,
-                    // category: jobs.value!.jobs![index].category,
+                    jobType: jobs.value!.jobs![index].jobType,
                   );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,

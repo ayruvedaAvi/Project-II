@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/jobControllers/post_job_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/postJob/post_job_controller.dart';
 import 'package:flutter_project/screens/baseScreens/base_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/screens/user_posted_job_screen.dart';
 // import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_profiledetailscard.dart';
@@ -147,15 +148,19 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 50,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomProfiledetailscard(
+                        onTap: () {},
                         name: "Pending Jobs",
                         contextIcon: Icons.pending_actions_outlined,
                         numCount: "25",
                       ),
                       CustomProfiledetailscard(
+                        onTap: () {
+                          Get.to(() => const UserPostedJobScreen());
+                        },
                         name: "Active Jobs",
                         contextIcon: Icons.directions_run_rounded,
                         numCount: "15",
@@ -165,15 +170,17 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomProfiledetailscard(
+                        onTap: () {},
                         name: "Completed Jobs",
                         contextIcon: Icons.check_circle,
                         numCount: "10",
                       ),
                       CustomProfiledetailscard(
+                        onTap: () {},
                         name: "Refer a friend",
                         contextIcon: Icons.offline_share,
                         numCount: "25",
@@ -186,22 +193,21 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CustomProfiledetailscard(
+                      CustomProfiledetailscard(
+                        onTap: () {},
                         name: "Settings",
                         contextIcon: Icons.settings,
                         numCount: "All",
                       ),
-                      InkWell(
+                      CustomProfiledetailscard(
                         onTap: () {
                           UserSharedPreference.removeDataFromStorage('token');
                           Get.off(() => const LoginScreen());
                         },
-                        child: const CustomProfiledetailscard(
-                          name: "Logout",
-                          contextIcon: Icons.logout_outlined,
-                          numCount: "Bye!",
-                        ),
-                      )
+                        name: "Logout",
+                        contextIcon: Icons.logout_outlined,
+                        numCount: "Bye!",
+                      ),
                     ],
                   ),
                   const SizedBox(
