@@ -272,4 +272,33 @@ class ApiEndpoints {
     }
     return getAllJobsModel;
   }
+
+  Future<GetAllJobsModel> getAllJobsByUser() async {
+    GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
+    String url = baseUrl; // + getJobByUserUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        getAllJobsModel = GetAllJobsModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to get jobs: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred while fetching jobs.');
+      }
+    }
+    return getAllJobsModel;
+  }
 }

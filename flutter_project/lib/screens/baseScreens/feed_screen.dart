@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/jobControllers/get_all_jobs_by_filter_controller.dart';
-import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_by_filter_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';

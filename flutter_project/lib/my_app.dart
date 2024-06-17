@@ -14,6 +14,9 @@ final theme = ThemeData(
   textTheme: GoogleFonts.latoTextTheme(),
 );
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
+
 class MyApp extends StatelessWidget {
   final LanguageController languageController = LanguageController();
   MyApp({super.key});
@@ -29,6 +32,10 @@ class MyApp extends StatelessWidget {
       home: const Scaffold(
         body: SplashScreen(),
       ),
+      navigatorKey: navigatorKey,
+        routes: {
+          SplashScreen.route: (context) => const SplashScreen(),
+        },
     );
   }
 }
