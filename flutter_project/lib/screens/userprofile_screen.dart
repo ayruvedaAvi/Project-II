@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
+// import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/screens/settings_screen.dart';
 import 'package:flutter_project/screens/user_posted_job_screen.dart';
 // import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
@@ -91,6 +92,20 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                 ),
               ),
             ),
+          ),
+          Positioned(
+            right: MediaQuery.of(context).size.width * 0.03,
+            top: MediaQuery.of(context).size.height * 0.04,
+            // right: 0,
+            child: IconButton(
+                onPressed: () {
+                  Get.to(() => const SettingsScreen());
+                },
+                icon: const Icon(
+                  Icons.settings,
+                  color: Color.fromARGB(255, 58, 18, 89),
+                  size: 35,
+                )),
           ),
           Center(
             child: Padding(
@@ -187,29 +202,29 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomProfiledetailscard(
-                        onTap: () {},
-                        name: "Settings",
-                        contextIcon: Icons.settings,
-                        numCount: "All",
-                      ),
-                      CustomProfiledetailscard(
-                        onTap: () {
-                          UserSharedPreference.removeDataFromStorage('token');
-                          Get.off(() => const LoginScreen());
-                        },
-                        name: "Logout",
-                        contextIcon: Icons.logout_outlined,
-                        numCount: "Bye!",
-                      ),
-                    ],
-                  ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     CustomProfiledetailscard(
+                  //       onTap: () {},
+                  //       name: "Settings",
+                  //       contextIcon: Icons.settings,
+                  //       numCount: "All",
+                  //     ),
+                  //     CustomProfiledetailscard(
+                  //       onTap: () {
+                  //         UserSharedPreference.removeDataFromStorage('token');
+                  //         Get.off(() => const LoginScreen());
+                  //       },
+                  //       name: "Logout",
+                  //       contextIcon: Icons.logout_outlined,
+                  //       numCount: "Bye!",
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 15,
                   ),
