@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_project/controllers/signup_controller.dart';
 import 'package:flutter_project/screens/authScreens/forgetpass_newpass_screen.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
@@ -231,7 +232,9 @@ class _SignupScreenState extends State<SignupScreen>
               //           ],
               //         ),
               child: Padding(
-                padding: const EdgeInsets.only(right: 40, left: 40),
+                padding: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.1,
+                    left: MediaQuery.of(context).size.width * 0.1),
                 child: Column(
                   children: [
                     // const Text(

@@ -163,6 +163,63 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 50,
                   ),
+                  // Container(
+
+                  //   decoration:
+                  //       BoxDecoration(borderRadius: BorderRadius.circular(10)
+                  //       ),
+                  //   child: const Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //     children: [
+                  //       Icon(
+                  //         Icons.edit,
+                  //         color: Colors.black,
+                  //       ),
+                  //       Text(
+                  //         "Update your KYC",
+                  //         style: TextStyle(color: Colors.black),
+                  //       ),
+                  //       Icon(
+                  //         Icons.add,
+                  //         color: Colors.black,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        side: const BorderSide(
+                          width: 2,
+                          color: Color.fromARGB(255, 168, 105, 227),
+                        ),
+                        foregroundColor:
+                            const Color.fromARGB(255, 168, 105, 227),
+                      ),
+                      onPressed: () {},
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(
+                            Icons.edit_document,
+                          ),
+                          Text(
+                            "Update your KYC",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Icon(
+                            Icons.add,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
