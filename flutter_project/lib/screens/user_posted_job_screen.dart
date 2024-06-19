@@ -8,8 +8,14 @@ class UserPostedJobScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 5.0,
+        centerTitle: true,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
+        shadowColor: Colors.grey,
         title: const Text('User Posted Job Screen'),
       ),
+      backgroundColor: Colors.white,
       body: Center(
         child: ElevatedButton(
           onPressed: () {

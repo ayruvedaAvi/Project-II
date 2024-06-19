@@ -40,7 +40,7 @@ class _CustomSettingRowState extends State<CustomSettingRow> {
             ),
             Text(
               widget.prefixText.toString(),
-              style: const TextStyle(color: Colors.black, fontSize: 21),
+              style: const TextStyle(color: Colors.black, fontSize: 18),
             ),
           ],
         ),
@@ -49,7 +49,7 @@ class _CustomSettingRowState extends State<CustomSettingRow> {
             widget.suffixTextBool
                 ? Text(
                     widget.suffixText.toString(),
-                    style: const TextStyle(color: Colors.grey, fontSize: 21),
+                    style: const TextStyle(color: Colors.grey, fontSize: 18),
                   )
                 : const SizedBox(),
             const SizedBox(
@@ -58,6 +58,7 @@ class _CustomSettingRowState extends State<CustomSettingRow> {
             Icon(
               widget.suffixIcon,
               color: Colors.grey,
+              size: 15,
             ),
             const SizedBox(
               width: 20,

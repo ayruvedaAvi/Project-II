@@ -29,6 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 5.0,
         backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text("Settings"),
@@ -129,24 +130,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         // suffixTextBool: true,
                         // suffixText: "English",
                       ),
-                      Divider(
-                        thickness: 1,
-                        indent: 60,
-                        color: Colors.grey[200],
-                      ),
-                      InkWell(
-                        onTap: () {
-                          UserSharedPreference.removeDataFromStorage('token');
-                          Get.off(() => const LoginScreen());
-                        },
-                        child: const CustomSettingRow(
-                          prefixIcon: Icons.logout,
-                          prefixText: "Sign out",
-                          suffixIcon: Icons.arrow_forward_ios,
-                          // suffixTextBool: true,
-                          // suffixText: "English",
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -216,6 +199,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         suffixIcon: Icons.arrow_forward_ios,
                         // suffixTextBool: true,
                         // suffixText: "English",
+                      ),
+                      Divider(
+                        thickness: 1,
+                        indent: 60,
+                        color: Colors.grey[200],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          UserSharedPreference.removeDataFromStorage('token');
+                          Get.off(() => const LoginScreen());
+                        },
+                        child: const CustomSettingRow(
+                          prefixIcon: Icons.logout,
+                          prefixText: "Sign out",
+                          suffixIcon: Icons.arrow_forward_ios,
+                          // suffixTextBool: true,
+                          // suffixText: "English",
+                        ),
                       ),
                     ],
                   ),
