@@ -1,5 +1,6 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_project/my_app.dart';
 import 'package:flutter_project/screens/authScreens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,7 +41,7 @@ class FirebaseApi{
     final fCMToken = await _firebaseMessaging.getToken();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('fcmToken', fCMToken!);
-    print('token: $fCMToken');
+    debugPrint('token: $fCMToken');
     initPushNotifications();
   }
 }
