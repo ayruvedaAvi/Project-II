@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/login_controller.dart';
+import 'package:flutter_project/controllers/authControllers/login_controller.dart';
 import 'package:flutter_project/screens/authScreens/forgotpass_first_screen.dart';
 import 'package:flutter_project/screens/authScreens/register_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';

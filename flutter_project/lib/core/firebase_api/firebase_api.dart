@@ -6,9 +6,9 @@ import 'package:flutter_project/screens/authScreens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
-  print('title: ${message.notification?.title}');
-  print('title: ${message.notification?.body}');
-  print('title: ${message.data}');
+  debugPrint('title: ${message.notification?.title}');
+  debugPrint('title: ${message.notification?.body}');
+  debugPrint('title: ${message.data}');
 }
 
 class FirebaseApi{

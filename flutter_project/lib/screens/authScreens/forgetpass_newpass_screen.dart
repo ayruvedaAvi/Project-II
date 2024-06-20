@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
-import 'package:flutter_project/controllers/signup_controller.dart';
+import 'package:flutter_project/controllers/authControllers/signup_controller.dart';
 
 class ForgetpassNewpassScreen extends StatefulWidget {
   const ForgetpassNewpassScreen({super.key});

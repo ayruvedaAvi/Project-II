@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/signup_controller.dart';
-import 'package:flutter_project/screens/authScreens/forgotpass_otp_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
+
+import '../../controllers/authControllers/forgot_password_controller.dart';
 
 class ForgotpassFirstScreen extends StatefulWidget {
   const ForgotpassFirstScreen({super.key});
@@ -13,7 +13,7 @@ class ForgotpassFirstScreen extends StatefulWidget {
 
 class _ForgotpassFirstScreenState extends State<ForgotpassFirstScreen> {
   final _formkey = GlobalKey<FormState>();
-  final signUpController = Get.put(SignupController());
+  final forgotPasswordController = Get.put(ForgotPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _ForgotpassFirstScreenState extends State<ForgotpassFirstScreen> {
               child: Column(
                 children: [
                   const Text(
-                    "Mobile Number Here",
+                    "Enter your email",
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _ForgotpassFirstScreenState extends State<ForgotpassFirstScreen> {
                   ),
                   const Center(
                     child: Text(
-                      "Enter the mobile number associated with your account.",
+                      "Enter the email address associated with your account to change password.",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -79,16 +79,16 @@ class _ForgotpassFirstScreenState extends State<ForgotpassFirstScreen> {
                     child: Column(
                       children: [
                         CustomTextFormField(
-                          keyType: TextInputType.phone,
-                          controller: signUpController.mobileNumberController,
+                          keyType: TextInputType.emailAddress,
+                          controller: forgotPasswordController.emailController,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a valid number!';
+                            if (value == null || value.isEmpty || !value.isEmail) {
+                              return 'Please enter a valid email address!';
                             }
                             return null;
                           },
-                          labelText: "Mobile Number",
-                          suffixIcon: const Icon(Icons.local_phone_rounded),
+                          labelText: "Email",
+                          suffixIcon: const Icon(Icons.email_outlined),
                         ),
                         SizedBox(
                           width: double.infinity,
@@ -101,12 +101,11 @@ class _ForgotpassFirstScreenState extends State<ForgotpassFirstScreen> {
                                   const Color.fromARGB(255, 168, 105, 227),
                             ),
                             onPressed: () {
-                              // if (_formkey.currentState!.validate()) {
-                              //   signUpController.signup();
-                              // }
-                              Get.to(() => const ForgotpassOtpScreen());
+                              if (_formkey.currentState!.validate()) {
+                                forgotPasswordController.verifyEmail();
+                              }
                             },
-                            child: signUpController.isLoading.value
+                            child: forgotPasswordController.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : const Text(
                                     "Recover Password",
