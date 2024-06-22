@@ -224,14 +224,23 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomProfiledetailscard(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(() => const UserPostedJobScreen(
+                                postStatus: "Cooking",
+                                detailsTopic: "Pending Jobs",
+                              ));
+                        },
                         name: "Pending Jobs",
                         contextIcon: Icons.pending_actions_outlined,
                         numCount: "25",
                       ),
                       CustomProfiledetailscard(
                         onTap: () {
-                          Get.to(() => const UserPostedJobScreen());
+                          Get.to(() => const UserPostedJobScreen(
+                                postStatus: "Household",
+                                isActiveUser: true,
+                                detailsTopic: "Active Jobs",
+                              ));
                         },
                         name: "Active Jobs",
                         contextIcon: Icons.directions_run_rounded,
@@ -246,14 +255,19 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomProfiledetailscard(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(() => const UserPostedJobScreen(
+                                postStatus: "Repair",
+                                detailsTopic: "Completed Jobs",
+                              ));
+                        },
                         name: "Completed Jobs",
                         contextIcon: Icons.check_circle,
                         numCount: "10",
                       ),
                       CustomProfiledetailscard(
                         onTap: () {},
-                        name: "Refer a friend",
+                        name: "Stats",
                         contextIcon: Icons.offline_share,
                         numCount: "25",
                       )

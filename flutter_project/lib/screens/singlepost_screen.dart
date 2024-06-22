@@ -112,6 +112,13 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                     ],
                   ),
                 ),
+
+                // const Divider(
+                //   thickness: 1,
+                //   color: Colors.grey,
+                //   indent: 5,
+                //   endIndent: 5,
+                // ),
                 const SizedBox(
                   height: 15,
                 ),

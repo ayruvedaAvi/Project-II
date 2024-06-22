@@ -12,6 +12,7 @@ class CustomPostcard extends StatefulWidget {
   final double? price;
   final String? createdAt;
   final String? jobType;
+  // final bool? isActiveUser;
   const CustomPostcard({
     super.key,
     this.workDescription,
@@ -22,6 +23,7 @@ class CustomPostcard extends StatefulWidget {
     this.price,
     this.createdAt,
     this.jobType,
+    // this.isActiveUser = false,
   });
 
   @override
@@ -94,6 +96,8 @@ class _CustomPostcardState extends State<CustomPostcard> {
                       timeDifference,
                       style: const TextStyle(color: Colors.black45),
                     ),
+                    
+                     
                   ),
                   Positioned(
                     right: 0,
