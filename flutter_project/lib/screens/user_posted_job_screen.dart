@@ -13,7 +13,10 @@ class UserPostedJobScreen extends StatefulWidget {
   final bool? isActiveUser;
   final String? detailsTopic;
   const UserPostedJobScreen(
-      {super.key, this.postStatus, this.isActiveUser = false, this.detailsTopic});
+      {super.key,
+      this.postStatus,
+      this.isActiveUser = false,
+      this.detailsTopic});
 
   @override
   State<UserPostedJobScreen> createState() => _UserPostedJobScreenState();

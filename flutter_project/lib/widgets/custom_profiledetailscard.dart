@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 
 class CustomProfiledetailscard extends StatelessWidget {
   final String? name;
@@ -6,7 +7,11 @@ class CustomProfiledetailscard extends StatelessWidget {
   final IconData? contextIcon;
   final Function onTap;
   const CustomProfiledetailscard(
-      {super.key, this.contextIcon, this.name, this.numCount, required this.onTap});
+      {super.key,
+      this.contextIcon,
+      this.name,
+      this.numCount,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +21,7 @@ class CustomProfiledetailscard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 143, 69, 211),
-            borderRadius: BorderRadius.circular(10)),
+            color: mainColor, borderRadius: BorderRadius.circular(10)),
         height: 130,
         width: 160,
         child: Container(
@@ -46,26 +50,26 @@ class CustomProfiledetailscard extends StatelessWidget {
                   Text(
                     numCount.toString(),
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 58, 18, 89),
+                        color: boldTextColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromARGB(255, 192, 146, 238),
+                        color: disabledForegroundColor,
                       ),
                       padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Icon(
                         contextIcon,
-                        color: const Color.fromARGB(255, 58, 18, 89),
+                        color: boldTextColor,
                       )),
                 ],
               ),
               Text(
                 name.toString(),
                 style: const TextStyle(
-                    color: Color.fromARGB(255, 58, 18, 89),
+                    color: boldTextColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               )
