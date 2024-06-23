@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/signup_controller.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_project/controllers/authControllers/signup_controller.dart';
+import 'package:flutter_project/screens/authScreens/forgetpass_newpass_screen.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
 import 'dart:math';
+import 'dart:async';
 
 // import 'package:flutter_project/screens/verifyOTP_screen.dart';
 
@@ -75,6 +78,12 @@ class _SignupScreenState extends State<SignupScreen>
   final List<double> _endLefts = [];
 
   bool _isInitialized = false;
+  // String? firstNameError;
+  // String? lastNameError;
+  // String? mobileNumberError;
+  // String? emailError;
+  // String? passwordError;
+  // String? confirmPasswordError;
 
   @override
   void initState() {
@@ -127,285 +136,318 @@ class _SignupScreenState extends State<SignupScreen>
     }
   }
 
+  // void _startErrorTimer() {
+  //   Timer(const Duration(seconds: 6), () {
+  //     setState(() {
+  //       print("hello there error check");
+  //       firstNameError = null;
+  //       lastNameError = null;
+  //       mobileNumberError = null;
+  //       emailError = null;
+  //       passwordError = null;
+  //       confirmPasswordError = null;
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(children: [
-        for (int i = 0; i < 30; i++)
-          AnimatedBuilder(
-            animation: _controllers[i],
-            builder: (context, child) {
-              return Transform.translate(
-                offset: _moveAnimations[i].value,
-                child: Opacity(
-                  opacity: _blinkAnimations[i].value,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                // for (int i = 0; i < 40; i++)
+                //   AnimatedBuilder(
+                //     animation: _controllers[i],
+                //     builder: (context, child) {
+                //       return Transform.translate(
+                //         offset: _moveAnimations[i].value,
+                //         child: Opacity(
+                //           opacity: _blinkAnimations[i].value,
+                //           child: Container(
+                //             height: 15,
+                //             width: 15,
+                //             decoration: BoxDecoration(
+                //               color: cColors[i % cColors.length],
+                //               borderRadius: BorderRadius.circular(10),
+                //             ),
+                //           ),
+                //         ),
+                //       );
+                //     },
+                //   ),
+                ClipPath(
+                  clipper: BezierClipper2(),
                   child: Container(
-                    height: 15,
-                    width: 15,
-                    decoration: BoxDecoration(
-                      color: cColors[i % cColors.length],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    height: MediaQuery.of(context).size.height / 3.5,
+                    width: double.infinity,
+                    color: const Color.fromARGB(199, 177, 95, 255),
                   ),
                 ),
-              );
-            },
-          ),
-        Opacity(
-          opacity: 0.90,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 650,
-                    width: 350,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 0,
-                          blurRadius: 10,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
+                Positioned(
+                  top: MediaQuery.of(context).size.height / 9,
+                  left: MediaQuery.of(context).size.width / 4,
+                  // left: 30,
+                  child: const Text(
+                    "Create new account",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+            // Opacity(
+            //   opacity: 0.90,
+            //   child:
+            Center(
+              // child: SingleChildScrollView(
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //         height: 650,
+              //         width: 350,
+              //         decoration: BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.circular(15),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Colors.black.withOpacity(0.1),
+              //               spreadRadius: 0,
+              //               blurRadius: 6,
+              //               offset: const Offset(0, 2),
+              //             ),
+              //             BoxShadow(
+              //               color: Colors.black.withOpacity(0.2),
+              //               spreadRadius: 0,
+              //               blurRadius: 10,
+              //               offset: const Offset(0, 6),
+              //             ),
+              //           ],
+              //         ),
+              child: Padding(
+                padding: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.1,
+                    left: MediaQuery.of(context).size.width * 0.1),
+                child: Column(
+                  children: [
+                    // const Text(
+                    //   "Create your account",
+                    //   style: TextStyle(
+                    //     fontSize: 25,
+                    //     color: Colors.black,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 250, child: Divider(thickness: 1.5)),
+                    // const SizedBox(height: 25.0),
+                    //Form
+                    Form(
+                      key: _formkey,
                       child: Column(
                         children: [
-                          const Text(
-                            "Create your account",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                          Row(children: [
+                            Expanded(
+                              child: CustomTextFormField(
+                                keyType: TextInputType.name,
+                                controller:
+                                    signUpController.firstNameController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Invalid Firstname!';
+                                  }
+                                  return null;
+                                },
+                                labelText: "First Name",
+                                suffixIcon: const Icon(Icons.account_circle),
+                              ),
                             ),
+                            const SizedBox(width: 16.0),
+                            Expanded(
+                              child: CustomTextFormField(
+                                keyType: TextInputType.name,
+                                controller: signUpController.lastnameController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Invalid Lastname!';
+                                  }
+                                  return null;
+                                },
+                                labelText: "Last Name",
+                              ),
+                            )
+                          ]),
+                          CustomTextFormField(
+                            keyType: TextInputType.phone,
+                            controller: signUpController.mobileNumberController,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  !RegExp(r'^\d{10}$').hasMatch(value)) {
+                                return 'Please enter a valid 10 digit number!';
+                              }
+                              return null;
+                            },
+                            labelText: "Mobile Number",
+                            suffixIcon: const Icon(Icons.local_phone_rounded),
                           ),
-                          const SizedBox(
-                              width: 250, child: Divider(thickness: 1.5)),
-                          const SizedBox(height: 25.0),
-                          //Form
-                          Form(
-                            key: _formkey,
-                            child: Column(
-                              children: [
-                                Row(children: [
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      keyType: TextInputType.name,
-                                      controller:
-                                          signUpController.firstNameController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Invalid Firstname!';
-                                        }
-                                        return null;
-                                      },
-                                      labelText: "First Name",
-                                      suffixIcon:
-                                          const Icon(Icons.account_circle),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16.0),
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      keyType: TextInputType.name,
-                                      controller:
-                                          signUpController.lastnameController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Invalid Lastname!';
-                                        }
-                                        return null;
-                                      },
-                                      labelText: "Last Name",
-                                    ),
-                                  )
-                                ]),
-                                CustomTextFormField(
-                                  keyType: TextInputType.phone,
-                                  controller:
-                                      signUpController.mobileNumberController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter a valid number!';
-                                    }
-                                    return null;
-                                  },
-                                  labelText: "Mobile Number",
-                                  suffixIcon:
-                                      const Icon(Icons.local_phone_rounded),
-                                ),
 
-                                CustomTextFormField(
-                                  keyType: TextInputType.emailAddress,
-                                  controller: signUpController.emailController,
-                                  labelText: "Email",
-                                  validator: (value) {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        !value.isEmail) {
-                                      return 'Please enter a valid email!';
-                                    }
-                                    return null;
-                                  },
-                                  suffixIcon: const Icon(Icons.mail),
-                                ),
-                                CustomTextFormField(
-                                  keyType: TextInputType.visiblePassword,
-                                  controller:
-                                      signUpController.passwordController,
-                                  labelText: 'Password',
-                                  // hintText: 'Enter your password',
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        value.length < 6) {
-                                      return 'Please enter a valid password!';
-                                    }
-                                    return null;
-                                  },
-                                  // suffixIcon: const Icon(Icons.remove_red_eye),
-                                ),
-                                CustomTextFormField(
-                                  validator: (p0) => p0 !=
-                                          signUpController
-                                              .passwordController.text
-                                      ? "Password does not match"
-                                      : null,
-                                  keyType: TextInputType.visiblePassword,
-                                  controller: signUpController
-                                      .confirmPasswordController,
-                                  labelText: "Confirm Password",
-                                  // hintText: 'Confirm password',
-                                  obscureText: true,
-                                  // suffixIcon: const Icon(Icons.remove_red_eye),
-                                ),
+                          CustomTextFormField(
+                            keyType: TextInputType.emailAddress,
+                            controller: signUpController.emailController,
+                            labelText: "Email",
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  !value.isEmail) {
+                                return 'Please enter a valid email!';
+                              }
+                              return null;
+                            },
+                            suffixIcon: const Icon(Icons.mail),
+                          ),
+                          CustomTextFormField(
+                            keyType: TextInputType.visiblePassword,
+                            controller: signUpController.passwordController,
+                            labelText: 'Password',
+                            // hintText: 'Enter your password',
+                            obscureText: true,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.length < 6) {
+                                return 'Please enter a valid password!';
+                              }
+                              return null;
+                            },
+                            // suffixIcon: const Icon(Icons.remove_red_eye),
+                          ),
+                          CustomTextFormField(
+                            validator: (p0) =>
+                                p0 != signUpController.passwordController.text
+                                    ? "Password does not match"
+                                    : null,
+                            keyType: TextInputType.visiblePassword,
+                            controller:
+                                signUpController.confirmPasswordController,
+                            labelText: "Confirm Password",
+                            // hintText: 'Confirm password',
+                            obscureText: true,
+                            // suffixIcon: const Icon(Icons.remove_red_eye),
+                          ),
 
-                                //Terms and condition Checkbox
-                                Wrap(
-                                  children: [
-                                    SizedBox(
-                                        width: 24,
-                                        height: 24,
-                                        child: Checkbox(
-                                          checkColor: Colors.white,
-                                          activeColor: Colors.purple,
-                                          value: isChecked,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              isChecked = value!;
-                                              termsnCondition = value;
-                                            });
-                                          },
-                                        )),
-                                    const SizedBox(width: 12.0),
-                                    const Text.rich(TextSpan(children: [
-                                      TextSpan(
-                                          text: "I agree to",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          )),
-                                      TextSpan(
-                                          text: " Privacy Policy ",
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                          )),
-                                      TextSpan(
-                                          text: "and",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          )),
-                                      TextSpan(
-                                          text: " Terms of use.",
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                          )),
-                                    ]))
-                                  ],
+                          //Terms and condition Checkbox
+                          Wrap(
+                            children: [
+                              SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: Checkbox(
+                                    checkColor: Colors.white,
+                                    activeColor: Colors.purple,
+                                    value: isChecked,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isChecked = value!;
+                                        termsnCondition = value;
+                                      });
+                                    },
+                                  )),
+                              const SizedBox(width: 12.0),
+                              const Text.rich(TextSpan(children: [
+                                TextSpan(
+                                    text: "I agree to",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    )),
+                                TextSpan(
+                                    text: " Privacy Policy ",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    )),
+                                TextSpan(
+                                    text: "and",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    )),
+                                TextSpan(
+                                    text: " Terms of use.",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    )),
+                              ]))
+                            ],
+                          ),
+                          const SizedBox(height: 22.0),
+                          //Sign up button
+                          Obx(
+                            () => SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  disabledBackgroundColor:
+                                      const Color.fromARGB(255, 210, 180, 240),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 168, 105, 227),
                                 ),
-                                const SizedBox(height: 22.0),
-                                //Sign up button
-                                Obx(
-                                  () => SizedBox(
-                                    width: double.infinity,
-                                    height: 50,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        disabledBackgroundColor:
-                                            const Color.fromARGB(
-                                                255, 210, 180, 240),
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 168, 105, 227),
+                                onPressed: termsnCondition
+                                    ? () {
+                                        if (_formkey.currentState!.validate()) {
+                                          signUpController.signup();
+                                        }
+                                      }
+                                    : null,
+                                child: signUpController.isLoading.value
+                                    ? const CircularProgressIndicator()
+                                    : const Text(
+                                        "Create Account",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      onPressed: termsnCondition
-                                          ? () {
-                                              if (_formkey.currentState!
-                                                  .validate()) {
-                                                signUpController.signup();
-                                              }
-                                            }
-                                          : null,
-                                      child: signUpController.isLoading.value
-                                          ? const CircularProgressIndicator()
-                                          : const Text(
-                                              "Create Account",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 18.0),
-                  const Text(
-                    "Or",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    const Text(
-                      "Already have an account?",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Get.to(() => const LoginScreen());
-                        },
-                        child: const Text(
-                          "Sign in",
-                          style: TextStyle(
-                              color: Colors.purple,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ))
-                  ]),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
+            const SizedBox(height: 18.0),
+            const Text(
+              "Or",
+              style: TextStyle(fontSize: 18),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Text(
+                "Already have an account?",
+                style: TextStyle(fontSize: 18),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Get.to(() => const LoginScreen());
+                  },
+                  child: const Text(
+                    "Sign in",
+                    style: TextStyle(
+                        color: Colors.purple,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ))
+            ]),
+          ],
         ),
-      ]),
+      ),
     );
   }
 

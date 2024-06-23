@@ -121,9 +121,14 @@ class ApiEndpoints {
     return isSignup;
   }
 
-  Future<bool> verifyOtp(String otp) async {
+  Future<bool> verifyOtp(String otp, bool isPassword) async {
     bool isVerified = false; // Default to false indicating verification failed
-    String url = baseUrl + verifyOtpUrl;
+    String url;
+    if(isPassword){
+      url = baseUrl + verifyEmailUrl;
+    }else{
+      url = baseUrl + verifyOtpUrl;
+    }
     Response response;
     var dio = HttpServices().getDioInstance();
 
@@ -271,5 +276,69 @@ class ApiEndpoints {
       }
     }
     return getAllJobsModel;
+  }
+
+  Future<GetAllJobsModel> getAllJobsByUser() async {
+    GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
+    String url = baseUrl; // + getJobByUserUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        getAllJobsModel = GetAllJobsModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to get jobs: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred while fetching jobs.');
+      }
+    }
+    return getAllJobsModel;
+  }
+
+  Future<bool> verifyEmail(String email) async {
+    bool isVerified = false; // Default to false indicating verification failed
+    String url = baseUrl + verifyEmailUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+
+    try {
+      response = await dio.post(
+        url,
+        data: {
+          'email': email,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        debugPrint('Email verification successful');
+        debugPrint("otp: ${data['otp']}");
+        isVerified = true; // Email verification successful
+      } else {
+        throw Exception('Failed to verify email: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+            'An unexpected error occurred during email verification.');
+      }
+    }
+    return isVerified;
   }
 }

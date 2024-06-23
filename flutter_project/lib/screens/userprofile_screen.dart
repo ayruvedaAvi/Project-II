@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
+// import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/screens/settings_screen.dart';
+import 'package:flutter_project/screens/user_posted_job_screen.dart';
 // import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_profiledetailscard.dart';
@@ -91,6 +93,20 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
               ),
             ),
           ),
+          Positioned(
+            right: MediaQuery.of(context).size.width * 0.03,
+            top: MediaQuery.of(context).size.height * 0.04,
+            // right: 0,
+            child: IconButton(
+                onPressed: () {
+                  Get.to(() => const SettingsScreen());
+                },
+                icon: const Icon(
+                  Icons.settings,
+                  color: Color.fromARGB(255, 58, 18, 89),
+                  size: 35,
+                )),
+          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
@@ -147,15 +163,86 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 50,
                   ),
-                  const Row(
+                  // Container(
+
+                  //   decoration:
+                  //       BoxDecoration(borderRadius: BorderRadius.circular(10)
+                  //       ),
+                  //   child: const Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //     children: [
+                  //       Icon(
+                  //         Icons.edit,
+                  //         color: Colors.black,
+                  //       ),
+                  //       Text(
+                  //         "Update your KYC",
+                  //         style: TextStyle(color: Colors.black),
+                  //       ),
+                  //       Icon(
+                  //         Icons.add,
+                  //         color: Colors.black,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        side: const BorderSide(
+                          width: 2,
+                          color: Color.fromARGB(255, 168, 105, 227),
+                        ),
+                        foregroundColor:
+                            const Color.fromARGB(255, 168, 105, 227),
+                      ),
+                      onPressed: () {},
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(
+                            Icons.edit_document,
+                          ),
+                          Text(
+                            "Update your KYC",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Icon(
+                            Icons.add,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomProfiledetailscard(
+                        onTap: () {
+                          Get.to(() => const UserPostedJobScreen(
+                                postStatus: "Cooking",
+                                detailsTopic: "Pending Jobs",
+                                
+                              ));
+                        },
                         name: "Pending Jobs",
                         contextIcon: Icons.pending_actions_outlined,
                         numCount: "25",
                       ),
                       CustomProfiledetailscard(
+                        onTap: () {
+                          Get.to(() => const UserPostedJobScreen(
+                                postStatus: "Household",
+                                
+                                detailsTopic: "Active Jobs",
+                              ));
+                        },
                         name: "Active Jobs",
                         contextIcon: Icons.directions_run_rounded,
                         numCount: "15",
@@ -165,45 +252,52 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomProfiledetailscard(
+                        onTap: () {
+                          Get.to(() => const UserPostedJobScreen(
+                                postStatus: "Repair",
+                                detailsTopic: "Completed Jobs",
+                                
+                              ));
+                        },
                         name: "Completed Jobs",
                         contextIcon: Icons.check_circle,
                         numCount: "10",
                       ),
                       CustomProfiledetailscard(
-                        name: "Refer a friend",
+                        onTap: () {},
+                        name: "Stats",
                         contextIcon: Icons.offline_share,
                         numCount: "25",
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const CustomProfiledetailscard(
-                        name: "Settings",
-                        contextIcon: Icons.settings,
-                        numCount: "All",
-                      ),
-                      InkWell(
-                        onTap: () {
-                          UserSharedPreference.removeDataFromStorage('token');
-                          Get.off(() => const LoginScreen());
-                        },
-                        child: const CustomProfiledetailscard(
-                          name: "Logout",
-                          contextIcon: Icons.logout_outlined,
-                          numCount: "Bye!",
-                        ),
-                      )
-                    ],
-                  ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     CustomProfiledetailscard(
+                  //       onTap: () {},
+                  //       name: "Settings",
+                  //       contextIcon: Icons.settings,
+                  //       numCount: "All",
+                  //     ),
+                  //     CustomProfiledetailscard(
+                  //       onTap: () {
+                  //         UserSharedPreference.removeDataFromStorage('token');
+                  //         Get.off(() => const LoginScreen());
+                  //       },
+                  //       name: "Logout",
+                  //       contextIcon: Icons.logout_outlined,
+                  //       numCount: "Bye!",
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 15,
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/controllers/verify_otp_controller.dart';
+import 'package:flutter_project/controllers/authControllers/verify_otp_controller.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String mobileNo;

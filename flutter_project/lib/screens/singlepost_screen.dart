@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 
 class SinglepostScreen extends StatefulWidget {
   final String? profileImg;
@@ -112,6 +113,13 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                     ],
                   ),
                 ),
+
+                // const Divider(
+                //   thickness: 1,
+                //   color: Colors.grey,
+                //   indent: 5,
+                //   endIndent: 5,
+                // ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -172,8 +180,7 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                   Expanded(
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 168, 105, 227),
+                          backgroundColor: borderButtonColor,
                         ),
                         onPressed: () {},
                         child: const Text(
@@ -189,10 +196,8 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                         style: OutlinedButton.styleFrom(
                           shape: const StadiumBorder(),
                           side: const BorderSide(
-                              width: 2,
-                              color: Color.fromARGB(255, 168, 105, 227)),
-                          foregroundColor:
-                              const Color.fromARGB(255, 168, 105, 227),
+                              width: 2, color: borderButtonColor),
+                          foregroundColor: borderButtonColor,
                         ),
                         onPressed: () {},
                         child: const Text(

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/signup_controller.dart';
-import 'package:flutter_project/screens/authScreens/forgetpass_newpass_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
-import 'package:get/get.dart';
-import 'package:flutter_project/controllers/verify_otp_controller.dart';
+import 'package:flutter_project/controllers/authControllers/verify_otp_controller.dart';
 import 'package:flutter/services.dart';
 
 class ForgotpassOtpScreen extends StatefulWidget {
@@ -16,8 +13,6 @@ class ForgotpassOtpScreen extends StatefulWidget {
 class _ForgotpassOtpScreenState extends State<ForgotpassOtpScreen> {
   VerifyOtpController verifyOtpController = VerifyOtpController();
 
-  // final _formkey = GlobalKey<FormState>();
-  final signUpController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -295,8 +290,7 @@ class _ForgotpassOtpScreenState extends State<ForgotpassOtpScreen> {
                             const Color.fromARGB(255, 168, 105, 227),
                       ),
                       onPressed: () {
-                        // verifyOtpController.verifyOtp();
-                        Get.to(() => const ForgetpassNewpassScreen());
+                        verifyOtpController.verifyOtpForgotPass();
                       },
                       child: verifyOtpController.isLoading.value
                           ? const CircularProgressIndicator()

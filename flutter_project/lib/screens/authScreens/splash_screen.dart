@@ -8,6 +8,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+  static const route = 'notification-screen';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

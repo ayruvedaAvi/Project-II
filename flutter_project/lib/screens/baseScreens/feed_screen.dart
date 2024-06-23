@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/jobControllers/get_all_jobs_by_filter_controller.dart';
-import 'package:flutter_project/controllers/jobControllers/get_all_jobs_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_by_filter_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_controller.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
-import 'package:flutter_project/widgets/custom_postcard.dart';
+// import 'package:flutter_project/widgets/custom_postcard.dart';
+import 'package:flutter_project/widgets/custom_test_postcard.dart';
 import 'package:get/get.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class _FeedScreenState extends State<FeedScreen> {
   Future<void> filterPosts(String category) async {
     var filteredJobs =
         await getAllJobsByFilterController.getAllJobsByFilter(category);
-    debugPrint(filteredJobs?.count.toString()?? 'No jobs found');
+    debugPrint(filteredJobs?.count.toString() ?? 'No jobs found');
     if (filteredJobs != null) {
       jobs.value = filteredJobs;
     } else {
@@ -81,14 +82,15 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        elevation: 5.0,
+        shadowColor: Colors.grey,
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         title: const Text(
           "Shrami",
-          style: TextStyle(
-              fontSize: 24, color: mainColor, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -183,18 +185,20 @@ class _FeedScreenState extends State<FeedScreen> {
           );
         } else {
           return Padding(
-            padding: const EdgeInsets.only(top: 25, bottom: 10),
+            padding: const EdgeInsets.only(top: 0, bottom: 0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height - 160,
+              height: MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return CustomPostcard(
+                  return CustomTestPostcard(
                     profileImg: 'assets/images/profile_image.jpg',
                     userName: jobs.value!.jobs![index].userName,
                     workDescription: jobs.value!.jobs![index].workDescription,
                     image: jobs.value!.jobs![index].image,
                     title: jobs.value!.jobs![index].Title,
                     price: jobs.value!.jobs![index].price,
+                    jobType: jobs.value!.jobs![index].jobType,
+                    createdAt: jobs.value!.jobs![index].createdAt,
                   );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,
