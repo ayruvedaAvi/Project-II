@@ -51,6 +51,9 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    fcmToken:[{
+      type:String}]
+    
 });
 
 userSchema.pre('save', async function () {

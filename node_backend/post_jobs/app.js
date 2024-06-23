@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
+const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
@@ -39,11 +40,13 @@ app.use(helmet());
 app.use(xss());
 app.use(fileUpload({ useTempFiles: false }));
 
+
 // Routers
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
 const userRouter = require('./routes/userRoutes');
 const forgetPassword=require('./routes/forgetPassword')
+const notification = require('./routes/notification');
 
 app.get('/', (req, res) => {
   res.send('Welcome to the LaborlanceAPI');
@@ -54,6 +57,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 app.use('/api/v1/users', authenticateUser,userRouter);
 app.use('/api/v1/forgetPassword',forgetPassword)
+app.use('/api/v1/notification', notification);
 
 // Error handling middleware
 app.use(notFoundMiddleware);

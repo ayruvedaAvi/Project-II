@@ -19,6 +19,7 @@ const updateUser = async (req, res) => {
   if (!userId) {
     throw new CustomError.BadRequestError('User ID is missing in the request');
   }
+
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     throw new CustomError.BadRequestError('Invalid user ID format');
   }
@@ -127,10 +128,15 @@ const passwordVerify = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
 };
 
+
+
+
+
 module.exports = {
   updateUser,
   updateUserPassword,
-  passwordVerify
+  passwordVerify,
+
 };
 
 
