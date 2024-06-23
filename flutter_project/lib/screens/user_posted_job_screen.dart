@@ -10,13 +10,8 @@ import 'package:get/get.dart';
 
 class UserPostedJobScreen extends StatefulWidget {
   final String? postStatus;
-  final bool? isActiveUser;
   final String? detailsTopic;
-  const UserPostedJobScreen(
-      {super.key,
-      this.postStatus,
-      this.isActiveUser = false,
-      this.detailsTopic});
+  const UserPostedJobScreen({super.key, this.postStatus, this.detailsTopic});
 
   @override
   State<UserPostedJobScreen> createState() => _UserPostedJobScreenState();
@@ -113,7 +108,7 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
                     price: jobs.value!.jobs![index].price,
                     jobType: jobs.value!.jobs![index].jobType,
                     createdAt: jobs.value!.jobs![index].createdAt,
-                    // isActiveUser: widget.isActiveUser,
+                    isActiveUser: true,
                   );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,

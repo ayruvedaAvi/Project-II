@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen>
   void initState() {
     // loginController.isLoading = <RxBool>false;
     super.initState();
+    // signUpLoading = false;
     // for (int i = 0; i < 40; i++) {
     //   var controller = AnimationController(
     //     vsync: this,

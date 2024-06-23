@@ -228,6 +228,7 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                           Get.to(() => const UserPostedJobScreen(
                                 postStatus: "Cooking",
                                 detailsTopic: "Pending Jobs",
+                                
                               ));
                         },
                         name: "Pending Jobs",
@@ -238,7 +239,7 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                         onTap: () {
                           Get.to(() => const UserPostedJobScreen(
                                 postStatus: "Household",
-                                isActiveUser: true,
+                                
                                 detailsTopic: "Active Jobs",
                               ));
                         },
@@ -259,6 +260,7 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                           Get.to(() => const UserPostedJobScreen(
                                 postStatus: "Repair",
                                 detailsTopic: "Completed Jobs",
+                                
                               ));
                         },
                         name: "Completed Jobs",

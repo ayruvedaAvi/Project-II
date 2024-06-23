@@ -12,6 +12,7 @@ class CustomTestPostcard extends StatefulWidget {
   final double? price;
   final String? createdAt;
   final String? jobType;
+  final bool isActiveUser;
   const CustomTestPostcard({
     super.key,
     this.workDescription,
@@ -22,6 +23,7 @@ class CustomTestPostcard extends StatefulWidget {
     this.price,
     this.createdAt,
     this.jobType,
+    this.isActiveUser = false,
   });
 
   @override
@@ -96,40 +98,135 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 timeDifference,
                 style: const TextStyle(color: Colors.black45),
               ),
-              trailing: IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        child: const Column(
-                          children: [
-                            ListTile(
-                              leading: Icon(Icons.edit),
-                              title: Text('Edit'),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.delete),
-                              title: Text('Delete'),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.share),
-                              title: Text('Share'),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.change_circle_outlined),
-                              title: Text('Change Status'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-                icon: const Icon(Icons.more_vert),
-                color: Colors.black,
-              ),
+              trailing: widget.isActiveUser
+                  ? IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.white,
+                          builder: (context) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.edit,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.delete,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.share,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Share',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.change_circle_outlined,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Change Status',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      icon: const Icon(Icons.more_vert),
+                      color: Colors.black,
+                    )
+                  : IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.white,
+                          builder: (context) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.favorite,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Add to favorite',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.report,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Report post',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {},
+                                    leading: const Icon(
+                                      Icons.share,
+                                      color: Colors.black,
+                                    ),
+                                    title: const Text(
+                                      'Share',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  // ListTile(
+                                  //   onTap: () {},
+                                  //   leading: const Icon(
+                                  //     Icons.change_circle_outlined,
+                                  //     color: Colors.black,
+                                  //   ),
+                                  //   title: const Text(
+                                  //     'Change Status',
+                                  //     style: TextStyle(color: Colors.black),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      icon: const Icon(Icons.more_vert),
+                      color: Colors.black,
+                    ),
             ),
           ),
           Container(
