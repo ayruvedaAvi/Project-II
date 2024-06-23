@@ -62,23 +62,24 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(15),
+      // margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(
-            // topLeft: Radius.circular(20), bottomRight: Radius.circular(20),
-            Radius.circular(20),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF000000)
-                  .withOpacity(0.3), // Semi-transparent black
-              spreadRadius: 0,
-              blurRadius: 10,
-              offset: const Offset(0, 3),
-            )
-          ]),
+        color: Colors.white.withOpacity(0.3),
+        borderRadius: const BorderRadius.all(
+          // topLeft: Radius.circular(20), bottomRight: Radius.circular(20),
+          Radius.circular(20),
+        ),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: const Color(0xFF000000)
+        //         .withOpacity(0.3), // Semi-transparent black
+        //     spreadRadius: 0,
+        //     blurRadius: 10,
+        //     offset: const Offset(0, 3),
+        //   )
+        // ],
+      ),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,13 +296,15 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                   // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[50],
-                      // border: Border.all(color: Colors.teal),
-                      borderRadius: const BorderRadius.all(
-                          // topRight: Radius.circular(8),
-                          // bottomLeft: Radius.circular(8),
-                          Radius.circular(10))),
+                  decoration: const BoxDecoration(
+                    // color: Colors.blue[50],
+                    // border: Border.all(color: Colors.teal),
+                    borderRadius: BorderRadius.all(
+                      // topRight: Radius.circular(8),
+                      // bottomLeft: Radius.circular(8),
+                      Radius.circular(10),
+                    ),
+                  ),
                   child: Row(
                     children: [
                       Text(
