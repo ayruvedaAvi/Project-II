@@ -9,9 +9,10 @@ import 'package:flutter_project/widgets/custom_test_postcard.dart';
 import 'package:get/get.dart';
 
 class UserPostedJobScreen extends StatefulWidget {
-  final String? postStatus;
+  final String postStatus;
   final String? detailsTopic;
-  const UserPostedJobScreen({super.key, this.postStatus, this.detailsTopic});
+  const UserPostedJobScreen(
+      {super.key, required this.postStatus, this.detailsTopic});
 
   @override
   State<UserPostedJobScreen> createState() => _UserPostedJobScreenState();

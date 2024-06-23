@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:flutter_project/widgets/custom_activeuser_bottomsheet.dart';
+import 'package:flutter_project/widgets/custom_otheruser_bottomsheet.dart';
 import 'package:get/get.dart';
 
 class CustomTestPostcard extends StatefulWidget {
@@ -99,134 +101,8 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 style: const TextStyle(color: Colors.black45),
               ),
               trailing: widget.isActiveUser
-                  ? IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          builder: (context) {
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.edit,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Edit',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.delete,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Delete',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Share',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.change_circle_outlined,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Change Status',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(Icons.more_vert),
-                      color: Colors.black,
-                    )
-                  : IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          builder: (context) {
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Add to favorite',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.report,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Report post',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Share',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  // ListTile(
-                                  //   onTap: () {},
-                                  //   leading: const Icon(
-                                  //     Icons.change_circle_outlined,
-                                  //     color: Colors.black,
-                                  //   ),
-                                  //   title: const Text(
-                                  //     'Change Status',
-                                  //     style: TextStyle(color: Colors.black),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(Icons.more_vert),
-                      color: Colors.black,
-                    ),
+                  ? const CustomActiveuserBottomsheet()
+                  : const CustomOtheruserBottomsheet(),
             ),
           ),
           Container(
