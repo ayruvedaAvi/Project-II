@@ -208,7 +208,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       InkWell(
                         onTap: () {
                           UserSharedPreference.removeDataFromStorage('token');
-                          Get.off(() => const LoginScreen());
+                          Get.offAll(() => const LoginScreen());
                         },
                         child: const CustomSettingRow(
                           prefixIcon: Icons.logout,
