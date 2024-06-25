@@ -40,7 +40,7 @@ const ProfilePicture = async (req, res, next) => {
   if (!req.files || !req.files.media) {
     console.log('No media file uploaded, assigning a default profile picture.');
 
-    // Use the schema default logic to assign a default profile picture
+ 
     user.profilePicture = user.profilePicture || user.schema.path('profilePicture').defaultValue();
     await user.save();
 
@@ -116,7 +116,6 @@ const updateUser = async (req, res, next) => {
     throw new CustomError.UnauthorizedError('Not authorized to update this profile');
   }
 
-  // Update user fields only if provided
   user.name = name || user.name;
   user.lastName = lastName || user.lastName;
 
@@ -137,7 +136,6 @@ const updateUser = async (req, res, next) => {
 
       const uploadedMediaUrl = await uploadPromise;
 
-      // Delete the old profile picture from Cloudinary if it exists and is not a default image
       await deleteFromCloudinary(user.profilePicture);
 
       user.profilePicture = uploadedMediaUrl;
