@@ -8,6 +8,7 @@ const logoutUrl = "/auth/logout";
 const verifyOtpUrl = "/auth/verify";
 const verifyEmailUrl = "/forgetPassword/verifyemail";
 const verifyOtpForgotPassUrl = "/forgetPassword/verify";
+const changePasswordUrl = "/forgetPassword/resetPassword";
 
 //job urls
 const postJobUrl = "/jobs";
