@@ -78,7 +78,7 @@ const getAllPosts = async (req, res) => {//shows all the jobs posted by every us
 
 const getAllJobs = async (req, res) => {
   const jobId = req.body.jobId;
-  const userId = req.user.id;
+  const userId = req.user.userId;
 
   try {
     let queryObject = {};
