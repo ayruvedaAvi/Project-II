@@ -77,38 +77,52 @@ const getAllPosts = async (req, res) => {//shows all the jobs posted by every us
 };
 
 const getAllJobs = async (req, res) => {
-  const userId = req.body.userId;
-  console.log('User ID:', userId);
+  const jobId = req.body.jobId;
+  console.log('Job ID:', jobId);
 
-  const queryObject = { userId };
+  try {
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
 
-  let result = Job.find(queryObject);
+    const userId = job.userId;
+    console.log('User ID:', userId);
 
-  const jobs = await result;
-  console.log('Jobs Found:', jobs.length);
+    const queryObject = { userId };
 
-  const totalJobs = await Job.countDocuments(queryObject);
-  console.log('Total Jobs:', totalJobs);
+    let result = Job.find(queryObject);
 
-  const formattedJobs = jobs.map(job => ({
-    id: job._id,
-    Title: job.Title,
-    workDescription: job.workDescription,
-    status: job.status,
-    userId: job.userId,
-    userName: job.userName,
-    userLastName: job.userLastName,
-    userEmail: job.userEmail,
-    jobType: job.jobType,
-    jobLocation: job.jobLocation,
-    price: job.price,
-    image: job.image,
-    createdAt: job.createdAt,
-    updatedAt: job.updatedAt
-  }));
+    const jobs = await result;
+    console.log('Jobs Found:', jobs.length);
 
-  res.status(200).json({ totalJobs, jobs: formattedJobs });
+    const totalJobs = await Job.countDocuments(queryObject);
+    console.log('Total Jobs:', totalJobs);
+
+    const formattedJobs = jobs.map(job => ({
+      id: job._id,
+      Title: job.Title,
+      workDescription: job.workDescription,
+      status: job.status,
+      userId: job.userId,
+      userName: job.userName,
+      userLastName: job.userLastName,
+      userEmail: job.userEmail,
+      jobType: job.jobType,
+      jobLocation: job.jobLocation,
+      price: job.price,
+      image: job.image,
+      createdAt: job.createdAt,
+      updatedAt: job.updatedAt
+    }));
+
+    res.status(200).json({ totalJobs, jobs: formattedJobs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
+
 
 
 
