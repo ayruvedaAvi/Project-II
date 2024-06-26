@@ -114,7 +114,7 @@ class _BaseScreenState extends State<BaseScreen> {
             key: const ValueKey('bottomNav'),
             height: 60,
             backgroundColor: Colors.white,
-            color: disabledForegroundColor,
+            color: borderButtonColor,
             animationDuration: const Duration(milliseconds: 300),
             buttonBackgroundColor: getButtonBackgroundColor(_selectedIndex),
             onTap: (index) {

@@ -77,42 +77,19 @@ const getAllPosts = async (req, res) => {//shows all the jobs posted by every us
 };
 
 const getAllJobs = async (req, res) => {
-  const { search, status, jobType, sort } = req.query;
+  const userId = req.body.userId;
+  console.log('User ID:', userId);
 
-  const queryObject = {
-    userId: req.user.userId,
-  };
+  const queryObject = { userId };
 
-  if (search) {
-    queryObject.workDescription = { $regex: search, $options: 'i' };
-  }
-  if (status && status !== 'all') {
-    queryObject.status = status;
-  }
-  if (jobType && jobType !== 'all') {
-    queryObject.jobType = jobType;
-  }
   let result = Job.find(queryObject);
 
-  if (sort === 'latest') {
-    result = result.sort('-createdAt');
-  }
-  if (sort === 'oldest') {
-    result = result.sort('createdAt');
-  }
-  if (sort === 'a-z') {
-    result = result.sort('workDescription');
-  }
-  if (sort === 'z-a') {
-    result = result.sort('-workDescription');
-  }
-
-
-
-
   const jobs = await result;
+  console.log('Jobs Found:', jobs.length);
 
   const totalJobs = await Job.countDocuments(queryObject);
+  console.log('Total Jobs:', totalJobs);
+
   const formattedJobs = jobs.map(job => ({
     id: job._id,
     Title: job.Title,
@@ -130,8 +107,11 @@ const getAllJobs = async (req, res) => {
     updatedAt: job.updatedAt
   }));
 
-  res.status(StatusCodes.OK).json({ jobs:formattedJobs, totalJobs});
+  res.status(200).json({ totalJobs, jobs: formattedJobs });
 };
+
+
+
 const getJob = async (req, res) => {
   const { jobId } = req.body;
 

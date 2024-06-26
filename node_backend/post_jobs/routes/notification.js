@@ -1,8 +1,9 @@
+// In your route setup file
 const express = require('express');
 const router = express.Router();
-const sendNotification = require('../controllers/notification');
+const sendNotificationController = require('../controllers/notification');
+const attachTokenInterceptor = require('../middleware/getAccessTokenMiddleware');
 
-// Change the route method from get to post
-router.route('/singleNotification').post(sendNotification);
+router.post('/singleNotification', attachTokenInterceptor, sendNotificationController);
 
 module.exports = router;

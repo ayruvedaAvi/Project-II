@@ -128,10 +128,15 @@ const passwordVerify = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
 };
 
+
+
+
+
 module.exports = {
   updateUser,
   updateUserPassword,
-  passwordVerify
+  passwordVerify,
+
 };
 
 

@@ -4,6 +4,7 @@ const { createJWT }=require('../utils')
 require('dotenv').config();
 const twilio = require('twilio');
 const { StatusCodes } = require('http-status-codes');
+const crypto = require('crypto');
 
 const client = twilio(process.env.Account_SID, process.env.Auth_Token);
 const otpStore = {};
@@ -105,10 +106,10 @@ const logout = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: "log out" });
 };
 
-
 module.exports = {
     register,
     verify,
     login,
     logout,
+
   };

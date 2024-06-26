@@ -10,7 +10,6 @@ const JobSchema = new mongoose.Schema(
     workDescription: {
       type: String,
       required: [true, 'Please provide workDescription'],
-      maxlength: 100,
     },
     status: {
       type: String,
