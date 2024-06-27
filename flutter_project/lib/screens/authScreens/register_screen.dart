@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_project/controllers/authControllers/signup_controller.dart';
 import 'package:flutter_project/screens/authScreens/forgetpass_newpass_screen.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';

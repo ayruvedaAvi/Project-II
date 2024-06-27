@@ -36,7 +36,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   void initState() {
     super.initState();
     _errorText = null;
-    print("yo kaam gardaixa?");
   }
 
   void _setErrorText(String? errorText) {
