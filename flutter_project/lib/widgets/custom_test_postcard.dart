@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
+// import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/widgets/custom_activeuser_bottomsheet.dart';
@@ -7,24 +9,26 @@ import 'package:get/get.dart';
 
 class CustomTestPostcard extends StatefulWidget {
   final String? profileImg;
-  final String? userName;
-  final String? workDescription;
-  final String? image;
-  final String? title;
-  final double? price;
-  final String? createdAt;
-  final String? jobType;
+  // final String? userName;
+  // final String? workDescription;
+  // final String? image;
+  // final String? title;
+  // final double? price;
+  // final String? createdAt;
+  // final String? jobType;
+  final JobDetailsModel jobModel;
   final bool isActiveUser;
   const CustomTestPostcard({
     super.key,
-    this.workDescription,
-    this.image,
+    // this.workDescription,
+    // this.image,
     this.profileImg,
-    this.userName,
-    this.title,
-    this.price,
-    this.createdAt,
-    this.jobType,
+    // this.userName,
+    // this.title,
+    // this.price,
+    // this.createdAt,
+    // this.jobType,
+    required this.jobModel,
     this.isActiveUser = false,
   });
 
@@ -42,8 +46,8 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
   }
 
   void calculateTimeDifference() {
-    if (widget.createdAt != null) {
-      DateTime createdAtDateTime = DateTime.parse(widget.createdAt!);
+    if (widget.jobModel.createdAt != null) {
+      DateTime createdAtDateTime = DateTime.parse(widget.jobModel.createdAt!);
       DateTime now = DateTime.now();
       Duration difference = now.difference(createdAtDateTime);
 
@@ -113,7 +117,7 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 radius: 25,
               ),
               title: Text(
-                widget.userName.toString(),
+                widget.jobModel.userName.toString(),
                 style: const TextStyle(color: Colors.black),
               ),
               subtitle: Text(
@@ -142,16 +146,16 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                       decoration: BoxDecoration(
                           // color: Colors.teal,
                           border: Border.all(
-                              color: getJobTypeColor(widget.jobType)),
+                              color: getJobTypeColor(widget.jobModel.jobType)),
                           borderRadius: const BorderRadius.all(
                               // topRight: Radius.circular(8),
                               // bottomLeft: Radius.circular(8),
                               Radius.circular(20))),
                       child: Text(
-                        "# ${widget.jobType.toString()}",
+                        "# ${widget.jobModel.jobType.toString()}",
                         // style: const TextStyle(color: Colors.teal),
-                        style:
-                            TextStyle(color: getJobTypeColor(widget.jobType)),
+                        style: TextStyle(
+                            color: getJobTypeColor(widget.jobModel.jobType)),
                       ),
                     ),
                     const SizedBox(
@@ -161,12 +165,12 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                       children: [
                         Icon(
                           Icons.location_on,
-                          color: getJobTypeColor(widget.jobType),
+                          color: getJobTypeColor(widget.jobModel.jobType),
                         ),
                         Text(
                           "Balkumari, Lalitpur",
-                          style:
-                              TextStyle(color: getJobTypeColor(widget.jobType)),
+                          style: TextStyle(
+                              color: getJobTypeColor(widget.jobModel.jobType)),
                         ),
                       ],
                     )
@@ -179,20 +183,20 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                   onTap: () {
                     Get.to(() => SinglepostScreen(
                           profileImg: widget.profileImg,
-                          userName: widget.userName,
-                          workDescription: widget.workDescription,
-                          image: widget.image,
-                          title: widget.title,
-                          price: widget.price ?? 0.0,
+                          userName: widget.jobModel.userName,
+                          workDescription: widget.jobModel.workDescription,
+                          image: widget.jobModel.image,
+                          title: widget.jobModel.Title,
+                          price: widget.jobModel.price ?? 0.0,
                           createdAt: timeDifference,
-                          jobType: widget.jobType,
+                          jobType: widget.jobModel.jobType,
                         ));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.title.toString(),
+                        widget.jobModel.Title.toString(),
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
@@ -200,7 +204,7 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                         height: 10,
                       ),
                       Text(
-                        widget.workDescription.toString(),
+                        widget.jobModel.workDescription.toString(),
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontSize: 16, color: Colors.black54),
@@ -229,7 +233,7 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                   child: Row(
                     children: [
                       Text(
-                        "Rs ${widget.price.toString()}",
+                        "Rs ${widget.jobModel.price.toString()}",
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 20,
