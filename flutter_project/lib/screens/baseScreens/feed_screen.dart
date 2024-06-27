@@ -218,6 +218,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             // jobType: jobs.value!.jobs![index].jobType,
                             // createdAt: jobs.value!.jobs![index].createdAt,
                             jobModel: jobs.value!.jobs![index],
+                            onDelete: (S) {},
                           ),
                         ],
                       );

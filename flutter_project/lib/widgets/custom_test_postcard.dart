@@ -8,7 +8,7 @@ import 'package:flutter_project/widgets/custom_otheruser_bottomsheet.dart';
 import 'package:get/get.dart';
 
 class CustomTestPostcard extends StatefulWidget {
-  final String? jobId;
+  // final String? jobId;
   final String? profileImg;
   // final String? userName;
   // final String? workDescription;
@@ -129,7 +129,10 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 style: const TextStyle(color: Colors.black45),
               ),
               trailing: widget.isActiveUser
-                  ? const CustomActiveuserBottomsheet()
+                  ? CustomActiveuserBottomsheet(
+                      onDelete: widget.onDelete,
+                      jobId: widget.jobModel.id.toString(),
+                    )
                   : const CustomOtheruserBottomsheet(),
             ),
           ),

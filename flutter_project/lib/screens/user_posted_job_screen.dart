@@ -113,7 +113,8 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
                     // jobType: jobs.value!.jobs![index].jobType,
                     // createdAt: jobs.value!.jobs![index].createdAt,
                     jobModel: jobs.value!.jobs![index],
-                    isActiveUser: true,
+                    isActiveUser: widget.detailsTopic == "Active Jobs",
+                    onDelete: removeJob,
                   );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,
