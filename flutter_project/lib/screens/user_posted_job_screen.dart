@@ -75,7 +75,7 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
         title: Text(widget.detailsTopic.toString()),
       ),
       // backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
 
       // body: Center(
       //   child: ElevatedButton(

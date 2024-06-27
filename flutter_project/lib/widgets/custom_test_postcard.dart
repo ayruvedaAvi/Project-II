@@ -61,17 +61,37 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
     }
   }
 
+  Color getJobTypeColor(String? jobType) {
+    final List<Map<String, dynamic>> jobTypeCategories = [
+      {'name': 'Technical', 'color': Colors.red},
+      {'name': 'Household', 'color': Colors.blue},
+      {'name': 'Repair', 'color': Colors.green},
+      {'name': 'Construction', 'color': Colors.teal},
+      {'name': 'Cleaning', 'color': Colors.purple},
+      {'name': 'Gardening', 'color': Colors.orange},
+      {'name': 'Cooking', 'color': Colors.indigo},
+      {'name': 'Shifting Service', 'color': Colors.brown},
+      {'name': 'Others', 'color': Colors.pink},
+    ];
+
+    var matchedCategory = jobTypeCategories.firstWhere(
+        (category) => category['name'] == jobType,
+        orElse: () => {'color': Colors.grey}); // Default color if no match
+    return matchedCategory['color'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.3),
-        borderRadius: const BorderRadius.all(
-          // topLeft: Radius.circular(20), bottomRight: Radius.circular(20),
-          Radius.circular(20),
-        ),
+      margin: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      decoration: const BoxDecoration(
+        // color: Colors.white.withOpacity(0.3),
+        color: Colors.white,
+        // borderRadius: BorderRadius.all(
+        //   // topLeft: Radius.circular(20), bottomRight: Radius.circular(20),
+        //   Radius.circular(20),
+        // ),
         // boxShadow: [
         //   BoxShadow(
         //     color: const Color(0xFF000000)
@@ -112,21 +132,45 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  decoration: BoxDecoration(
-                      // color: Colors.teal,
-                      border: Border.all(color: Colors.teal),
-                      borderRadius: const BorderRadius.all(
-                          // topRight: Radius.circular(8),
-                          // bottomLeft: Radius.circular(8),
-                          Radius.circular(20))),
-                  child: Text(
-                    "# ${widget.jobType.toString()}",
-                    style: const TextStyle(color: Colors.teal),
-                  ),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 15),
+                      decoration: BoxDecoration(
+                          // color: Colors.teal,
+                          border: Border.all(
+                              color: getJobTypeColor(widget.jobType)),
+                          borderRadius: const BorderRadius.all(
+                              // topRight: Radius.circular(8),
+                              // bottomLeft: Radius.circular(8),
+                              Radius.circular(20))),
+                      child: Text(
+                        "# ${widget.jobType.toString()}",
+                        // style: const TextStyle(color: Colors.teal),
+                        style:
+                            TextStyle(color: getJobTypeColor(widget.jobType)),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: getJobTypeColor(widget.jobType),
+                        ),
+                        Text(
+                          "Balkumari, Lalitpur",
+                          style:
+                              TextStyle(color: getJobTypeColor(widget.jobType)),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
                 const SizedBox(
                   height: 10,
@@ -141,6 +185,7 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                           title: widget.title,
                           price: widget.price ?? 0.0,
                           createdAt: timeDifference,
+                          jobType: widget.jobType,
                         ));
                   },
                   child: Column(
@@ -166,21 +211,21 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
-                  height: 70,
+                  height: 50,
                   // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  decoration: const BoxDecoration(
-                    // color: Colors.blue[50],
-                    // border: Border.all(color: Colors.teal),
-                    borderRadius: BorderRadius.all(
-                      // topRight: Radius.circular(8),
-                      // bottomLeft: Radius.circular(8),
-                      Radius.circular(10),
-                    ),
-                  ),
+                  // padding:
+                  //     const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  // decoration: const BoxDecoration(
+                  //   // color: Colors.blue[50],
+                  //   // border: Border.all(color: Colors.teal),
+                  //   borderRadius: BorderRadius.all(
+                  //     // topRight: Radius.circular(8),
+                  //     // bottomLeft: Radius.circular(8),
+                  //     Radius.circular(10),
+                  //   ),
+                  // ),
                   child: Row(
                     children: [
                       Text(
@@ -239,14 +284,12 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                     ),
                     // Apply now button
                     Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          // backgroundColor:
-                          //     const Color(0xFF3B4FE4),
-                          backgroundColor: borderButtonColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          side: const BorderSide(
+                              width: 2, color: borderButtonColor),
+                          foregroundColor: borderButtonColor,
                         ),
                         onPressed: () {
                           // Add apply now action here
@@ -259,7 +302,6 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             ),
                           ),
                         ),
