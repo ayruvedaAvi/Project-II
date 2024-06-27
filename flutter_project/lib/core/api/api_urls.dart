@@ -16,3 +16,4 @@ const getAllJobsUrl = "/jobs";
 const getJobByFilterUrl = "/jobs/search";
 const getAllJobsByUserUrl = "/jobs/user";
 const editJobUrl = "/jobs";
+const deleteJobUrl = "/jobs/delete";

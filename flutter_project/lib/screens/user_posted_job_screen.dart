@@ -31,6 +31,12 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
     }
   }
 
+  void removeJob(String jobId) {
+    setState(() {
+      jobs.value!.jobs?.removeWhere((job) => job.id == jobId);
+    });
+  }
+
   Future<void> filterPosts(String jobStatus) async {
     var allJobs = await getAllJobsController.getAllJobs();
     debugPrint(allJobs?.count.toString() ?? 'No jobs found');
@@ -104,9 +110,11 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
                       image: jobs.value!.jobs![index].image,
                       title: jobs.value!.jobs![index].Title,
                       price: jobs.value!.jobs![index].price,
+                      jobId: jobs.value!.jobs![index].id,
                       jobType: jobs.value!.jobs![index].jobType,
                       createdAt: jobs.value!.jobs![index].createdAt,
-                      isActiveUser: true,
+                      isActiveUser: widget.detailsTopic == "Active Jobs",
+                      onDelete: removeJob,
                     );
                   } else {
                     return const SizedBox.shrink();

@@ -215,6 +215,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               price: jobs.value!.jobs![index].price,
                               jobType: jobs.value!.jobs![index].jobType,
                               createdAt: jobs.value!.jobs![index].createdAt,
+                              onDelete: (S){},
                             ),
                             Divider(
                               thickness: 1,

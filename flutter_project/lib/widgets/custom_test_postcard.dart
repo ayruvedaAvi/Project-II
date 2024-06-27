@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/controllers/jobControllers/deleteJob/delete_job_controller.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:get/get.dart';
 
 class CustomTestPostcard extends StatefulWidget {
+  final String? jobId;
   final String? profileImg;
   final String? userName;
   final String? workDescription;
@@ -13,6 +15,7 @@ class CustomTestPostcard extends StatefulWidget {
   final String? createdAt;
   final String? jobType;
   final bool isActiveUser;
+  final Function(String) onDelete;
   const CustomTestPostcard({
     super.key,
     this.workDescription,
@@ -20,10 +23,12 @@ class CustomTestPostcard extends StatefulWidget {
     this.profileImg,
     this.userName,
     this.title,
+    this.jobId,
     this.price,
     this.createdAt,
     this.jobType,
     this.isActiveUser = false,
+    required this.onDelete,
   });
 
   @override
@@ -123,7 +128,41 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                                     ),
                                   ),
                                   ListTile(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            title: const Text('Confirm Delete'),
+                                            content: const Text(
+                                                'Are you sure you want to delete this post?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: const Text('Cancel'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Delete'),
+                                                onPressed: () {
+                                                  
+                                                  DeleteJobController deleteJobController = DeleteJobController();
+                                                  deleteJobController.deleteJob(widget.jobId.toString());
+                                                  widget.onDelete(widget.jobId!);
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
                                     leading: const Icon(
                                       Icons.delete,
                                       color: Colors.black,

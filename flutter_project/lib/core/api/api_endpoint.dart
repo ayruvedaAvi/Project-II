@@ -438,4 +438,48 @@ class ApiEndpoints {
     }
     return isPasswordChanged;
   }
+
+  Future<bool> deleteJob({required String jobId}) async {
+    bool isJobDeleted = false; // Default to false indicating job delete failed
+    String url = baseUrl + deleteJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    try {
+      response = await dio.delete(
+        url,
+        data: {
+          'jobId': jobId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Job deleted successfully');
+        isJobDeleted = true; // Job delete successful
+      } else {
+        throw Exception('Failed to delete job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job delete');
+      }
+    }
+    return isJobDeleted;
+  }
 }
