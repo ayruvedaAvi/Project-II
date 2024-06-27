@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/controllers/authControllers/forgot_password_controller.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
-import 'package:flutter_project/controllers/authControllers/signup_controller.dart';
 
 class ForgetpassNewpassScreen extends StatefulWidget {
   const ForgetpassNewpassScreen({super.key});
@@ -14,7 +13,7 @@ class ForgetpassNewpassScreen extends StatefulWidget {
 
 class _ForgetpassNewpassScreenState extends State<ForgetpassNewpassScreen> {
   final _formkey = GlobalKey<FormState>();
-  final signUpController = Get.put(SignupController());
+  final forgotPasswordController = Get.put(ForgotPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +80,7 @@ class _ForgetpassNewpassScreenState extends State<ForgetpassNewpassScreen> {
                       children: [
                         CustomTextFormField(
                           keyType: TextInputType.visiblePassword,
-                          controller: signUpController.passwordController,
+                          controller: forgotPasswordController.passwordController,
                           labelText: 'Password',
                           // hintText: 'Enter your password',
                           obscureText: true,
@@ -97,12 +96,12 @@ class _ForgetpassNewpassScreenState extends State<ForgetpassNewpassScreen> {
                         ),
                         CustomTextFormField(
                           validator: (p0) =>
-                              p0 != signUpController.passwordController.text
+                              p0 != forgotPasswordController.passwordController.text
                                   ? "Password does not match"
                                   : null,
                           keyType: TextInputType.visiblePassword,
                           controller:
-                              signUpController.confirmPasswordController,
+                              forgotPasswordController.newPasswordController,
                           labelText: "Confirm Password",
                           // hintText: 'Confirm password',
                           obscureText: true,
@@ -119,12 +118,11 @@ class _ForgetpassNewpassScreenState extends State<ForgetpassNewpassScreen> {
                                   const Color.fromARGB(255, 168, 105, 227),
                             ),
                             onPressed: () {
-                              // if (_formkey.currentState!.validate()) {
-                              //   signUpController.signup();
-                              // }
-                              Get.to(() => const LoginScreen());
+                              if(_formkey.currentState!.validate()){
+                                forgotPasswordController.changePassword();
+                              }
                             },
-                            child: signUpController.isLoading.value
+                            child: forgotPasswordController.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : const Text(
                                     "Continue",

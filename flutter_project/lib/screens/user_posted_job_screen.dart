@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_by_filter_controller.dart';
-import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_by_user.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 // import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
@@ -20,9 +19,8 @@ class UserPostedJobScreen extends StatefulWidget {
 
 class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
   RxString name = ''.obs;
-  GetAllJobsController getAllJobsController = Get.put(GetAllJobsController());
-  GetAllJobsByFilterController getAllJobsByFilterController =
-      Get.put(GetAllJobsByFilterController());
+  GetAllJobsByUserController getAllJobsController =
+      Get.put(GetAllJobsByUserController());
   Rxn<GetAllJobsModel> jobs = Rxn<GetAllJobsModel>();
 
   Future<void> getPosts() async {
@@ -34,12 +32,17 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
     }
   }
 
+  void removeJob(String jobId) {
+    setState(() {
+      jobs.value!.jobs?.removeWhere((job) => job.id == jobId);
+    });
+  }
+
   Future<void> filterPosts(String jobStatus) async {
-    var filteredJobs =
-        await getAllJobsByFilterController.getAllJobsByFilter(jobStatus);
-    debugPrint(filteredJobs?.count.toString() ?? 'No jobs found');
-    if (filteredJobs != null) {
-      jobs.value = filteredJobs;
+    var allJobs = await getAllJobsController.getAllJobs();
+    debugPrint(allJobs?.count.toString() ?? 'No jobs found');
+    if (allJobs != null) {
+      jobs.value = allJobs;
     } else {
       Get.showSnackbar(
         const GetSnackBar(

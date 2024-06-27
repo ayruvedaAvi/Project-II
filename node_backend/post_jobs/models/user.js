@@ -6,9 +6,20 @@ const bcrypt=require('bcryptjs');
 
 
 const userSchema = new mongoose.Schema({
-    profilePicture:{
-      type: String
-    },
+  profilePicture: {
+    type: String,
+    default: function() {
+      const urls = [
+        "https://res.cloudinary.com/debjnxbys/image/upload/v1719296060/profile_Picture/lmwikhknerjjeac1gu3b.avif",
+        "https://res.cloudinary.com/debjnxbys/image/upload/v1719296273/profile_Picture/xfehfyieow7ichyucqve.jpg",
+        "https://res.cloudinary.com/debjnxbys/image/upload/v1719296270/profile_Picture/r2sxxekwmg2dld5czj32.jpg",
+        "https://res.cloudinary.com/debjnxbys/image/upload/v1719296252/profile_Picture/auopkluaqi3tzrnl6fyd.avif",
+        "https://res.cloudinary.com/debjnxbys/image/upload/v1719296243/profile_Picture/w2a5evfkprpif82verhs.avif",
+        "https://res.cloudinary.com/debjnxbys/image/upload/v1719296216/profile_Picture/zqelbqsjagswlsgiopck.jpg"
+      ];
+      return urls[Math.floor(Math.random() * urls.length)];
+    }
+  },
     name:{
         type:String,
         required:[true,'please provide name'],

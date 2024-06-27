@@ -12,6 +12,7 @@ import 'package:flutter_project/core/api/http_services.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 // ignore: depend_on_referenced_packages
 import 'package:image_picker/image_picker.dart';
+
 class ApiEndpoints {
   Future<bool> login(LoginModel loginModel) async {
     bool isLogin = false; // Default to false indicating login failed
@@ -124,9 +125,9 @@ class ApiEndpoints {
   Future<bool> verifyOtp(String otp, bool isPassword) async {
     bool isVerified = false; // Default to false indicating verification failed
     String url;
-    if(isPassword){
-      url = baseUrl + verifyEmailUrl;
-    }else{
+    if (isPassword) {
+      url = baseUrl + verifyOtpForgotPassUrl;
+    } else {
       url = baseUrl + verifyOtpUrl;
     }
     Response response;
@@ -142,11 +143,13 @@ class ApiEndpoints {
 
       if (response.statusCode == 200) {
         debugPrint('OTP verification successful');
-        SignupResponseModel signupResponse =
-            SignupResponseModel.fromJson(response.data);
+        if (!isPassword) {
+          SignupResponseModel signupResponse =
+              SignupResponseModel.fromJson(response.data);
 
-        var token = signupResponse.token;
-        await UserSharedPreference.saveDataToStorage('token', token);
+          var token = signupResponse.token;
+          await UserSharedPreference.saveDataToStorage('token', token);
+        }
 
         isVerified = true; // OTP verification successful
       } else {
@@ -166,59 +169,119 @@ class ApiEndpoints {
   }
 
   Future<bool> postJob({
-  required TextEditingController title,
-  required TextEditingController workDescription,
-  required TextEditingController price,
-  required String category,
-  XFile? imageFile,
-}) async {
-  bool isJobPosted = false; // Default to false indicating job post failed
-  String url = baseUrl + postJobUrl;
-  Response response;
-  var dio = HttpServices().getDioInstance();
-  String? token = await UserSharedPreference.getStringDataFromStorage('token');
+    required TextEditingController title,
+    required TextEditingController workDescription,
+    required TextEditingController price,
+    required String category,
+    XFile? imageFile,
+  }) async {
+    bool isJobPosted = false; // Default to false indicating job post failed
+    String url = baseUrl + postJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
 
-  // Check if the token is null or empty
-  if (token == null || token.isEmpty) {
-    throw Exception('Authentication token is missing');
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    FormData formData = FormData.fromMap({
+      "Title": title.text,
+      "workDescription": workDescription.text,
+      "price": price.text,
+      "jobType": category,
+      if (imageFile != null)
+        "media": await MultipartFile.fromFile(imageFile.path),
+    });
+
+    try {
+      response = await dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        debugPrint('Job posted successfully');
+        isJobPosted = true; // Job post successful
+      } else {
+        throw Exception('Failed to post job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job post');
+      }
+    }
+    return isJobPosted;
   }
 
-  FormData formData = FormData.fromMap({
-    "Title": title.text,
-    "workDescription": workDescription.text,
-    "price": price.text,
-    "jobType": category,
-    if (imageFile != null) "media": await MultipartFile.fromFile(imageFile.path),
-  });
+  Future<bool> editJob({
+    required String title,
+    required String workDescription,
+    required String price,
+    required String category,
+    required String jobId,
+    XFile? imageFile,
+  }) async {
+    bool isJobPosted = false; // Default to false indicating job post failed
+    String url = baseUrl + postJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
 
-  try {
-    response = await dio.post(
-      url,
-      data: formData,
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      ),
-    );
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
 
-    if (response.statusCode == 201) {
-      debugPrint('Job posted successfully');
-      isJobPosted = true; // Job post successful
-    } else {
-      throw Exception('Failed to post job: ${response.data}');
+    FormData formData = FormData.fromMap({
+      "Title": title,
+      "workDescription": workDescription,
+      "price": price,
+      "jobType": category,
+      if (imageFile != null)
+        "media": await MultipartFile.fromFile(imageFile.path),
+    });
+
+    try {
+      response = await dio.patch(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        debugPrint('Job posted successfully');
+        isJobPosted = true; // Job post successful
+      } else {
+        throw Exception('Failed to post job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job post');
+      }
     }
-  } catch (e) {
-    if (e is DioException) {
-      String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
-      throw Exception(errorMessage);
-    } else {
-      throw Exception('An unexpected error occurred during job post');
-    }
+    return isJobPosted;
   }
-  return isJobPosted;
-}
-
 
   Future<GetAllJobsModel> getAllJobs() async {
     GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
@@ -280,7 +343,7 @@ class ApiEndpoints {
 
   Future<GetAllJobsModel> getAllJobsByUser() async {
     GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
-    String url = baseUrl; // + getJobByUserUrl;
+    String url = baseUrl + getAllJobsByUserUrl; // + getJobByUserUrl;
     Response response;
     var dio = HttpServices().getDioInstance();
     String? token =
@@ -340,5 +403,83 @@ class ApiEndpoints {
       }
     }
     return isVerified;
+  }
+
+  Future<bool> changePassword(String password, String newPassword) async {
+    bool isPasswordChanged =
+        false; // Default to false indicating password change failed
+    String url = baseUrl + changePasswordUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+
+    try {
+      response = await dio.patch(
+        url,
+        data: {
+          'newPassword': password,
+          'confirmPassword': newPassword,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Password changed successfully');
+        isPasswordChanged = true; // Password change successful
+      } else {
+        throw Exception('Failed to change password: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during password change');
+      }
+    }
+    return isPasswordChanged;
+  }
+
+  Future<bool> deleteJob({required String jobId}) async {
+    bool isJobDeleted = false; // Default to false indicating job delete failed
+    String url = baseUrl + deleteJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    try {
+      response = await dio.delete(
+        url,
+        data: {
+          'jobId': jobId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Job deleted successfully');
+        isJobDeleted = true; // Job delete successful
+      } else {
+        throw Exception('Failed to delete job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job delete');
+      }
+    }
+    return isJobDeleted;
   }
 }

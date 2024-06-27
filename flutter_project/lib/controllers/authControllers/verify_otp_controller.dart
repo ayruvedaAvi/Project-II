@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/authScreens/forgetpass_newpass_screen.dart';
 import 'package:flutter_project/screens/baseScreens/base_screen.dart';
 import 'package:flutter_project/core/api/api_endpoint.dart';
 import 'package:get/get.dart';
@@ -64,7 +65,7 @@ class VerifyOtpController extends GetxController {
             snackPosition: SnackPosition.TOP,
           );
           isLoading.value = false;
-          Get.off(() => const BaseScreen(initalIndex: 0));
+          Get.to(() => const ForgetpassNewpassScreen());
         } else {
           Get.snackbar(
             "Error",

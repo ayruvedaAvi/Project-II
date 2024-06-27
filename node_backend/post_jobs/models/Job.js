@@ -13,8 +13,8 @@ const JobSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'Taken','completed'],
-      default: 'pending',
+      enum: ['pending', 'active','completed'],
+      default: 'active',
     },
     userId: {
       type: mongoose.Types.ObjectId,

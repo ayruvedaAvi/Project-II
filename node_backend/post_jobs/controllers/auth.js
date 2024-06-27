@@ -5,6 +5,7 @@ require('dotenv').config();
 const twilio = require('twilio');
 const { StatusCodes } = require('http-status-codes');
 const crypto = require('crypto');
+const { ProfilePicture } = require('./userController');
 
 const client = twilio(process.env.Account_SID, process.env.Auth_Token);
 const otpStore = {};
@@ -72,7 +73,7 @@ const verify = async (req, res) => {
     delete otpStore[otp];
     delete tempUserStore[phoneNumber];
 
-    const tokenUser = { name: user.name, lastName: user.lastName, userId: user._id, role: user.role ,phoneNumber:user.phoneNumber};
+    const tokenUser = { name: user.name, lastName: user.lastName,profilePicture:user.profilePicture, userId: user._id, role: user.role ,phoneNumber:user.phoneNumber};
     const token = createJWT({ payload: tokenUser });
 
     res.status(StatusCodes.OK).json({ msg: 'Phone number verified successfully. Registration complete.', user: tokenUser, token });
@@ -93,7 +94,7 @@ const login = async (req, res) => {
     if (!user.isActive) {
         throw new CustomError.UnauthenticatedError("User not verified");
     }
-    const tokenUser = { name: user.name, lastName:user.lastName,userId: user._id, role: user.role,phoneNumber:user.phoneNumber };
+    const tokenUser = { name: user.name, lastName:user.lastName,profilePicture:user.profilePicture,userId: user._id, role: user.role,phoneNumber:user.phoneNumber };
     const token = createJWT({ payload: tokenUser });
     res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
 };

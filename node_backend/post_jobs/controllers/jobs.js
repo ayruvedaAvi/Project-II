@@ -77,38 +77,51 @@ const getAllPosts = async (req, res) => {//shows all the jobs posted by every us
 };
 
 const getAllJobs = async (req, res) => {
-  const userId = req.body.userId;
-  console.log('User ID:', userId);
+  const jobId = req.body.jobId;
+  const userId = req.user.userId;
 
-  const queryObject = { userId };
+  try {
+    let queryObject = {};
 
-  let result = Job.find(queryObject);
+    if (jobId) {
+      const job = await Job.findById(jobId);
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+      queryObject.userId = job.userId;
+    } else {
+      queryObject.userId = userId;
+    }
 
-  const jobs = await result;
-  console.log('Jobs Found:', jobs.length);
+    const result = Job.find(queryObject);
 
-  const totalJobs = await Job.countDocuments(queryObject);
-  console.log('Total Jobs:', totalJobs);
+    const jobs = await result;
+    const totalJobs = await Job.countDocuments(queryObject);
 
-  const formattedJobs = jobs.map(job => ({
-    id: job._id,
-    Title: job.Title,
-    workDescription: job.workDescription,
-    status: job.status,
-    userId: job.userId,
-    userName: job.userName,
-    userLastName: job.userLastName,
-    userEmail: job.userEmail,
-    jobType: job.jobType,
-    jobLocation: job.jobLocation,
-    price: job.price,
-    image: job.image,
-    createdAt: job.createdAt,
-    updatedAt: job.updatedAt
-  }));
+    const formattedJobs = jobs.map(job => ({
+      id: job._id,
+      Title: job.Title,
+      workDescription: job.workDescription,
+      status: job.status,
+      userId: job.userId,
+      userName: job.userName,
+      userLastName: job.userLastName,
+      userEmail: job.userEmail,
+      jobType: job.jobType,
+      jobLocation: job.jobLocation,
+      price: job.price,
+      image: job.image,
+      createdAt: job.createdAt,
+      updatedAt: job.updatedAt
+    }));
 
-  res.status(200).json({ totalJobs, jobs: formattedJobs });
+    res.status(200).json({ totalJobs, jobs: formattedJobs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
+
 
 
 
@@ -147,7 +160,7 @@ const getJob = async (req, res) => {
 const updateJob = async (req, res, next) => {
   const {
     body: { jobId, Title, workDescription, jobType, jobLocation, price },
-    files, // Files uploaded by the user
+    files, 
     user: { userId }
   } = req;
 
@@ -157,7 +170,6 @@ const updateJob = async (req, res, next) => {
       return next(new NotFoundError(`No job with id ${jobId} found for this user`));
     }
 
-    // Update job fields only if they are provided in the request body
     if (Title !== undefined && Title !== null && Title !== '') {
       job.Title = Title;
     }
@@ -174,7 +186,6 @@ const updateJob = async (req, res, next) => {
       job.price = price;
     }
 
-    // Check if media file is provided and it's either an image or video
     if (!files || !files.media) {
       return next(new BadRequestError('No media file uploaded'));
     }

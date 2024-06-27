@@ -8,6 +8,7 @@ import 'package:flutter_project/widgets/custom_otheruser_bottomsheet.dart';
 import 'package:get/get.dart';
 
 class CustomTestPostcard extends StatefulWidget {
+  final String? jobId;
   final String? profileImg;
   // final String? userName;
   // final String? workDescription;
@@ -18,6 +19,7 @@ class CustomTestPostcard extends StatefulWidget {
   // final String? jobType;
   final JobDetailsModel jobModel;
   final bool isActiveUser;
+  final Function(String) onDelete;
   const CustomTestPostcard({
     super.key,
     // this.workDescription,
@@ -30,6 +32,7 @@ class CustomTestPostcard extends StatefulWidget {
     // this.jobType,
     required this.jobModel,
     this.isActiveUser = false,
+    required this.onDelete,
   });
 
   @override

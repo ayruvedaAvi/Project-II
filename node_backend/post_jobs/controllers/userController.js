@@ -2,17 +2,98 @@ const User = require('../models/User');
 const mongoose = require('mongoose');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
+const cloudinary = require('cloudinary').v2;
+const { BadRequestError, NotFoundError, InternalServerError } = CustomError;
 const {createJWT}= require('../utils');
 const twilio = require('twilio');
 
 
-
-
-
-const updateUser = async (req, res) => {
-  const {name, lastName, profilePicture} = req.body;
+const ProfilePicture = async (req, res, next) => {
   const userId = req.user.userId;
 
+  console.log('Received request to update user with ID:', userId);
+
+  if (!userId) {
+    throw new BadRequestError('User ID is missing in the request');
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    throw new BadRequestError('Invalid user ID format');
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    console.log(`User not found with ID: ${userId}`);
+    throw new NotFoundError(`No user found with ID: ${userId}`);
+  }
+
+  if (user._id.toString() !== userId) {
+    throw new CustomError.UnauthorizedError('Not authorized to update this profile');
+  }
+
+  // if (user.profilePicture) {
+  //   console.log(`User with ID: ${userId} already has a profile picture.`);
+  //   return next(new BadRequestError('Profile picture already set. Use updateUser to change it.'));
+  // }
+
+  if (!req.files || !req.files.media) {
+    console.log('No media file uploaded, assigning a default profile picture.');
+
+ 
+    user.profilePicture = user.profilePicture || user.schema.path('profilePicture').defaultValue();
+    await user.save();
+
+    return res.status(StatusCodes.OK).json({ profilePicture: user.profilePicture });
+  }
+
+  const mediaFile = req.files.media;
+
+  try {
+    const uploadPromise = new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { resource_type: 'auto', folder: 'profile_Picture' , tags: [userId,user.name]},
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result.secure_url);
+        }
+      );
+      stream.end(mediaFile.data);
+    });
+
+    const uploadedMediaUrl = await uploadPromise;
+    user.profilePicture = uploadedMediaUrl;
+    await user.save();
+
+    return res.status(StatusCodes.OK).json({ profilePicture: uploadedMediaUrl });
+  } catch (error) {
+    console.error('Error uploading media:', error);
+    return next(new InternalServerError('Error uploading media'));
+  }
+}
+
+
+
+const deleteFromCloudinary = async (url) => {
+  if (!url) return;
+
+  const defaultUrls = User.schema.path('profilePicture').defaultValue();
+
+  if (defaultUrls.includes(url)) {
+    return;
+  }
+
+  const publicId = url.split('/').pop().split('.')[0];
+  try {
+    await cloudinary.uploader.destroy(`profile_Picture/${publicId}`, { resource_type: 'image' });
+  } catch (error) {
+    console.error('Error deleting old profile picture from Cloudinary:', error);
+  }
+};
+
+const updateUser = async (req, res, next) => {
+  const { name, lastName } = req.body;
+  const userId = req.user.userId;
 
   console.log('Received request to update user with ID:', userId);
 
@@ -35,11 +116,34 @@ const updateUser = async (req, res) => {
     throw new CustomError.UnauthorizedError('Not authorized to update this profile');
   }
 
-  // Update user fields only if provided
   user.name = name || user.name;
   user.lastName = lastName || user.lastName;
-  user.profilePicture = profilePicture || user.profilePicture;
 
+  if (req.files && req.files.media) {
+    const mediaFile = req.files.media;
+
+    try {
+      const uploadPromise = new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: 'auto', folder: 'profile_Picture', tags: [userId, user.name] },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result.secure_url);
+          }
+        );
+        stream.end(mediaFile.data);
+      });
+
+      const uploadedMediaUrl = await uploadPromise;
+
+      await deleteFromCloudinary(user.profilePicture);
+
+      user.profilePicture = uploadedMediaUrl;
+    } catch (error) {
+      console.error('Error uploading media:', error);
+      return next(new InternalServerError('Error uploading media'));
+    }
+  }
 
   await user.save();
 
@@ -136,6 +240,7 @@ module.exports = {
   updateUser,
   updateUserPassword,
   passwordVerify,
+  ProfilePicture
 
 };
 
