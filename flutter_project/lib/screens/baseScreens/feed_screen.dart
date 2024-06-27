@@ -4,7 +4,6 @@ import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
-// import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:flutter_project/widgets/custom_test_postcard.dart';
 import 'package:get/get.dart';
 
@@ -54,6 +53,7 @@ class _FeedScreenState extends State<FeedScreen> {
           borderColor: mainColor,
           backgroundColor: Colors.red,
         ),
+        // const CustomSnackbar(body: "No jobs found", title: "Error", type: "Error"),
       );
     }
   }
@@ -82,7 +82,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 5.0,
         // shadowColor: Colors.grey,
@@ -175,64 +175,62 @@ class _FeedScreenState extends State<FeedScreen> {
           ],
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white,
-              Colors.white,
-            ],
-          ),
-        ),
-        child: Obx(() {
-          if (getAllJobsController.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (jobs.value == null) {
-            return const Center(
-              child: Text(
-                  'Error fetching jobs, something went wrong, please try again later.'),
-            );
-          } else {
-            return Padding(
-              padding: const EdgeInsets.only(top: 0, bottom: 0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height -140,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            CustomTestPostcard(
-                              profileImg: 'assets/images/profile_image.jpg',
-                              userName: jobs.value!.jobs![index].userName,
-                              workDescription:
-                                  jobs.value!.jobs![index].workDescription,
-                              image: jobs.value!.jobs![index].image,
-                              title: jobs.value!.jobs![index].Title,
-                              price: jobs.value!.jobs![index].price,
-                              jobType: jobs.value!.jobs![index].jobType,
-                              createdAt: jobs.value!.jobs![index].createdAt,
-                              onDelete: (S){},
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Colors.grey.withOpacity(0.5),
-                            )
-                          ],
-                        );
-                      },
-                      itemCount: jobs.value?.jobs?.length ?? 0,
-                    ),
+      body:
+          // Container(
+          // decoration: const BoxDecoration(
+          //   gradient: LinearGradient(
+          //     begin: Alignment.topLeft,
+          //     end: Alignment.bottomRight,
+          //     colors: [
+          //       Colors.white,
+          //       Colors.white,
+          //     ],
+          //   ),
+          // ),
+          // child:
+          Obx(() {
+        if (getAllJobsController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (jobs.value == null) {
+          return const Center(
+            child: Text(
+                'Error fetching jobs, something went wrong, please try again later.'),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.only(top: 0, bottom: 0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 146,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          CustomTestPostcard(
+                            profileImg: 'assets/images/profile_image.jpg',
+                            // userName: jobs.value!.jobs![index].userName,
+                            // workDescription:
+                            //     jobs.value!.jobs![index].workDescription,
+                            // image: jobs.value!.jobs![index].image,
+                            // title: jobs.value!.jobs![index].Title,
+                            // price: jobs.value!.jobs![index].price,
+                            // jobType: jobs.value!.jobs![index].jobType,
+                            // createdAt: jobs.value!.jobs![index].createdAt,
+                            jobModel: jobs.value!.jobs![index],
+                            onDelete: (S) {},
+                          ),
+                        ],
+                      );
+                    },
+                    itemCount: jobs.value?.jobs?.length ?? 0,
                   ),
-                ],
-              ),
-            );
-          }
-        }),
-      ),
+                ),
+              ],
+            ),
+          );
+        }
+      }),
     );
   }
 }

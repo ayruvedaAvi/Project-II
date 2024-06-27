@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/baseScreens/addpost_screen.dart';
 import 'package:flutter_project/screens/baseScreens/chats_screen.dart';
 import 'package:flutter_project/screens/baseScreens/feed_screen.dart';
+import 'package:flutter_project/screens/baseScreens/notifications_screen.dart';
 import 'package:flutter_project/screens/userprofile_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 
@@ -29,7 +30,7 @@ class _BaseScreenState extends State<BaseScreen> {
       const FeedScreen(),
       const ChatsScreen(),
       const AddpostScreen(),
-      const ChatsScreen(),
+      const NotificationsScreen(),
       const UserprofileScreen(),
     ];
   }

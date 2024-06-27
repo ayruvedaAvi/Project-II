@@ -8,9 +8,10 @@ import 'package:flutter_project/widgets/custom_test_postcard.dart';
 import 'package:get/get.dart';
 
 class UserPostedJobScreen extends StatefulWidget {
-  final String? postStatus;
+  final String postStatus;
   final String? detailsTopic;
-  const UserPostedJobScreen({super.key, this.postStatus, this.detailsTopic});
+  const UserPostedJobScreen(
+      {super.key, required this.postStatus, this.detailsTopic});
 
   @override
   State<UserPostedJobScreen> createState() => _UserPostedJobScreenState();
@@ -77,7 +78,7 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
         title: Text(widget.detailsTopic.toString()),
       ),
       // backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
 
       // body: Center(
       //   child: ElevatedButton(
@@ -102,23 +103,19 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  if (jobs.value!.jobs![index].status == "active") {
-                    return CustomTestPostcard(
-                      profileImg: 'assets/images/profile_image.jpg',
-                      userName: jobs.value!.jobs![index].userName,
-                      workDescription: jobs.value!.jobs![index].workDescription,
-                      image: jobs.value!.jobs![index].image,
-                      title: jobs.value!.jobs![index].Title,
-                      price: jobs.value!.jobs![index].price,
-                      jobId: jobs.value!.jobs![index].id,
-                      jobType: jobs.value!.jobs![index].jobType,
-                      createdAt: jobs.value!.jobs![index].createdAt,
-                      isActiveUser: widget.detailsTopic == "Active Jobs",
-                      onDelete: removeJob,
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
+                  return CustomTestPostcard(
+                    profileImg: 'assets/images/profile_image.jpg',
+                    // userName: jobs.value!.jobs![index].userName,
+                    // workDescription: jobs.value!.jobs![index].workDescription,
+                    // image: jobs.value!.jobs![index].image,
+                    // title: jobs.value!.jobs![index].Title,
+                    // price: jobs.value!.jobs![index].price,
+                    // jobType: jobs.value!.jobs![index].jobType,
+                    // createdAt: jobs.value!.jobs![index].createdAt,
+                    jobModel: jobs.value!.jobs![index],
+                    isActiveUser: widget.detailsTopic == "Active Jobs",
+                    onDelete: removeJob,
+                  );
                 },
                 itemCount: jobs.value?.jobs?.length ?? 0,
               ),

@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final loginController = Get.put(LoginController());
-  bool signUpLoading = false;
+  // bool signUpLoading = false;
   bool rememberCondition = false;
   bool isChecked = false;
   // Random random = Random();
@@ -354,17 +354,15 @@ class _LoginScreenState extends State<LoginScreen>
                                   onPressed: () {
                                     Get.to(() => const SignupScreen());
                                     setState(() {
-                                      signUpLoading = true;
+                                      // signUpLoading = true;
                                     });
                                   },
-                                  child: signUpLoading
-                                      ? const CircularProgressIndicator()
-                                      : const Text(
-                                          'New? Register here!',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                        ),
+                                  child: const Text(
+                                    'New? Register here!',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],

@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/controllers/jobControllers/deleteJob/delete_job_controller.dart';
+import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
+// import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:flutter_project/widgets/custom_activeuser_bottomsheet.dart';
+import 'package:flutter_project/widgets/custom_otheruser_bottomsheet.dart';
 import 'package:get/get.dart';
 
 class CustomTestPostcard extends StatefulWidget {
-  final String? jobId;
+  // final String? jobId;
   final String? profileImg;
-  final String? userName;
-  final String? workDescription;
-  final String? image;
-  final String? title;
-  final double? price;
-  final String? createdAt;
-  final String? jobType;
+  // final String? userName;
+  // final String? workDescription;
+  // final String? image;
+  // final String? title;
+  // final double? price;
+  // final String? createdAt;
+  // final String? jobType;
+  final JobDetailsModel jobModel;
   final bool isActiveUser;
   final Function(String) onDelete;
   const CustomTestPostcard({
     super.key,
-    this.workDescription,
-    this.image,
+    // this.workDescription,
+    // this.image,
     this.profileImg,
-    this.userName,
-    this.title,
-    this.jobId,
-    this.price,
-    this.createdAt,
-    this.jobType,
+    // this.userName,
+    // this.title,
+    // this.price,
+    // this.createdAt,
+    // this.jobType,
+    required this.jobModel,
     this.isActiveUser = false,
     required this.onDelete,
   });
@@ -45,8 +49,8 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
   }
 
   void calculateTimeDifference() {
-    if (widget.createdAt != null) {
-      DateTime createdAtDateTime = DateTime.parse(widget.createdAt!);
+    if (widget.jobModel.createdAt != null) {
+      DateTime createdAtDateTime = DateTime.parse(widget.jobModel.createdAt!);
       DateTime now = DateTime.now();
       Duration difference = now.difference(createdAtDateTime);
 
@@ -64,17 +68,37 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
     }
   }
 
+  Color getJobTypeColor(String? jobType) {
+    final List<Map<String, dynamic>> jobTypeCategories = [
+      {'name': 'Technical', 'color': Colors.red},
+      {'name': 'Household', 'color': Colors.blue},
+      {'name': 'Repair', 'color': Colors.green},
+      {'name': 'Construction', 'color': Colors.teal},
+      {'name': 'Cleaning', 'color': Colors.purple},
+      {'name': 'Gardening', 'color': Colors.orange},
+      {'name': 'Cooking', 'color': Colors.indigo},
+      {'name': 'Shifting Service', 'color': Colors.brown},
+      {'name': 'Others', 'color': Colors.pink},
+    ];
+
+    var matchedCategory = jobTypeCategories.firstWhere(
+        (category) => category['name'] == jobType,
+        orElse: () => {'color': Colors.grey}); // Default color if no match
+    return matchedCategory['color'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.3),
-        borderRadius: const BorderRadius.all(
-          // topLeft: Radius.circular(20), bottomRight: Radius.circular(20),
-          Radius.circular(20),
-        ),
+      margin: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      decoration: const BoxDecoration(
+        // color: Colors.white.withOpacity(0.3),
+        color: Colors.white,
+        // borderRadius: BorderRadius.all(
+        //   // topLeft: Radius.circular(20), bottomRight: Radius.circular(20),
+        //   Radius.circular(20),
+        // ),
         // boxShadow: [
         //   BoxShadow(
         //     color: const Color(0xFF000000)
@@ -96,7 +120,7 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 radius: 25,
               ),
               title: Text(
-                widget.userName.toString(),
+                widget.jobModel.userName.toString(),
                 style: const TextStyle(color: Colors.black),
               ),
               subtitle: Text(
@@ -105,168 +129,11 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 style: const TextStyle(color: Colors.black45),
               ),
               trailing: widget.isActiveUser
-                  ? IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          builder: (context) {
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.edit,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Edit',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor: Colors.white,
-                                            title: const Text('Confirm Delete'),
-                                            content: const Text(
-                                                'Are you sure you want to delete this post?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text('Cancel'),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: const Text('Delete'),
-                                                onPressed: () {
-                                                  
-                                                  DeleteJobController deleteJobController = DeleteJobController();
-                                                  deleteJobController.deleteJob(widget.jobId.toString());
-                                                  widget.onDelete(widget.jobId!);
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    leading: const Icon(
-                                      Icons.delete,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Delete',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Share',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.change_circle_outlined,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Change Status',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(Icons.more_vert),
-                      color: Colors.black,
+                  ? CustomActiveuserBottomsheet(
+                      onDelete: widget.onDelete,
+                      jobId: widget.jobModel.id.toString(),
                     )
-                  : IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          builder: (context) {
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Add to favorite',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.report,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Report post',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: const Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    title: const Text(
-                                      'Share',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                  // ListTile(
-                                  //   onTap: () {},
-                                  //   leading: const Icon(
-                                  //     Icons.change_circle_outlined,
-                                  //     color: Colors.black,
-                                  //   ),
-                                  //   title: const Text(
-                                  //     'Change Status',
-                                  //     style: TextStyle(color: Colors.black),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(Icons.more_vert),
-                      color: Colors.black,
-                    ),
+                  : const CustomOtheruserBottomsheet(),
             ),
           ),
           Container(
@@ -275,21 +142,45 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  decoration: BoxDecoration(
-                      // color: Colors.teal,
-                      border: Border.all(color: Colors.teal),
-                      borderRadius: const BorderRadius.all(
-                          // topRight: Radius.circular(8),
-                          // bottomLeft: Radius.circular(8),
-                          Radius.circular(20))),
-                  child: Text(
-                    "# ${widget.jobType.toString()}",
-                    style: const TextStyle(color: Colors.teal),
-                  ),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 15),
+                      decoration: BoxDecoration(
+                          // color: Colors.teal,
+                          border: Border.all(
+                              color: getJobTypeColor(widget.jobModel.jobType)),
+                          borderRadius: const BorderRadius.all(
+                              // topRight: Radius.circular(8),
+                              // bottomLeft: Radius.circular(8),
+                              Radius.circular(20))),
+                      child: Text(
+                        "# ${widget.jobModel.jobType.toString()}",
+                        // style: const TextStyle(color: Colors.teal),
+                        style: TextStyle(
+                            color: getJobTypeColor(widget.jobModel.jobType)),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: getJobTypeColor(widget.jobModel.jobType),
+                        ),
+                        Text(
+                          "Balkumari, Lalitpur",
+                          style: TextStyle(
+                              color: getJobTypeColor(widget.jobModel.jobType)),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
                 const SizedBox(
                   height: 10,
@@ -298,19 +189,20 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                   onTap: () {
                     Get.to(() => SinglepostScreen(
                           profileImg: widget.profileImg,
-                          userName: widget.userName,
-                          workDescription: widget.workDescription,
-                          image: widget.image,
-                          title: widget.title,
-                          price: widget.price ?? 0.0,
+                          userName: widget.jobModel.userName,
+                          workDescription: widget.jobModel.workDescription,
+                          image: widget.jobModel.image,
+                          title: widget.jobModel.Title,
+                          price: widget.jobModel.price ?? 0.0,
                           createdAt: timeDifference,
+                          jobType: widget.jobModel.jobType,
                         ));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.title.toString(),
+                        widget.jobModel.Title.toString(),
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
@@ -318,7 +210,7 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                         height: 10,
                       ),
                       Text(
-                        widget.workDescription.toString(),
+                        widget.jobModel.workDescription.toString(),
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontSize: 16, color: Colors.black54),
@@ -329,25 +221,25 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
-                  height: 70,
+                  height: 50,
                   // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  decoration: const BoxDecoration(
-                    // color: Colors.blue[50],
-                    // border: Border.all(color: Colors.teal),
-                    borderRadius: BorderRadius.all(
-                      // topRight: Radius.circular(8),
-                      // bottomLeft: Radius.circular(8),
-                      Radius.circular(10),
-                    ),
-                  ),
+                  // padding:
+                  //     const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  // decoration: const BoxDecoration(
+                  //   // color: Colors.blue[50],
+                  //   // border: Border.all(color: Colors.teal),
+                  //   borderRadius: BorderRadius.all(
+                  //     // topRight: Radius.circular(8),
+                  //     // bottomLeft: Radius.circular(8),
+                  //     Radius.circular(10),
+                  //   ),
+                  // ),
                   child: Row(
                     children: [
                       Text(
-                        "Rs ${widget.price.toString()}",
+                        "Rs ${widget.jobModel.price.toString()}",
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 20,
@@ -402,14 +294,12 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                     ),
                     // Apply now button
                     Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          // backgroundColor:
-                          //     const Color(0xFF3B4FE4),
-                          backgroundColor: borderButtonColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          side: const BorderSide(
+                              width: 2, color: borderButtonColor),
+                          foregroundColor: borderButtonColor,
                         ),
                         onPressed: () {
                           // Add apply now action here
@@ -422,7 +312,6 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             ),
                           ),
                         ),
