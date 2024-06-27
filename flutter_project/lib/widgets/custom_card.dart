@@ -37,7 +37,7 @@ class _CustomCardState extends State<CustomCard> {
                     backgroundColor: Colors.blue[50],
                   ),
                   onPressed: () {
-                    print(widget.buttonText);
+                    debugPrint(widget.buttonText);
                   },
                   child: Text(
                     (widget.buttonText).toString(),

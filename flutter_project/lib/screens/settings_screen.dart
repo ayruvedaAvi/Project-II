@@ -204,8 +204,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Location location = Location();
 
                           bool serviceEnabled;
-                          PermissionStatus _permissionGranted;
-                          LocationData _locationData;
+                          PermissionStatus permissionGranted;
+                          LocationData locationData;
 
                           serviceEnabled = await location.serviceEnabled();
                           if (!serviceEnabled) {
@@ -215,19 +215,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             }
                           }
 
-                          _permissionGranted = await location.hasPermission();
-                          if (_permissionGranted == PermissionStatus.denied) {
-                            _permissionGranted =
+                          permissionGranted = await location.hasPermission();
+                          if (permissionGranted == PermissionStatus.denied) {
+                            permissionGranted =
                                 await location.requestPermission();
-                            if (_permissionGranted !=
+                            if (permissionGranted !=
                                 PermissionStatus.granted) {
                               return;
                             }
                           }
 
-                          _locationData = await location.getLocation();
+                          locationData = await location.getLocation();
                           debugPrint("Location: ");
-                          debugPrint(_locationData.toString());
+                          debugPrint(locationData.toString());
                         },
                       ),
                       Divider(
