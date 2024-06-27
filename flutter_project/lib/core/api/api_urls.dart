@@ -14,3 +14,5 @@ const changePasswordUrl = "/forgetPassword/resetPassword";
 const postJobUrl = "/jobs";
 const getAllJobsUrl = "/jobs";
 const getJobByFilterUrl = "/jobs/search";
+const getAllJobsByUserUrl = "/jobs/user";
+const editJobUrl = "/jobs";

@@ -225,6 +225,64 @@ class ApiEndpoints {
     return isJobPosted;
   }
 
+  Future<bool> editJob({
+    required String title,
+    required String workDescription,
+    required String price,
+    required String category,
+    required String jobId,
+    XFile? imageFile,
+  }) async {
+    bool isJobPosted = false; // Default to false indicating job post failed
+    String url = baseUrl + postJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    FormData formData = FormData.fromMap({
+      "Title": title,
+      "workDescription": workDescription,
+      "price": price,
+      "jobType": category,
+      if (imageFile != null)
+        "media": await MultipartFile.fromFile(imageFile.path),
+    });
+
+    try {
+      response = await dio.patch(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        debugPrint('Job posted successfully');
+        isJobPosted = true; // Job post successful
+      } else {
+        throw Exception('Failed to post job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage =
+            DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job post');
+      }
+    }
+    return isJobPosted;
+  }
+
   Future<GetAllJobsModel> getAllJobs() async {
     GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
     String url = baseUrl + getAllJobsUrl;
@@ -285,7 +343,7 @@ class ApiEndpoints {
 
   Future<GetAllJobsModel> getAllJobsByUser() async {
     GetAllJobsModel getAllJobsModel = GetAllJobsModel(jobs: [], count: 0);
-    String url = baseUrl; // + getJobByUserUrl;
+    String url = baseUrl + getAllJobsByUserUrl; // + getJobByUserUrl;
     Response response;
     var dio = HttpServices().getDioInstance();
     String? token =
