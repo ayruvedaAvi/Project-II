@@ -3,6 +3,7 @@ import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -193,12 +194,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         indent: 60,
                         color: Colors.grey[200],
                       ),
-                      const CustomSettingRow(
-                        prefixIcon: Icons.notifications_active,
-                        prefixText: "Enable notification",
-                        suffixIcon: Icons.arrow_forward_ios,
+                      CustomSettingRow(
+                        prefixIcon: Icons.location_on,
+                        prefixText: "Check location (test)",
+                        suffixIcon: Icons.location_on_outlined,
                         // suffixTextBool: true,
                         // suffixText: "English",
+                        onTap: () async {
+                          Location location = Location();
+
+                          bool serviceEnabled;
+                          PermissionStatus _permissionGranted;
+                          LocationData _locationData;
+
+                          serviceEnabled = await location.serviceEnabled();
+                          if (!serviceEnabled) {
+                            serviceEnabled = await location.requestService();
+                            if (!serviceEnabled) {
+                              return;
+                            }
+                          }
+
+                          _permissionGranted = await location.hasPermission();
+                          if (_permissionGranted == PermissionStatus.denied) {
+                            _permissionGranted =
+                                await location.requestPermission();
+                            if (_permissionGranted !=
+                                PermissionStatus.granted) {
+                              return;
+                            }
+                          }
+
+                          _locationData = await location.getLocation();
+                          debugPrint("Location: ");
+                          debugPrint(_locationData.toString());
+                        },
                       ),
                       Divider(
                         thickness: 1,
