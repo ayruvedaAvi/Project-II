@@ -27,7 +27,7 @@ const createJob = async (req, res, next) => {
   try {
     const uploadPromise = new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'job_media' },
+        { resource_type: 'auto', folder: 'job_media',tags: [userId, user.name]  },
         (error, result) => {
           if (error) reject(error);
           else resolve(result.secure_url);
@@ -138,7 +138,7 @@ const updateJob = async (req, res, next) => {
 
       const uploadPromise = new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { resource_type: 'auto', folder: 'job_media' },
+          { resource_type: 'auto', folder: 'job_media' ,tags: [userId, User.name] },
           (error, result) => {
             if (error) reject(error);
             else resolve(result.secure_url);
