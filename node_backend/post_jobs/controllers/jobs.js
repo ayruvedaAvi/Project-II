@@ -57,23 +57,23 @@ const createJob = async (req, res, next) => {
 };
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
   const jobs = await Job.find({}).limit(10).sort('-createdAt');
-  const formattedJobs = jobs.map(job => ({
-    id: job._id,
-    Title: job.Title,
-    workDescription: job.workDescription,
-    status: job.status,
-    userId: job.userId,
-    userName: job.userName,
-    userLastName: job.userLastName,
-    userEmail: job.userEmail,
-    jobType: job.jobType,
-    jobLocation: job.jobLocation,
-    price: job.price,
-    image: job.image,
-    createdAt: job.createdAt,
-    updatedAt: job.updatedAt
-  }));
-  res.status(StatusCodes.OK).json({ jobs: formattedJobs, count: formattedJobs.length });
+  // const formattedJobs = jobs.map(job => ({
+  //   id: job._id,
+  //   Title: job.Title,
+  //   workDescription: job.workDescription,
+  //   status: job.status,
+  //   userId: job.userId,
+  //   userName: job.userName,
+  //   userLastName: job.userLastName,
+  //   userEmail: job.userEmail,
+  //   jobType: job.jobType,
+  //   jobLocation: job.jobLocation,
+  //   price: job.price,
+  //   image: job.image,
+  //   createdAt: job.createdAt,
+  //   updatedAt: job.updatedAt
+  // }));
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
 const getAllJobs = async (req, res) => {
@@ -98,24 +98,24 @@ const getAllJobs = async (req, res) => {
     const jobs = await result;
     const totalJobs = await Job.countDocuments(queryObject);
 
-    const formattedJobs = jobs.map(job => ({
-      id: job._id,
-      Title: job.Title,
-      workDescription: job.workDescription,
-      status: job.status,
-      userId: job.userId,
-      userName: job.userName,
-      userLastName: job.userLastName,
-      userEmail: job.userEmail,
-      jobType: job.jobType,
-      jobLocation: job.jobLocation,
-      price: job.price,
-      image: job.image,
-      createdAt: job.createdAt,
-      updatedAt: job.updatedAt
-    }));
+    // const formattedJobs = jobs.map(job => ({
+    //   id: job._id,
+    //   Title: job.Title,
+    //   workDescription: job.workDescription,
+    //   status: job.status,
+    //   userId: job.userId,
+    //   userName: job.userName,
+    //   userLastName: job.userLastName,
+    //   userEmail: job.userEmail,
+    //   jobType: job.jobType,
+    //   jobLocation: job.jobLocation,
+    //   price: job.price,
+    //   image: job.image,
+    //   createdAt: job.createdAt,
+    //   updatedAt: job.updatedAt
+    // }));
 
-    res.status(200).json({ totalJobs, jobs: formattedJobs });
+    res.status(200).json({ totalJobs, jobs});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -136,25 +136,25 @@ const getJob = async (req, res) => {
     console.log(`No job found with ID: ${jobId}`);
     throw new NotFoundError(`No job with id ${jobId}`);
   }
-  const formattedJobs = ({
-    id: job._id,
-    Title: job.Title,
-    workDescription: job.workDescription,
-    status: job.status,
-    userId: job.userId,
-    userName: job.userName,
-    userLastName: job.userLastName,
-    userEmail: job.userEmail,
-    jobType: job.jobType,
-    jobLocation: job.jobLocation,
-    price: job.price,
-    image: job.image,
-    createdAt: job.createdAt,
-    updatedAt: job.updatedAt
-  });
+  // const formattedJobs = ({
+  //   id: job._id,
+  //   Title: job.Title,
+  //   workDescription: job.workDescription,
+  //   status: job.status,
+  //   userId: job.userId,
+  //   userName: job.userName,
+  //   userLastName: job.userLastName,
+  //   userEmail: job.userEmail,
+  //   jobType: job.jobType,
+  //   jobLocation: job.jobLocation,
+  //   price: job.price,
+  //   image: job.image,
+  //   createdAt: job.createdAt,
+  //   updatedAt: job.updatedAt
+  // });
   
 
-  res.status(StatusCodes.OK).json({ job:formattedJobs});
+  res.status(StatusCodes.OK).json({ job});
 };
 
 const updateJob = async (req, res, next) => {
@@ -211,26 +211,26 @@ const updateJob = async (req, res, next) => {
     // Save the updated job details
     await job.save();
 
-    // Construct the formatted job object to send in the response
-    const formattedJob = {
-      id: job._id,
-      Title: job.Title,
-      workDescription: job.workDescription,
-      status: job.status,
-      userId: job.userId,
-      userName: job.userName,
-      userLastName: job.userLastName,
-      userEmail: job.userEmail,
-      jobType: job.jobType,
-      jobLocation: job.jobLocation,
-      price: job.price,
-      image: job.image,
-      createdAt: job.createdAt,
-      updatedAt: job.updatedAt
-    };
+   
+    // const formattedJob = {
+    //   id: job._id,
+    //   Title: job.Title,
+    //   workDescription: job.workDescription,
+    //   status: job.status,
+    //   userId: job.userId,
+    //   userName: job.userName,
+    //   userLastName: job.userLastName,
+    //   userEmail: job.userEmail,
+    //   jobType: job.jobType,
+    //   jobLocation: job.jobLocation,
+    //   price: job.price,
+    //   image: job.image,
+    //   createdAt: job.createdAt,
+    //   updatedAt: job.updatedAt
+    // };
 
     // Send the formatted job object in the response
-    res.status(StatusCodes.OK).json({ job: formattedJob });
+    res.status(StatusCodes.OK).json({ job });
   } catch (error) {
     if (!res.headersSent) {
       res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
