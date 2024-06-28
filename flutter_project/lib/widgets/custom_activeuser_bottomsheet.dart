@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/deleteJob/delete_job_controller.dart';
+import 'package:flutter_project/controllers/jobControllers/getJobs/get_single_job_controller.dart';
+import 'package:flutter_project/screens/baseScreens/addpost_screen.dart';
+import 'package:get/get.dart';
 
 class CustomActiveuserBottomsheet extends StatefulWidget {
   final Function(String) onDelete;
@@ -28,7 +31,12 @@ class _CustomActiveuserBottomsheetState
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    onTap: () {},
+                    onTap: () async {
+                      GetSingleJobController getSingleJobController =
+                          GetSingleJobController();
+                      var job = await getSingleJobController.getSingleJob(widget.jobId);
+                      Get.to(() => AddpostScreen(job: job, isEdit: true));
+                    },
                     leading: const Icon(
                       Icons.edit,
                       color: Colors.black,

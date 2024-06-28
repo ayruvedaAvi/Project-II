@@ -107,7 +107,7 @@ const getJob = async (req, res) => {
 const updateJob = async (req, res, next) => {
   const {
     body: { jobId, Title, workDescription, jobType, jobLocation, price },
-    files, 
+    files,
     user: { userId }
   } = req;
 
@@ -117,47 +117,47 @@ const updateJob = async (req, res, next) => {
       return next(new NotFoundError(`No job with id ${jobId} found for this user`));
     }
 
-    if (Title !== undefined && Title !== null && Title !== '') {
+    if (Title) {
       job.Title = Title;
     }
-    if (workDescription !== undefined && workDescription !== null && workDescription !== '') {
+    if (workDescription) {
       job.workDescription = workDescription;
     }
-    if (jobType !== undefined && jobType !== null && jobType !== '') {
+    if (jobType) {
       job.jobType = jobType;
     }
-    if (jobLocation !== undefined && jobLocation !== null && jobLocation !== '') {
+    if (jobLocation) {
       job.jobLocation = jobLocation;
     }
-    if (price !== undefined && price !== null) {
+    if (price ) {
       job.price = price;
     }
 
-    if (!files || !files.media) {
-      return next(new BadRequestError('No media file uploaded'));
+    if (files && files.media) {
+      const mediaFile = files.media;
+
+      const uploadPromise = new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: 'auto', folder: 'job_media' },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result.secure_url);
+          }
+        );
+        stream.end(mediaFile.data);
+      });
+
+      const uploadedMediaUrl = await uploadPromise;
+      job.image = uploadedMediaUrl;
     }
 
-    const mediaFile = files.media;
-
-    const uploadPromise = new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'job_media' },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result.secure_url);
-        }
-      );
-      stream.end(mediaFile.data);
-    });
-
-    const uploadedMediaUrl = await uploadPromise;
-
-    job.image = uploadedMediaUrl;
     await job.save();
     res.status(StatusCodes.OK).json({ job });
   } catch (error) {
     if (!res.headersSent) {
       res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
+    } else {
+      next(error);
     }
   }
 };
