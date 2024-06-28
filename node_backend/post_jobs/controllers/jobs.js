@@ -82,22 +82,6 @@ const getAllJobs = async (req, res) => {
     const jobs = await result;
     const totalJobs = await Job.countDocuments(queryObject);
 
-    // const formattedJobs = jobs.map(job => ({
-    //   id: job._id,
-    //   Title: job.Title,
-    //   workDescription: job.workDescription,
-    //   status: job.status,
-    //   userId: job.userId,
-    //   userName: job.userName,
-    //   userLastName: job.userLastName,
-    //   userEmail: job.userEmail,
-    //   jobType: job.jobType,
-    //   jobLocation: job.jobLocation,
-    //   price: job.price,
-    //   image: job.image,
-    //   createdAt: job.createdAt,
-    //   updatedAt: job.updatedAt
-    // }));
 
     res.status(200).json({ totalJobs, jobs});
   } catch (error) {
@@ -120,24 +104,6 @@ const getJob = async (req, res) => {
     console.log(`No job found with ID: ${jobId}`);
     throw new NotFoundError(`No job with id ${jobId}`);
   }
-  // const formattedJobs = ({
-  //   id: job._id,
-  //   Title: job.Title,
-  //   workDescription: job.workDescription,
-  //   status: job.status,
-  //   userId: job.userId,
-  //   userName: job.userName,
-  //   userLastName: job.userLastName,
-  //   userEmail: job.userEmail,
-  //   jobType: job.jobType,
-  //   jobLocation: job.jobLocation,
-  //   price: job.price,
-  //   image: job.image,
-  //   createdAt: job.createdAt,
-  //   updatedAt: job.updatedAt
-  // });
-  
-
   res.status(StatusCodes.OK).json({ job});
 };
 
@@ -189,7 +155,6 @@ const updateJob = async (req, res, next) => {
 
     const uploadedMediaUrl = await uploadPromise;
 
-    // Update job image with Cloudinary URL
     job.image = uploadedMediaUrl;
     await job.save();
     res.status(StatusCodes.OK).json({ job });
