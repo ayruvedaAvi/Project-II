@@ -72,12 +72,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         suffixIcon: Icons.arrow_forward_ios,
                         suffixTextBool: true,
                         suffixText: "English",
-                      ),
+                      ), //custom comment
                       Divider(
                         thickness: 1,
                         indent: 60,
                         color: Colors.grey[200],
-                      ),
+                      ), //hehe
                       const CustomSettingRow(
                         prefixIcon: Icons.language,
                         prefixText: "Language",
@@ -219,8 +219,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           if (permissionGranted == PermissionStatus.denied) {
                             permissionGranted =
                                 await location.requestPermission();
-                            if (permissionGranted !=
-                                PermissionStatus.granted) {
+                            if (permissionGranted != PermissionStatus.granted) {
                               return;
                             }
                           }
