@@ -152,7 +152,7 @@ const updateJob = async (req, res, next) => {
     }
 
     await job.save();
-    res.status(StatusCodes.OK).json({ job });
+    res.status(StatusCodes.OK).json( job );
   } catch (error) {
     if (!res.headersSent) {
       res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
