@@ -90,9 +90,6 @@ const getAllJobs = async (req, res) => {
   }
 };
 
-
-
-
 const getJob = async (req, res) => {
   const { jobId } = req.body;
 
@@ -104,7 +101,7 @@ const getJob = async (req, res) => {
     console.log(`No job found with ID: ${jobId}`);
     throw new NotFoundError(`No job with id ${jobId}`);
   }
-  res.status(StatusCodes.OK).json({ job});
+  res.status(StatusCodes.OK).json({job});
 };
 
 const updateJob = async (req, res, next) => {
