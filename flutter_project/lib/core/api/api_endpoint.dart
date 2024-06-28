@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
+import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
 
 import 'package:flutter_project/models/login/login_model.dart';
 import 'package:flutter_project/models/login_response/login_response_model.dart';
@@ -234,7 +235,7 @@ class ApiEndpoints {
     XFile? imageFile,
   }) async {
     bool isJobPosted = false; // Default to false indicating job post failed
-    String url = baseUrl + postJobUrl;
+    String url = baseUrl + editJobUrl;
     Response response;
     var dio = HttpServices().getDioInstance();
     String? token =
@@ -246,6 +247,7 @@ class ApiEndpoints {
     }
 
     FormData formData = FormData.fromMap({
+      "jobId": jobId, 
       "Title": title,
       "workDescription": workDescription,
       "price": price,
@@ -265,11 +267,10 @@ class ApiEndpoints {
         ),
       );
 
-      if (response.statusCode == 201) {
-        debugPrint('Job posted successfully');
+      if (response.statusCode == 200) {
         isJobPosted = true; // Job post successful
       } else {
-        throw Exception('Failed to post job: ${response.data}');
+        throw Exception('Failed to edit job: ${response.data}');
       }
     } catch (e) {
       if (e is DioException) {
@@ -277,7 +278,7 @@ class ApiEndpoints {
             DioExceptionHandler(exception: e).getErrorMessage();
         throw Exception(errorMessage);
       } else {
-        throw Exception('An unexpected error occurred during job post');
+        throw Exception('An unexpected error occurred during job edit');
       }
     }
     return isJobPosted;
@@ -481,5 +482,43 @@ class ApiEndpoints {
       }
     }
     return isJobDeleted;
+  }
+
+  Future<JobDetailsModel> getSingleJob  (String jobId)async{
+    JobDetailsModel jobDetailsModel = JobDetailsModel();
+    String url = baseUrl + getSingleJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String token =
+        await UserSharedPreference.getStringDataFromStorage('token')?? '';
+
+    try {
+
+      response = await dio.get(
+        url,
+        data: {
+          'jobId': jobId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        jobDetailsModel = JobDetailsModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to get job details: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred while fetching job details.');
+      }
+    }
+    return jobDetailsModel;
   }
 }

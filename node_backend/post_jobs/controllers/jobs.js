@@ -154,7 +154,7 @@ const getJob = async (req, res) => {
   });
   
 
-  res.status(StatusCodes.OK).json({ job:formattedJobs});
+  res.status(StatusCodes.OK).json(formattedJobs);
 };
 
 const updateJob = async (req, res, next) => {

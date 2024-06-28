@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/postJob/post_job_controller.dart';
+import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
 import 'package:flutter_project/screens/baseScreens/base_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
@@ -11,7 +12,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddpostScreen extends StatefulWidget {
-  const AddpostScreen({super.key});
+  final JobDetailsModel? job;
+  final bool isEdit;
+  const AddpostScreen({super.key, this.job, required this.isEdit});
 
   @override
   State<AddpostScreen> createState() => _AddpostScreenState();
@@ -34,19 +37,22 @@ class _AddpostScreenState extends State<AddpostScreen> {
   void initState() {
     super.initState();
     getName();
+    if (widget.job != null) {
+      _postJobController.title.text = widget.job!.Title!;
+      _postJobController.workDescription.text = widget.job!.workDescription!;
+      _postJobController.price.text = widget.job!.price.toString();
+      _postJobController.selectedCategory = widget.job!.jobType!;
+    }
   }
 
-  // final categories = [
-  //   'Technical',
-  //   'Household',
-  //   'Repair',
-  //   'Construction',
-  //   'Cleaning',
-  //   'Gardening',
-  //   'Cooking',
-  //   'Shifting Service',
-  //   'Others',
-  // ];
+  @override
+  void dispose() {
+    _postJobController.title.clear();
+    _postJobController.workDescription.clear();
+    _postJobController.price.clear();
+    _postJobController.selectedCategory = null;
+    super.dispose();
+  }
 
   final List<Map<String, dynamic>> categories = [
     {'name': 'Technical', 'color': Colors.red},
@@ -170,8 +176,8 @@ class _AddpostScreenState extends State<AddpostScreen> {
                                 setState(() {
                                   selectedItem =
                                       selected ? category['name'] : null;
-                                  _postJobController.selectedCategory = selectedItem;
-                                  
+                                  _postJobController.selectedCategory =
+                                      selectedItem;
                                 });
                               },
                             ),
@@ -322,14 +328,22 @@ class _AddpostScreenState extends State<AddpostScreen> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _postJobController.postJob(_image);
-                            Get.off(() => const BaseScreen(
-                                  initalIndex: 0,
-                                ));
+                            if (widget.isEdit) {
+                              _postJobController.editJob(
+                                   widget.job!.id!, _image,);
+                              Get.off(() => const BaseScreen(
+                                    initalIndex: 0,
+                                  ));
+                            } else {
+                              _postJobController.postJob(_image);
+                              Get.off(() => const BaseScreen(
+                                    initalIndex: 0,
+                                  ));
+                            }
                           }
                         },
                         child: Text(
-                          "post".tr,
+                          widget.isEdit ? "edit".tr : "post".tr,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
