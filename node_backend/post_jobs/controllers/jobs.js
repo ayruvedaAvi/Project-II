@@ -57,22 +57,6 @@ const createJob = async (req, res, next) => {
 };
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
   const jobs = await Job.find({}).limit(10).sort('-createdAt');
-  // const formattedJobs = jobs.map(job => ({
-  //   id: job._id,
-  //   Title: job.Title,
-  //   workDescription: job.workDescription,
-  //   status: job.status,
-  //   userId: job.userId,
-  //   userName: job.userName,
-  //   userLastName: job.userLastName,
-  //   userEmail: job.userEmail,
-  //   jobType: job.jobType,
-  //   jobLocation: job.jobLocation,
-  //   price: job.price,
-  //   image: job.image,
-  //   createdAt: job.createdAt,
-  //   updatedAt: job.updatedAt
-  // }));
   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
@@ -207,29 +191,7 @@ const updateJob = async (req, res, next) => {
 
     // Update job image with Cloudinary URL
     job.image = uploadedMediaUrl;
-
-    // Save the updated job details
     await job.save();
-
-   
-    // const formattedJob = {
-    //   id: job._id,
-    //   Title: job.Title,
-    //   workDescription: job.workDescription,
-    //   status: job.status,
-    //   userId: job.userId,
-    //   userName: job.userName,
-    //   userLastName: job.userLastName,
-    //   userEmail: job.userEmail,
-    //   jobType: job.jobType,
-    //   jobLocation: job.jobLocation,
-    //   price: job.price,
-    //   image: job.image,
-    //   createdAt: job.createdAt,
-    //   updatedAt: job.updatedAt
-    // };
-
-    // Send the formatted job object in the response
     res.status(StatusCodes.OK).json({ job });
   } catch (error) {
     if (!res.headersSent) {
