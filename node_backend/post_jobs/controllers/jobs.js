@@ -24,11 +24,12 @@ const createJob = async (req, res, next) => {
   }
 
   const mediaFile = req.files.media;
+  const { Title, workDescription, jobType, price, latitude, longitude } = req.body;
 
   try {
     const uploadPromise = new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'job_media',tags: [userId, user.name]  },
+        { resource_type: 'auto', folder: 'job_media', tags: [userId, user.name] },
         (error, result) => {
           if (error) reject(error);
           else resolve(result.secure_url);
@@ -40,19 +41,26 @@ const createJob = async (req, res, next) => {
     const uploadedMediaUrl = await uploadPromise;
 
     const jobData = {
-      ...req.body,
+      Title,
+      workDescription,
       userId,
       userName: user.name,
       userLastName: user.lastName,
       userEmail: user.email,
-      image: uploadedMediaUrl
+      jobType,
+      price,
+      image: uploadedMediaUrl,
+      // jobLocation: {
+      //   type: 'Point',
+      //   coordinates: [parseFloat(longitude), parseFloat(latitude)]
+      // }
     };
 
     const job = await Job.create(jobData);
     const notificationTitle = 'New Job Posted';
-    const notificationBody = `${user.name + user.lastName} posted a new job: ${job.Title}`;
+    const notificationBody = `${user.name} ${user.lastName} posted a new job: ${Title}`;
 
-    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId);
+    await sendNotificationOfJobPosted(notificationTitle, notificationBody, jobData.jobLocation, userId);
     res.status(StatusCodes.CREATED).json({ job });
   } catch (error) {
     if (!res.headersSent) {

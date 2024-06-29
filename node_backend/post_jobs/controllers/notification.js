@@ -89,18 +89,34 @@ const sendNotification = async (req, res) => {
     res.status(500).send({ message: 'Failed to send notifications', error: error.response ? error.response.data : error.message });
   }
 };
-const sendNotificationOfJobPosted = async (title, body,excludeUserId) => {
+const sendNotificationOfJobPosted = async (title, body, jobLocation, posterUserId) => {
   try {
-    const tokens = await FcmToken.find({});
-    const allTokens = tokens.reduce((acc, token) => {
-      if (token.userId !== excludeUserId) {
-        return acc.concat(token.registrationToken);
+    const nearbyUsers = await User.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: jobLocation.coordinates
+          },
+          distanceField: 'dist.calculated',
+          maxDistance: 5000, // 5 km in meters
+          spherical: true
+        }
+      },
+      {
+        $match: {
+          _id: { $ne: mongoose.Types.ObjectId(posterUserId) }
+        }
       }
-      return acc;
-    }, []);
+    ]);
+
+    const nearbyUserIds = nearbyUsers.map(user => user._id);
+    const tokens = await FcmToken.find({ userId: { $in: nearbyUserIds } });
+    const allTokens = tokens.reduce((acc, token) => acc.concat(token.registrationToken), []);
 
     if (allTokens.length === 0) {
-      return { message: 'No FCM tokens found in the database' };
+      console.error('No FCM tokens found for nearby users');
+      return;
     }
 
     const message = {
@@ -141,5 +157,4 @@ const sendNotificationOfJobPosted = async (title, body,excludeUserId) => {
   }
 };
 
-
-module.exports = { sendNotification, storeFcmToken,sendNotificationOfJobPosted  };
+module.exports = { sendNotification, storeFcmToken,sendNotificationOfJobPosted };
