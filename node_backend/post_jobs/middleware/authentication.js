@@ -13,7 +13,7 @@ const auth = async (req, res, next) => {
             throw new UnauthenticatedError('Authentication invalid');
         }
         req.user = { userId: payload.userId, phoneNumber: payload.phoneNumber };
-        console.log("Middleware - User ID:", req.user.userId, "Phone Number:", req.user.phoneNumber); // Log user details
+        // console.log("Middleware - User ID:", req.user.userId, "Phone Number:", req.user.phoneNumber); // Log user details
         next();
     });
 };

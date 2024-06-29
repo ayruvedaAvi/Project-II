@@ -27,7 +27,7 @@ const createJob = async (req, res, next) => {
   try {
     const uploadPromise = new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'job_media' },
+        { resource_type: 'auto', folder: 'job_media',tags: [userId, user.name]  },
         (error, result) => {
           if (error) reject(error);
           else resolve(result.secure_url);
@@ -57,23 +57,7 @@ const createJob = async (req, res, next) => {
 };
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
   const jobs = await Job.find({}).limit(10).sort('-createdAt');
-  const formattedJobs = jobs.map(job => ({
-    id: job._id,
-    Title: job.Title,
-    workDescription: job.workDescription,
-    status: job.status,
-    userId: job.userId,
-    userName: job.userName,
-    userLastName: job.userLastName,
-    userEmail: job.userEmail,
-    jobType: job.jobType,
-    jobLocation: job.jobLocation,
-    price: job.price,
-    image: job.image,
-    createdAt: job.createdAt,
-    updatedAt: job.updatedAt
-  }));
-  res.status(StatusCodes.OK).json({ jobs: formattedJobs, count: formattedJobs.length });
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
 const getAllJobs = async (req, res) => {
@@ -98,32 +82,13 @@ const getAllJobs = async (req, res) => {
     const jobs = await result;
     const totalJobs = await Job.countDocuments(queryObject);
 
-    const formattedJobs = jobs.map(job => ({
-      id: job._id,
-      Title: job.Title,
-      workDescription: job.workDescription,
-      status: job.status,
-      userId: job.userId,
-      userName: job.userName,
-      userLastName: job.userLastName,
-      userEmail: job.userEmail,
-      jobType: job.jobType,
-      jobLocation: job.jobLocation,
-      price: job.price,
-      image: job.image,
-      createdAt: job.createdAt,
-      updatedAt: job.updatedAt
-    }));
 
-    res.status(200).json({ totalJobs, jobs: formattedJobs });
+    res.status(200).json({ totalJobs, jobs});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-
-
 
 const getJob = async (req, res) => {
   const { jobId } = req.body;
@@ -136,31 +101,13 @@ const getJob = async (req, res) => {
     console.log(`No job found with ID: ${jobId}`);
     throw new NotFoundError(`No job with id ${jobId}`);
   }
-  const formattedJobs = ({
-    id: job._id,
-    Title: job.Title,
-    workDescription: job.workDescription,
-    status: job.status,
-    userId: job.userId,
-    userName: job.userName,
-    userLastName: job.userLastName,
-    userEmail: job.userEmail,
-    jobType: job.jobType,
-    jobLocation: job.jobLocation,
-    price: job.price,
-    image: job.image,
-    createdAt: job.createdAt,
-    updatedAt: job.updatedAt
-  });
-  
-
-  res.status(StatusCodes.OK).json({ job:formattedJobs});
+  res.status(StatusCodes.OK).json({job});
 };
 
 const updateJob = async (req, res, next) => {
   const {
     body: { jobId, Title, workDescription, jobType, jobLocation, price },
-    files, 
+    files,
     user: { userId }
   } = req;
 
@@ -170,70 +117,47 @@ const updateJob = async (req, res, next) => {
       return next(new NotFoundError(`No job with id ${jobId} found for this user`));
     }
 
-    if (Title !== undefined && Title !== null && Title !== '') {
+    if (Title) {
       job.Title = Title;
     }
-    if (workDescription !== undefined && workDescription !== null && workDescription !== '') {
+    if (workDescription) {
       job.workDescription = workDescription;
     }
-    if (jobType !== undefined && jobType !== null && jobType !== '') {
+    if (jobType) {
       job.jobType = jobType;
     }
-    if (jobLocation !== undefined && jobLocation !== null && jobLocation !== '') {
+    if (jobLocation) {
       job.jobLocation = jobLocation;
     }
-    if (price !== undefined && price !== null) {
+    if (price ) {
       job.price = price;
     }
 
-    if (!files || !files.media) {
-      return next(new BadRequestError('No media file uploaded'));
+    if (files && files.media) {
+      const mediaFile = files.media;
+
+      const uploadPromise = new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: 'auto', folder: 'job_media' ,tags: [userId, User.name] },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result.secure_url);
+          }
+        );
+        stream.end(mediaFile.data);
+      });
+
+      const uploadedMediaUrl = await uploadPromise;
+      job.image = uploadedMediaUrl;
     }
 
-    const mediaFile = files.media;
-
-    const uploadPromise = new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'job_media' },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result.secure_url);
-        }
-      );
-      stream.end(mediaFile.data);
-    });
-
-    const uploadedMediaUrl = await uploadPromise;
-
-    // Update job image with Cloudinary URL
-    job.image = uploadedMediaUrl;
-
-    // Save the updated job details
     await job.save();
-
-    // Construct the formatted job object to send in the response
-    const formattedJob = {
-      id: job._id,
-      Title: job.Title,
-      workDescription: job.workDescription,
-      status: job.status,
-      userId: job.userId,
-      userName: job.userName,
-      userLastName: job.userLastName,
-      userEmail: job.userEmail,
-      jobType: job.jobType,
-      jobLocation: job.jobLocation,
-      price: job.price,
-      image: job.image,
-      createdAt: job.createdAt,
-      updatedAt: job.updatedAt
-    };
-
-    // Send the formatted job object in the response
-    res.status(StatusCodes.OK).json({ job: formattedJob });
+    res.status(StatusCodes.OK).json({ job });
   } catch (error) {
     if (!res.headersSent) {
       res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
+    } else {
+      next(error);
     }
   }
 };

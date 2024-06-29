@@ -35,7 +35,7 @@ const JobSchema = new mongoose.Schema(
     },
     jobType: {
       type: String,
-      enum: ['Technical','Household','Repair','Construction','Cleaning','Gardening','Cooking','Shifting Service','Others'],
+      enum: ['Technical','Household','Repair','Construction','Cleaning','Gardening','Cooking','Shifting Service','others'],
       required:[true,'Select the job categories ']
     },
     jobLocation: {
@@ -52,7 +52,15 @@ const JobSchema = new mongoose.Schema(
       require:true
     },
   },
-  { timestamps: true }
+  { timestamps: true });
+  JobSchema.set('toJSON', {
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      ret.v = ret.__v;
+      delete ret.__v;
+    },
+  }
 );
 
 module.exports = mongoose.model('Job', JobSchema);

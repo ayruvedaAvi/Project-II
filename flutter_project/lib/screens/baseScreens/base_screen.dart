@@ -29,7 +29,9 @@ class _BaseScreenState extends State<BaseScreen> {
     lstWidget = [
       const FeedScreen(),
       const ChatsScreen(),
-      const AddpostScreen(),
+      const AddpostScreen(
+        isEdit: false,
+      ),
       const NotificationsScreen(),
       const UserprofileScreen(),
     ];

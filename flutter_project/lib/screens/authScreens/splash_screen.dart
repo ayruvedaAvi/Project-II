@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.addStatusListener(
       (status) async {
         if (status == AnimationStatus.completed) {
+          // check if the token has expired or not
           RxBool hasExpired = false.obs;
           String? userToken =
               await UserSharedPreference.getStringDataFromStorage('token');

@@ -41,6 +41,7 @@ const jobsRouter = require('./routes/jobs');
 const userRouter = require('./routes/userRoutes');
 const forgetPassword=require('./routes/forgetPassword')
 const notification = require('./routes/notification');
+const kycRouter = require('./routes/kyc');
 
 app.get('/', (req, res) => {
   res.send('Welcome to the LaborlanceAPI');
@@ -52,6 +53,7 @@ app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 app.use('/api/v1/users', authenticateUser,userRouter);
 app.use('/api/v1/forgetPassword',forgetPassword)
 app.use('/api/v1/notification', notification);
+app.use('/api/v1/kyc',authenticateUser,kycRouter);
 
 // Error handling middleware
 app.use(notFoundMiddleware);
