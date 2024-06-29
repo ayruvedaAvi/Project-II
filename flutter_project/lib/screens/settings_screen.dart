@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
 import 'package:get/get.dart';
@@ -170,12 +171,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         indent: 60,
                         color: Colors.grey[200],
                       ),
-                      const CustomSettingRow(
-                        prefixIcon: Icons.fingerprint,
-                        prefixText: "Use fingerprint",
-                        suffixIcon: Icons.arrow_forward_ios,
-                        // suffixTextBool: true,
-                        // suffixText: "English",
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const RoleselectionScreen());
+                        },
+                        child: const CustomSettingRow(
+                          prefixIcon: Icons.fingerprint,
+                          prefixText: "Use fingerprint",
+                          suffixIcon: Icons.arrow_forward_ios,
+                          // suffixTextBool: true,
+                          // suffixText: "English",
+                        ),
                       ),
                       Divider(
                         thickness: 1,
@@ -219,8 +225,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           if (permissionGranted == PermissionStatus.denied) {
                             permissionGranted =
                                 await location.requestPermission();
-                            if (permissionGranted !=
-                                PermissionStatus.granted) {
+                            if (permissionGranted != PermissionStatus.granted) {
                               return;
                             }
                           }
