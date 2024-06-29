@@ -6,6 +6,7 @@ const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const  streamifier=require( 'streamifier')
 const User = require('../models/User'); 
+const { sendNotificationOfJobPosted  } = require('./notification');
 
 const createJob = async (req, res, next) => {
   if (!req.user || !req.user.userId) {
@@ -48,6 +49,10 @@ const createJob = async (req, res, next) => {
     };
 
     const job = await Job.create(jobData);
+    const notificationTitle = 'New Job Posted';
+    const notificationBody = `${user.name + user.lastName} posted a new job: ${job.Title}`;
+
+    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId);
     res.status(StatusCodes.CREATED).json({ job });
   } catch (error) {
     if (!res.headersSent) {
@@ -55,6 +60,7 @@ const createJob = async (req, res, next) => {
     }
   }
 };
+
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
   const jobs = await Job.find({}).limit(10).sort('-createdAt');
   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
