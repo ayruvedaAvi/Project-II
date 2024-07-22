@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authenticateUser = require('../middleware/authentication');
-const { createJob, deleteJob, getAllJobs, updateJob, getJob, showStats, getAllPosts } = require('../controllers/jobs');
+const { createJob, deleteJob, getAllJobs, updateJob, getJob, showStats, getAllPosts,  applyForJob ,assignJob } = require('../controllers/jobs');
 const testUser = require('../middleware/testUser');
 const searchJobs=require('../controllers/filterJobs')
 
@@ -15,5 +15,7 @@ router.route('/stats').get(authenticateUser,showStats);
 router.route('/singlejob').get(authenticateUser,getJob)
   router.route('/delete').delete(authenticateUser,testUser, deleteJob)
   router.route('/edit').patch(authenticateUser,testUser, updateJob);
+  router.route('/applyjob').patch(authenticateUser,  applyForJob );
+  router.route('/assign').patch( authenticateUser,assignJob);
 
 module.exports = router;

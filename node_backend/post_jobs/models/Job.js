@@ -14,7 +14,7 @@ const JobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['pending', 'active', 'completed'],
-      default: 'active',
+      default: 'pending',
     },
     userId: {
       type: mongoose.Types.ObjectId,
@@ -57,6 +57,26 @@ const JobSchema = new mongoose.Schema(
     image: {
       type: String,
       required: true,
+    },
+    applications: [
+      {
+        workerId: {
+          type: mongoose.Types.ObjectId,
+          ref: 'User',
+        },
+        workerName: {
+          type: String,
+        },
+      },
+    ],
+    assignedWorker: {
+      workerId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+      },
+      workerName: {
+        type: String,
+      },
     },
   },
   { timestamps: true }
