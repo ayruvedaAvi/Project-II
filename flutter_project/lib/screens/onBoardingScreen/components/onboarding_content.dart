@@ -60,14 +60,17 @@ class OnbordTitleDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall!
-              .copyWith(fontWeight: FontWeight.w500),
-        ),
+        Text(title,
+            textAlign: TextAlign.center,
+            // style: Theme.of(context)
+            //     .textTheme
+            //     .headlineSmall!
+            //     .copyWith(fontWeight: FontWeight.w500),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            )),
         const SizedBox(height: defaultPadding),
         Text(
           description,
