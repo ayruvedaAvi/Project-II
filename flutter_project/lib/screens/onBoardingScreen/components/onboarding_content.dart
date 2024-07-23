@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_screen.dart';
 
@@ -36,9 +38,9 @@ class OnbordingContent extends StatelessWidget {
         if (!isTextOnTop) const Spacer(),
         if (!isTextOnTop)
           const OnbordTitleDescription(
-            title: "Find the item you’ve \nbeen looking for",
+            title: "Find the job \nyou're capable of",
             description:
-                "Here you’ll see rich varieties of goods, carefully classified for seamless browsing experience.",
+                "Here, you can find a job that suits your skills, and you can apply for it with just a click.",
           ),
 
         const Spacer(),
@@ -66,15 +68,21 @@ class OnbordTitleDescription extends StatelessWidget {
             //     .textTheme
             //     .headlineSmall!
             //     .copyWith(fontWeight: FontWeight.w500),
-            style: const TextStyle(
-              fontSize: 20,
+            style: TextStyle(
+              fontSize: 22,
               fontWeight: FontWeight.w500,
-              color: Colors.grey,
+              color: disabledForegroundColor,
+              fontFamily: GoogleFonts.ubuntu().fontFamily,
+
             )),
         const SizedBox(height: defaultPadding),
         Text(
           description,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: disabledBackgroundColor,
+            fontFamily: GoogleFonts.ubuntu().fontFamily,
+          ),
         ),
       ],
     );

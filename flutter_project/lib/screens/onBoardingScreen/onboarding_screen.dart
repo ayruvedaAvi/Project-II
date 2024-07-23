@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/components/dot_indicators.dart';
 import 'components/onboarding_content.dart';
@@ -22,36 +24,36 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
     Onbord(
       image: "assets/Illustration/Illustration-0.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_0.png",
-      title: "Find the item you’ve \nbeen looking for",
+      title: "Find the job \nyou're capable of",
       description:
-          "Here you’ll see rich varieties of goods, carefully classified for seamless browsing experience.",
+          "Here you’ll get a job that suits your skills, and you can apply for it with just a click.",
     ),
     Onbord(
       image: "assets/Illustration/Illustration-1.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_1.png",
-      title: "Get those shopping \nbags filled",
+      title: "Get all the \n works done",
       description:
-          "Add any item you want to your cart, or save it on your wishlist, so you don’t miss it in your future purchases.",
+          "You can get all the work done by the professionals, and you can also hire them for your work.",
     ),
     Onbord(
       image: "assets/Illustration/Illustration-2.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_2.png",
-      title: "Fast & secure \npayment",
-      description: "There are many payment options available for your ease.",
+      title: "Secure and fast \n self-employments",
+      description: "There are many job options available for your ease.",
     ),
     Onbord(
       image: "assets/Illustration/Illustration-3.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_3.png",
-      title: "Package tracking",
+      title: "Every kind of job, \n from doing the dishes \n to room changing service",
       description:
-          "In particular, Shoplon can pack your orders, and help you seamlessly manage your shipments.",
+          "In particular, Shrami can get a job for you or provide you with human resource.",
     ),
     Onbord(
       image: "assets/Illustration/Illustration-4.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_4.png",
-      title: "Nearby stores",
+      title: "Nearby Service Providers",
       description:
-          "Easily track nearby shops, browse through their items and get information about their prodcuts.",
+          "Easily find nearby Service Providers, here with Shrami you can find the Service Providers in your area.",
     ),
   ];
 
@@ -84,7 +86,11 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                   child: Text(
                     "Skip",
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyLarge!.color),
+                      color: disabledForegroundColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: GoogleFonts.robotoMono().fontFamily,
+                    ),
                   ),
                 ),
               ),
@@ -136,9 +142,10 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       child: SvgPicture.asset(
                         "assets/icons/Arrow - Right.svg",
                         colorFilter: const ColorFilter.mode(
-                          Colors.white,
+                          disabledBackgroundColor,
                           BlendMode.srcIn,
                         ),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
