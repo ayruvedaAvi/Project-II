@@ -11,7 +11,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const connectDB = require('./db/connect');
-const authenticateUser = require('./middleware/authentication');
+const {auth} = require('./middleware/authentication');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
@@ -49,11 +49,11 @@ app.get('/', (req, res) => {
 
 // Use routes
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/jobs', authenticateUser, jobsRouter);
-app.use('/api/v1/users', authenticateUser,userRouter);
+app.use('/api/v1/jobs', auth, jobsRouter);
+app.use('/api/v1/users', auth,userRouter);
 app.use('/api/v1/forgetPassword',forgetPassword)
 app.use('/api/v1/notification', notification);
-app.use('/api/v1/kyc',authenticateUser,kycRouter);
+app.use('/api/v1/kyc',auth,kycRouter);
 
 // Error handling middleware
 app.use(notFoundMiddleware);
