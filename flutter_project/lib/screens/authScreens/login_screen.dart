@@ -6,7 +6,7 @@ import 'package:flutter_project/widgets/custom_text_form_field.dart';
 
 import 'package:get/get.dart';
 // import 'dart:math';
-
+//sabai kura thikxa
 // List<Color> cColors = [
 //   Colors.red,
 //   Colors.blue,
