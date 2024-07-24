@@ -235,10 +235,10 @@ const sendNotificationToUser = async (title, body, userId) => {
     throw new Error('Failed to fetch tokens');
   }
 
-  const allTokens = tokens.map(token => token.registrationToken);
+  const allTokens = tokens.reduce((acc, token) => acc.concat(token.registrationToken), []);
 
   if (allTokens.length === 0) {
-    throw new Error('No FCM tokens found for user');
+    throw new Error('No FCM tokens found for users');
   }
 
   const message = {
@@ -273,10 +273,18 @@ const sendNotificationToUser = async (title, body, userId) => {
     }
   });
 
-  // Optionally, you can save the notification to the database here if needed
+  const notificationPromises = tokens.map(token => {
+    const notification = new Notification({
+      userId: token.userId,
+      title,
+      body
+    });
+    return notification.save();
+  });
 
-  console.log('Notification sent successfully');
+  await Promise.all(notificationPromises);
+
+  console.log('Notifications sent successfully and stored in the database');
 };
-
 
 module.exports = { sendNotification, storeFcmToken,sendNotificationOfJobPosted,sendNotificationToUser };

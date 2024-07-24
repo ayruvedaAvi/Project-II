@@ -1,7 +1,7 @@
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const { StatusCodes } = require('http-status-codes');
-const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../errors');
+const { BadRequestError, NotFoundError, UnauthenticatedError, InternalServerError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const  streamifier=require( 'streamifier')
@@ -160,6 +160,7 @@ const assignJob = async (req, res, next) => {
 
   res.status(StatusCodes.OK).json({ message: 'Job assigned successfully' });
 };
+
 
 
 
@@ -385,8 +386,6 @@ const showStats = async (req, res) => {
 //     throw error;
 //   }
 // };
-
-
 module.exports = {
   createJob,
   deleteJob,
