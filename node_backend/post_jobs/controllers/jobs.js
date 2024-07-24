@@ -1,11 +1,12 @@
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const { StatusCodes } = require('http-status-codes');
-const { BadRequestError, NotFoundError } = require('../errors');
+const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const  streamifier=require( 'streamifier')
 const User = require('../models/User'); 
+const { sendNotificationOfJobPosted ,sendNotificationToUser } = require('./notification');
 
 const createJob = async (req, res, next) => {
   if (!req.user || !req.user.userId) {
@@ -23,11 +24,12 @@ const createJob = async (req, res, next) => {
   }
 
   const mediaFile = req.files.media;
+  const { Title, workDescription, jobType, price, latitude, longitude } = req.body;
 
   try {
     const uploadPromise = new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'job_media',tags: [userId, user.name]  },
+        { resource_type: 'auto', folder: 'job_media', tags: [userId, user.name] },
         (error, result) => {
           if (error) reject(error);
           else resolve(result.secure_url);
@@ -39,22 +41,128 @@ const createJob = async (req, res, next) => {
     const uploadedMediaUrl = await uploadPromise;
 
     const jobData = {
-      ...req.body,
+      Title,
+      workDescription,
       userId,
       userName: user.name,
       userLastName: user.lastName,
       userEmail: user.email,
-      image: uploadedMediaUrl
+      jobType,
+      price,
+      image: uploadedMediaUrl,
+      // jobLocation: {
+      //   type: 'Point',
+      //   coordinates: [parseFloat(longitude), parseFloat(latitude)]
+      // }
     };
 
     const job = await Job.create(jobData);
+    const notificationTitle = 'New Job Posted';
+    const notificationBody = `${user.name} ${user.lastName} posted a new job: ${Title}`;
+
+    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId);
     res.status(StatusCodes.CREATED).json({ job });
   } catch (error) {
     if (!res.headersSent) {
-      res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(404).json({message: 'Server error' });
     }
   }
 };
+
+const applyForJob = async (req, res, next) => {
+  const { jobId } = req.body;
+  const workerId = req.user.userId;
+
+  if (!workerId) {
+    throw new BadRequestError('User not authenticated');
+  }
+
+  const user = await User.findById(workerId);
+  if (!user || user.role !== 'Worker') {
+    throw new BadRequestError('You are not authorized to apply for jobs');
+  }
+
+  const job = await Job.findById(jobId);
+  if (!job) {
+    throw new BadRequestError('Job not found');
+  }
+
+  // Ensure applications field is initialized
+  if (!job.applications) {
+    job.applications = [];
+  }
+
+  if (job.applications.some(app => app.workerId.toString() === workerId)) {
+    throw new BadRequestError('You have already applied for this job');
+  }
+
+  job.applications.push({
+    workerId,
+    workerName: user.name
+  });
+
+  await job.save();
+
+  const jobProvider = await User.findById(job.userId);
+  if (!jobProvider) {
+    throw new BadRequestError('Job provider not found');
+  }
+
+  const notificationTitle = 'Job Application';
+  const notificationBody = `${user.name} has applied for your job: ${job.Title}`;
+
+  try {
+    // Send notification only to the job provider (poster)
+    await sendNotificationToUser(notificationTitle, notificationBody, job.userId);
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    throw new InternalServerError('Failed to send notification');
+  }
+
+  res.status(StatusCodes.OK).json({ message: 'Application submitted successfully' });
+};
+
+const assignJob = async (req, res, next) => {
+  const { jobId, workerId } = req.body;
+  const job = await Job.findById(jobId);
+
+  if (!job) {
+    throw new BadRequestError('Job not found');
+  }
+
+  if (job.userId.toString() !== req.user.userId) {
+    throw new UnauthenticatedError('You are not authorized to assign this job');
+  }
+
+  const applicant = job.applications.find(app => app.workerId.toString() === workerId);
+
+  if (!applicant) {
+    throw new BadRequestError('Worker not found in applications');
+  }
+
+  const worker = await User.findById(workerId);
+  if (!worker || worker.role !== 'Worker') {
+    throw new BadRequestError('Only users with role Worker can be assigned');
+  }
+
+  job.assignedWorker = {
+    workerId: applicant.workerId,
+    workerName: applicant.workerName,
+  };
+
+  job.status = 'active';
+
+  await job.save();
+
+  const notificationTitle = 'Job Assigned';
+  const notificationBody = `You have been assigned to the job: ${job.Title}`;
+  await sendNotificationToUser(notificationTitle, notificationBody, workerId);
+
+  res.status(StatusCodes.OK).json({ message: 'Job assigned successfully' });
+};
+
+
+
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
   const jobs = await Job.find({}).limit(10).sort('-createdAt');
   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
@@ -152,7 +260,7 @@ const updateJob = async (req, res, next) => {
     }
 
     await job.save();
-    res.status(StatusCodes.OK).json({ job });
+    res.status(StatusCodes.OK).json( job );
   } catch (error) {
     if (!res.headersSent) {
       res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
@@ -287,5 +395,7 @@ module.exports = {
   getJob,
   showStats,
   // uploadProductMedia,
-  getAllPosts
+  getAllPosts,
+  applyForJob,
+  assignJob
 };
