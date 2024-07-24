@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/custom_card.dart';
+import 'package:get/get.dart';
 
 class RoleselectionScreen extends StatefulWidget {
   const RoleselectionScreen({super.key});
@@ -49,15 +50,15 @@ class _RoleselectionScreenState extends State<RoleselectionScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Text(
-                      "Freelance Work.",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Text(
+                      'freelance'.tr,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    const Text(
-                      "On Demand.",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Text(
+                      'onDemand'.tr,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 20,
@@ -68,21 +69,20 @@ class _RoleselectionScreenState extends State<RoleselectionScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.45,
                           height: MediaQuery.of(context).size.height * 0.3,
-                          child: const CustomCard(
+                          child: CustomCard(
                             imagePath: "assets/images/find a service.png",
-                            titleText: "Find a Work",
-                            descText:
-                                "I'm looking for talented people to work with",
+                            titleText: 'findWork'.tr,
+                            descText: 'findWorkDesc'.tr,
                             // buttonText: "A Work Provider",
                           ),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.45,
                           height: MediaQuery.of(context).size.height * 0.3,
-                          child: const CustomCard(
+                          child: CustomCard(
                             imagePath: "assets/images/provide a service.png",
-                            titleText: "Provide a Work",
-                            descText: "I'd like to offer for my work",
+                            titleText: 'provideWork'.tr,
+                            descText: 'provideWorkDesc'.tr,
                             // buttonText: "A Worker",
                           ),
                         ),
@@ -108,8 +108,8 @@ class _RoleselectionScreenState extends State<RoleselectionScreen> {
                       alignment: Alignment.bottomRight,
                       child: TextButton(
                           onPressed: () {},
-                          child: const Text('Sign in',
-                              style: TextStyle(
+                          child: Text('signIn'.tr,
+                              style: const TextStyle(
                                   fontSize: 15, color: Colors.black))),
                     )
                   ],

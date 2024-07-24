@@ -248,9 +248,9 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                       const SizedBox(
                         width: 10,
                       ),
-                      const Text(
-                        "/ work",
-                        style: TextStyle(
+                      Text(
+                        "work".tr,
+                        style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
@@ -304,12 +304,12 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                         onPressed: () {
                           // Add apply now action here
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 12.0, horizontal: 20.0),
                           child: Text(
-                            'Apply now',
-                            style: TextStyle(
+                            'applyNow'.tr,
+                            style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),

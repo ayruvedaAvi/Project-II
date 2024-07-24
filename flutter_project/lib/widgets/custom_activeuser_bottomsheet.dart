@@ -41,9 +41,9 @@ class _CustomActiveuserBottomsheetState
                       Icons.edit,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Edit',
-                      style: TextStyle(color: Colors.black),
+                    title: Text(
+                      'edit'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ListTile(
@@ -53,19 +53,19 @@ class _CustomActiveuserBottomsheetState
                         builder: (BuildContext context) {
                           return AlertDialog(
                             backgroundColor: Colors.white,
-                            title: const Text('Confirm Delete'),
-                            content: const Text(
-                                'Are you sure you want to delete this post?'),
+                            title: Text('confirmDelete'.tr),
+                            content: Text(
+                                'suretodelete'.tr),
                             actions: <Widget>[
                               TextButton(
-                                child: const Text('Cancel'),
+                                child: Text('cancel'.tr),
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
                                 },
                               ),
                               TextButton(
-                                child: const Text('Delete'),
+                                child: Text('delete'.tr),
                                 onPressed: () {
                                   DeleteJobController deleteJobController =
                                       DeleteJobController();
@@ -87,9 +87,9 @@ class _CustomActiveuserBottomsheetState
                       Icons.delete,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Delete',
-                      style: TextStyle(color: Colors.black),
+                    title: Text(
+                      'delete'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ListTile(
@@ -98,9 +98,9 @@ class _CustomActiveuserBottomsheetState
                       Icons.share,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Share',
-                      style: TextStyle(color: Colors.black),
+                    title:  Text(
+                      'share'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ListTile(
@@ -109,9 +109,9 @@ class _CustomActiveuserBottomsheetState
                       Icons.change_circle_outlined,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Change Status',
-                      style: TextStyle(color: Colors.black),
+                    title: Text(
+                      'changeStatus'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                 ],

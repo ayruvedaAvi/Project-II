@@ -6,6 +6,8 @@ import 'package:flutter_project/screens/baseScreens/feed_screen.dart';
 import 'package:flutter_project/screens/baseScreens/notifications_screen.dart';
 import 'package:flutter_project/screens/userprofile_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:get/get.dart';
+
 
 class BaseScreen extends StatefulWidget {
   final int initalIndex;
@@ -85,8 +87,8 @@ class _BaseScreenState extends State<BaseScreen> {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Exit app?'),
-        content: const Text('Do you want to exit from the app?'),
+        title: Text('exitApp'.tr),
+        content: Text('wantToExit'.tr),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),

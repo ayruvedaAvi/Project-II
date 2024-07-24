@@ -20,7 +20,7 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
 
   Future<void> getName() async {
     name.value = await UserSharedPreference.getStringDataFromStorage('name') ??
-        'Error fetching name';
+        'errorName'.tr;
   }
 
   @override
@@ -200,17 +200,17 @@ class _UserprofileScreenState extends State<UserprofileScreen> {
                             const Color.fromARGB(255, 168, 105, 227),
                       ),
                       onPressed: () {},
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.edit_document,
                           ),
                           Text(
-                            "Update your KYC",
-                            style: TextStyle(fontSize: 18),
+                            "kycUpdate".tr,
+                            style: const TextStyle(fontSize: 18),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.add,
                           )
                         ],

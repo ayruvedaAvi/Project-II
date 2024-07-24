@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/controllers/authControllers/verify_otp_controller.dart';
+import 'package:get/get.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String mobileNo;
@@ -24,9 +25,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(children: [
-              const Text(
-                "Verification",
-                style: TextStyle(
+              Text(
+                'verification'.tr,
+                style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
@@ -252,24 +253,26 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                   onPressed: () {
                     verifyOtpController.verifyOtp();
                   },
-                  child: verifyOtpController.isLoading.value? const CircularProgressIndicator() : const Text(
-                    "Verify",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  child: verifyOtpController.isLoading.value
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          'verify'.tr,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
                 ),
               ),
               const SizedBox(height: 32.0),
-              const Text(
-                "Didn't you receive any code?",
-                style: TextStyle(color: Colors.black, fontSize: 15),
+              Text(
+                'unreceiveCode'.tr,
+                style: const TextStyle(color: Colors.black, fontSize: 15),
               ),
               const SizedBox(height: 32.0),
-              const Text(
-                "Resend New Code",
-                style: TextStyle(
+              Text(
+                'resendCode'.tr,
+                style: const TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),

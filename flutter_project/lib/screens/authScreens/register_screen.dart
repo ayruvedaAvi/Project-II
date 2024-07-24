@@ -190,9 +190,9 @@ class _SignupScreenState extends State<SignupScreen>
                   top: MediaQuery.of(context).size.height / 9,
                   left: MediaQuery.of(context).size.width / 4,
                   // left: 30,
-                  child: const Text(
-                    "Create new account",
-                    style: TextStyle(
+                  child: Text(
+                    'createNewAccount'.tr,
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
@@ -259,7 +259,7 @@ class _SignupScreenState extends State<SignupScreen>
                                     signUpController.firstNameController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Invalid Firstname!';
+                                    return 'invalidFName'.tr;
                                   }
                                   return null;
                                 },
@@ -274,7 +274,7 @@ class _SignupScreenState extends State<SignupScreen>
                                 controller: signUpController.lastnameController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Invalid Lastname!';
+                                    return 'invalidLName'.tr;
                                   }
                                   return null;
                                 },
@@ -289,7 +289,7 @@ class _SignupScreenState extends State<SignupScreen>
                               if (value == null ||
                                   value.isEmpty ||
                                   !RegExp(r'^\d{10}$').hasMatch(value)) {
-                                return 'Please enter a valid 10 digit number!';
+                                return 'invalidNumber'.tr;
                               }
                               return null;
                             },
@@ -305,7 +305,7 @@ class _SignupScreenState extends State<SignupScreen>
                               if (value == null ||
                                   value.isEmpty ||
                                   !value.isEmail) {
-                                return 'Please enter a valid email!';
+                                return 'invalidMailMsg'.tr;
                               }
                               return null;
                             },
@@ -321,7 +321,7 @@ class _SignupScreenState extends State<SignupScreen>
                               if (value == null ||
                                   value.isEmpty ||
                                   value.length < 6) {
-                                return 'Please enter a valid password!';
+                                return 'invalidPassword'.tr;
                               }
                               return null;
                             },
@@ -330,7 +330,7 @@ class _SignupScreenState extends State<SignupScreen>
                           CustomTextFormField(
                             validator: (p0) =>
                                 p0 != signUpController.passwordController.text
-                                    ? "Password does not match"
+                                    ? 'misMatchPassword'.tr
                                     : null,
                             keyType: TextInputType.visiblePassword,
                             controller:
@@ -405,9 +405,9 @@ class _SignupScreenState extends State<SignupScreen>
                                     : null,
                                 child: signUpController.isLoading.value
                                     ? const CircularProgressIndicator()
-                                    : const Text(
-                                        "Create Account",
-                                        style: TextStyle(
+                                    : Text(
+                                        'createAcc'.tr,
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
@@ -428,17 +428,17 @@ class _SignupScreenState extends State<SignupScreen>
               style: TextStyle(fontSize: 18),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text(
-                "Already have an account?",
-                style: TextStyle(fontSize: 18),
+              Text(
+                'alreadyAcc'.tr,
+                style: const TextStyle(fontSize: 18),
               ),
               TextButton(
                   onPressed: () {
                     Get.to(() => const LoginScreen());
                   },
-                  child: const Text(
-                    "Sign in",
-                    style: TextStyle(
+                  child: Text(
+                    'signIn'.tr,
+                    style: const TextStyle(
                         color: Colors.purple,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),

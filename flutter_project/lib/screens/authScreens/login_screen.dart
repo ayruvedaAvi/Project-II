@@ -172,9 +172,9 @@ class _LoginScreenState extends State<LoginScreen>
                     top: MediaQuery.of(context).size.height / 9,
                     left: MediaQuery.of(context).size.width / 3.5,
                     // left: 30,
-                    child: const Text(
-                      "Welcome Back!",
-                      style: TextStyle(
+                    child: Text(
+                      'welcomeMsg'.tr,
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
@@ -237,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   if (value == null ||
                                       value.isEmpty ||
                                       !value.isEmail) {
-                                    return 'Please enter a valid email address';
+                                    return 'invalidMailMsg'.tr;
                                   }
                                   return null;
                                 },
@@ -251,10 +251,10 @@ class _LoginScreenState extends State<LoginScreen>
                                 obscureText: true,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter a password';
+                                    return 'emptyPassword'.tr;
                                   } else {
                                     if (value.length < 6) {
-                                      return 'Password must be at least 6 characters long';
+                                      return 'lowPassword'.tr;
                                     }
                                   }
                                   return null;
@@ -281,9 +281,9 @@ class _LoginScreenState extends State<LoginScreen>
                                           },
                                         )),
                                     const SizedBox(width: 12.0),
-                                    const Text(
-                                      "Remember me",
-                                      style: TextStyle(
+                                    Text(
+                                      'rememberMe'.tr,
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
                                       ),
@@ -313,9 +313,9 @@ class _LoginScreenState extends State<LoginScreen>
                                   },
                                   child: loginController.isLoading.value
                                       ? const CircularProgressIndicator()
-                                      : const Text(
-                                          'Login',
-                                          style: TextStyle(
+                                      : Text(
+                                          'signIn'.tr,
+                                          style: const TextStyle(
                                               fontSize: 20,
                                               color: Colors.white),
                                         ),
@@ -328,9 +328,9 @@ class _LoginScreenState extends State<LoginScreen>
                                 onPressed: () {
                                   Get.to(() => const ForgotpassFirstScreen());
                                 },
-                                child: const Text(
-                                  "Forget Password?",
-                                  style: TextStyle(
+                                child: Text(
+                                  'forgetPass'.tr,
+                                  style: const TextStyle(
                                       color:
                                           Color.fromARGB(255, 168, 105, 227)),
                                 ),
@@ -357,9 +357,9 @@ class _LoginScreenState extends State<LoginScreen>
                                       // signUpLoading = true;
                                     });
                                   },
-                                  child: const Text(
-                                    'New? Register here!',
-                                    style: TextStyle(
+                                  child: Text(
+                                    'newRegister'.tr,
+                                    style: const TextStyle(
                                       fontSize: 20,
                                     ),
                                   ),
