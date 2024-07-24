@@ -5,14 +5,20 @@ const { BadRequestError, NotFoundError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const  streamifier=require( 'streamifier')
-const kyc=require('../models/Kyc')
+const kyc=require('../models/kyc');
 const User = require('../models/User'); 
 
-const addkyc= async (req,res,next)=>{ 
-    const userId = req.user.userId;
+const addkyc = async (req, res, next) => {
+  const userId = req.user.userId;
   const user = await User.findById(userId);
+
   if (!user) {
     return next(new BadRequestError('User not found'));
+  }
+
+  const existingKyc = await kyc.findOne({ userId });
+  if (existingKyc) {
+    return next(new BadRequestError('KYC already submitted'));
   }
 
   if (!req.files || !req.files.media) {
@@ -35,20 +41,40 @@ const addkyc= async (req,res,next)=>{
 
     const uploadedMediaUrl = await uploadPromise;
     const kycData = {
-        ...req.body,
-        citizenshipPhoto: uploadedMediaUrl,
-        userId,
-        userName: user.name,
-        userLastName: user.lastName,
-        userEmail: user.email,
-      };
-      const kycDoc = await kyc.create(kycData);
-     
-        res.status(StatusCodes.CREATED).json({ kyc: kycDoc });
+      ...req.body,
+      citizenshipPhoto: uploadedMediaUrl,
+      userId,
+      userName: user.name,
+      userLastName: user.lastName,
+      userEmail: user.email,
+    };
+
+    const kycDoc = await kyc.create(kycData);
+
+    res.status(StatusCodes.CREATED).json({ kyc: kycDoc });
   } catch (error) {
     if (!res.headersSent) {
-      res.status(error instanceof NotFoundError ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
     }
-}
-}
-module.exports =  addkyc ;   
+  }
+};
+
+const deleteKyc = async (req, res, next) => {
+  const userId = req.user.userId;
+
+  try {
+    const kycDoc = await kyc.findOneAndDelete({ userId });
+
+    if (!kycDoc) {
+      return next(new BadRequestError('KYC not found'));
+    }
+
+    res.status(StatusCodes.OK).json({ message: 'KYC deleted successfully from database' });
+  } catch (error) {
+    if (!res.headersSent) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    }
+  }
+};
+
+module.exports =  {addkyc,deleteKyc} ;   

@@ -6,6 +6,7 @@ import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_test_postcard.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -88,9 +89,9 @@ class _FeedScreenState extends State<FeedScreen> {
         // shadowColor: Colors.grey,
         backgroundColor: borderButtonColor,
         foregroundColor: Colors.white,
-        title: const Text(
-          "Shrami",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        title: Text(
+          "SHRAMI",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: GoogleFonts.bonaNova().fontFamily,)
         ),
         centerTitle: true,
       ),

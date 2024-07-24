@@ -6,10 +6,8 @@ const attachTokenInterceptor = async (req, res, next) => {
     const oAuth2Token = await getAccessToken();
     console.log('Access Token:', oAuth2Token);
 
-    axios.interceptors.request.use(config => {
-      config.headers.Authorization = `Bearer ${oAuth2Token}`;
-      return config;
-    });
+    // Add the token to the default Axios instance
+    axios.defaults.headers.common['Authorization'] = `Bearer ${oAuth2Token}`;
 
     next();
   } catch (error) {
@@ -17,5 +15,6 @@ const attachTokenInterceptor = async (req, res, next) => {
     res.status(500).send({ message: 'Failed to attach token interceptor', error: error.message });
   }
 };
+
 
 module.exports = attachTokenInterceptor;
