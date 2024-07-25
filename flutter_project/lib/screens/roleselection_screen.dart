@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/authScreens/register_screen.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_card.dart';
 import 'package:get/get.dart';
 
@@ -10,27 +12,14 @@ class RoleselectionScreen extends StatefulWidget {
 }
 
 class _RoleselectionScreenState extends State<RoleselectionScreen> {
+  final selectedRole = ''.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          //
-          // Positioned(
-          //   top: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: ClipPath(
-          //     clipper: BezierClipper2(),
-          //     child: Container(
-          //       height: MediaQuery.of(context).size.height / 3,
-          //       width: double.infinity,
-          //       color: const Color.fromARGB(199, 177, 95, 255),
-          //     ),
-          //   ),
-          // ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -66,51 +55,71 @@ class _RoleselectionScreenState extends State<RoleselectionScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: CustomCard(
-                            imagePath: "assets/images/find a service.png",
-                            titleText: 'findWork'.tr,
-                            descText: 'findWorkDesc'.tr,
-                            // buttonText: "A Work Provider",
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: CustomCard(
-                            imagePath: "assets/images/provide a service.png",
-                            titleText: 'provideWork'.tr,
-                            descText: 'provideWorkDesc'.tr,
-                            // buttonText: "A Worker",
-                          ),
-                        ),
+                        Obx(() {
+                          return GestureDetector(
+                            onTap: () {
+                              selectedRole.value = "workProvider";
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.45,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              color: selectedRole.value == "workProvider"
+                                  ? Colors.grey
+                                  : Colors.transparent,
+                              child: CustomCard(
+                                imagePath: "assets/images/find a service.png",
+                                titleText: 'findWork'.tr,
+                                descText: 'findWorkDesc'.tr,
+                              ),
+                            ),
+                          );
+                        }),
+                        Obx(() {
+                          return GestureDetector(
+                            onTap: () {
+                              selectedRole.value = "worker";
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.45,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              color: selectedRole.value == "worker"
+                                  ? Colors.grey
+                                  : Colors.transparent,
+                              child: CustomCard(
+                                imagePath:
+                                    "assets/images/provide a service.png",
+                                titleText: 'provideWork'.tr,
+                                descText: 'provideWorkDesc'.tr,
+                              ),
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    // TextButton(
-                    //     onPressed: () {},
-                    //     child: const Text('Skip',
-                    //         style: TextStyle(
-                    //             fontSize: 15, color: Colors.black))),
-                    //     TextButton(
-                    //         onPressed: () {},
-                    //         child: const Text('Sign In',
-                    //             style: TextStyle(
-                    //                 fontSize: 15, color: Colors.black))),
-                    //   ],
-                    // ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: TextButton(
-                          onPressed: () {},
-                          child: Text('signIn'.tr,
-                              style: const TextStyle(
-                                  fontSize: 15, color: Colors.black))),
+                        onPressed: () async {
+                          if (selectedRole.value.isNotEmpty) {
+                            await UserSharedPreference.saveDataToStorage(
+                                'role', selectedRole.value);
+                            Get.to(() => const SignupScreen());
+                          } else {
+                            Get.snackbar(
+                              "Error",
+                              "Please select a role",
+                              backgroundColor: Colors.red,
+                              snackPosition: SnackPosition.TOP,
+                            );
+                          }
+                        },
+                        child: Text(
+                          'signIn'.tr,
+                          style: const TextStyle(
+                              fontSize: 15, color: Colors.black),
+                        ),
+                      ),
                     )
                   ],
                 ),

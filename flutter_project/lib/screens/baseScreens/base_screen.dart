@@ -6,8 +6,8 @@ import 'package:flutter_project/screens/baseScreens/feed_screen.dart';
 import 'package:flutter_project/screens/baseScreens/notifications_screen.dart';
 import 'package:flutter_project/screens/userprofile_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:get/get.dart';
-
 
 class BaseScreen extends StatefulWidget {
   final int initalIndex;
@@ -18,15 +18,24 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
+  String? role;
+
   late final List<Widget> lstWidget;
 
   int _selectedIndex = 0;
+
+  void getRole() async {
+    role = await UserSharedPreference.getStringDataFromStorage("role");
+    debugPrint("Role: $role");
+  }
 
   @override
   void initState() {
     super.initState();
 
     _selectedIndex = widget.initalIndex;
+
+    getRole();
 
     lstWidget = [
       const FeedScreen(),
@@ -125,8 +134,13 @@ class _BaseScreenState extends State<BaseScreen> {
             buttonBackgroundColor: getButtonBackgroundColor(_selectedIndex),
             onTap: (index) {
               setState(() {
-                _selectedIndex = index;
-                updateIconColors(); // Update icon colors
+                if (_selectedIndex == 2 && role == "worker") {
+                  Get.snackbar("Sorry!!",
+                      "You are logged in as worker and you can't post.");
+                } else {
+                  _selectedIndex = index;
+                  updateIconColors(); // Update icon colors
+                }
               });
             },
             items: [
