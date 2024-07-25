@@ -44,7 +44,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
     Onbord(
       image: "assets/Illustration/Illustration-3.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_3.png",
-      title: "Every kind of job, \n from doing the dishes \n to room changing service",
+      title:
+          "Every kind of job, \n from doing the dishes \n to room changing service",
       description:
           "In particular, Shrami can get a job for you or provide you with human resource.",
     ),

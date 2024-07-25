@@ -1,7 +1,7 @@
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const { StatusCodes } = require('http-status-codes');
-const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../errors');
+const { BadRequestError, NotFoundError, UnauthenticatedError, InternalServerError } = require('../errors');
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const  streamifier=require( 'streamifier')
@@ -74,17 +74,17 @@ const applyForJob = async (req, res, next) => {
   const workerId = req.user.userId;
 
   if (!workerId) {
-    throw new BadRequestError('User not authenticated');
+    return next(new BadRequestError('User not authenticated'));
   }
 
   const user = await User.findById(workerId);
   if (!user || user.role !== 'Worker') {
-    throw new BadRequestError('You are not authorized to apply for jobs');
+    return next(new BadRequestError('You are not authorized to apply for jobs'));
   }
 
   const job = await Job.findById(jobId);
   if (!job) {
-    throw new BadRequestError('Job not found');
+    return next(new BadRequestError('Job not found'));
   }
 
   // Ensure applications field is initialized
@@ -93,7 +93,7 @@ const applyForJob = async (req, res, next) => {
   }
 
   if (job.applications.some(app => app.workerId.toString() === workerId)) {
-    throw new BadRequestError('You have already applied for this job');
+    return next(new BadRequestError('You have already applied for this job'));
   }
 
   job.applications.push({
@@ -105,18 +105,17 @@ const applyForJob = async (req, res, next) => {
 
   const jobProvider = await User.findById(job.userId);
   if (!jobProvider) {
-    throw new BadRequestError('Job provider not found');
+    return next(new BadRequestError('Job provider not found'));
   }
 
   const notificationTitle = 'Job Application';
   const notificationBody = `${user.name} has applied for your job: ${job.Title}`;
 
   try {
-    // Send notification only to the job provider (poster)
     await sendNotificationToUser(notificationTitle, notificationBody, job.userId);
   } catch (error) {
-    console.error('Error sending notification:', error);
-    throw new InternalServerError('Failed to send notification');
+    console.error('Error sending notification:', error.message);
+    return next(new BadRequestError('Failed to send notification'));
   }
 
   res.status(StatusCodes.OK).json({ message: 'Application submitted successfully' });
@@ -336,7 +335,6 @@ const showStats = async (req, res) => {
 // const uploadProductMedia = async (req, res) => {
 //   try {
 //     console.log('Incoming files:', req.files);
-
 //     if (!req.files || !req.files.media) {
 //       throw new BadRequestError('No File Uploaded');
 //     }

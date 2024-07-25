@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const authenticateUser = require('../middleware/authentication');
-const  addkyc  = require('../controllers/kyc');
+const {checkBlacklist,auth} = require('../middleware/authentication');
+const  {addkyc,deleteKyc}  = require('../controllers/kyc');
 
-router.route('/').post(authenticateUser, addkyc);
+router.route('/').post(auth,checkBlacklist, addkyc);
+router.route('/').delete(auth,checkBlacklist, deleteKyc);
 
  module.exports = router;
