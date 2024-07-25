@@ -38,18 +38,6 @@ const JobSchema = new mongoose.Schema(
       enum: ['Technical', 'Household', 'Repair', 'Construction', 'Cleaning', 'Gardening', 'Cooking', 'Shifting Service', 'others'],
       required: [true, 'Select the job categories '],
     },
-    // jobLocation: {
-    //   type: {
-    //     type: String,
-    //     enum: ['Point'],
-    //     required: true,
-    //     default: 'Point',
-    //   },
-    //   coordinates: {
-    //     type: [Number],
-    //     required: true,
-    //   },
-    // },
     price: {
       type: Number,
       required: true,
@@ -78,11 +66,18 @@ const JobSchema = new mongoose.Schema(
         type: String,
       },
     },
+    completedBy: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    completedByName: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
-
-// JobSchema.index({ jobLocation: '2dsphere' });
 
 JobSchema.set('toJSON', {
   transform: function (doc, ret) {

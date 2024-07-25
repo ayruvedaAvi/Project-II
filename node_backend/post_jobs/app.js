@@ -42,6 +42,7 @@ const userRouter = require('./routes/userRoutes');
 const forgetPassword=require('./routes/forgetPassword')
 const notification = require('./routes/notification');
 const kycRouter = require('./routes/kyc');
+const reviewRouter = require('./routes/reviewRoutes');
 
 app.get('/', (req, res) => {
   res.send('Welcome to the LaborlanceAPI');
@@ -54,7 +55,7 @@ app.use('/api/v1/users', auth,userRouter);
 app.use('/api/v1/forgetPassword',forgetPassword)
 app.use('/api/v1/notification', notification);
 app.use('/api/v1/kyc',auth,kycRouter);
-
+app.use('/api/v1/reviews',auth, reviewRouter);
 // Error handling middleware
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
@@ -63,7 +64,7 @@ const port = process.env.PORT || 5000;
 
 const start = async () => {
   try {
-    await connectDB(process.env.MONGOO_URL); // Correct the environment variable name
+    await connectDB(process.env.MONGOO_URL);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );

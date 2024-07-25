@@ -15,8 +15,13 @@ const createJob = async (req, res, next) => {
 
   const userId = req.user.userId;
   const user = await User.findById(userId);
+  
   if (!user) {
     return next(new BadRequestError('User not found'));
+  }
+
+  if (user.role !== 'work provider') {
+    return next(new BadRequestError('Only work providers can create jobs'));
   }
 
   if (!req.files || !req.files.media) {
@@ -64,7 +69,7 @@ const createJob = async (req, res, next) => {
     res.status(StatusCodes.CREATED).json({ job });
   } catch (error) {
     if (!res.headersSent) {
-      res.status(404).json({message: 'Server error' });
+      res.status(500).json({ message: 'Server error' });
     }
   }
 };
@@ -87,7 +92,7 @@ const applyForJob = async (req, res, next) => {
     return next(new BadRequestError('Job not found'));
   }
 
-  // Ensure applications field is initialized
+
   if (!job.applications) {
     job.applications = [];
   }
@@ -160,6 +165,72 @@ const assignJob = async (req, res, next) => {
   res.status(StatusCodes.OK).json({ message: 'Job assigned successfully' });
 };
 
+const confirmJobCompletion = async (req, res, next) => {
+  const { jobId } = req.body;
+  const providerId = req.user.userId;
+
+  const job = await Job.findById(jobId);
+  if (!job) {
+    return next(new BadRequestError('Job not found'));
+  }
+
+  if (job.userId.toString() !== providerId) {
+    return next(new UnauthenticatedError('You are not authorized to confirm this job'));
+  }
+
+  if (job.status === 'completed') {
+    return next(new BadRequestError('Job is already completed'));
+  }
+
+  const assignedWorker = job.assignedWorker;
+
+  if (!assignedWorker || !assignedWorker.workerId) {
+    return next(new BadRequestError('No worker assigned to this job'));
+  }
+
+  job.status = 'completed';
+  job.completedBy = assignedWorker.workerId;
+  await job.save();
+
+  const worker = await User.findById(assignedWorker.workerId);
+  if (!worker || worker.role !== 'Worker') {
+    return next(new BadRequestError('Assigned worker not found or not valid'));
+  }
+
+  if (!worker.completedJobs) {
+    worker.completedJobs = [];
+  }
+  worker.completedJobs.push({
+    jobId,
+    jobTitle: job.Title
+  });
+  await worker.save();
+
+  const notificationTitle = 'Job Completed';
+  const notificationBody = `The job '${job.Title}' has been marked as completed. Check your profile for details.`;
+
+  try {
+    await sendNotificationToUser(notificationTitle, notificationBody, worker._id);
+  } catch (error) {
+    console.error('Error sending notification:', error.message);
+    return next(new BadRequestError('Failed to send notification'));
+  }
+
+  res.status(StatusCodes.OK).json({ message: 'Job confirmed as completed and worker notified' });
+};
+
+
+const getCompletedJobs = async (req, res, next) => {
+  const workerId = req.user.userId; 
+
+  const worker = await User.findById(workerId).select('completedJobs');
+  if (!worker) {
+    return next(new BadRequestError('Worker not found'));
+  }
+
+  res.status(StatusCodes.OK).json({ completedJobs: worker.completedJobs });
+};
+
 
 
 const getAllPosts = async (req, res) => {//shows all the jobs posted by every user
@@ -197,19 +268,59 @@ const getAllJobs = async (req, res) => {
   }
 };
 
-const getJob = async (req, res) => {
+const getJob = async (req, res, next) => {
   const { jobId } = req.body;
 
   console.log(`Fetching job with ID: ${jobId}`);
 
-  const job = await Job.findById(jobId);
+  try {
+    const job = await Job.findById(jobId)
+      .populate('applications.workerId', 'name')
+      .populate('completedBy', 'name')
+      .populate('assignedWorker.workerId', 'name'); 
 
-  if (!job) {
-    console.log(`No job found with ID: ${jobId}`);
-    throw new NotFoundError(`No job with id ${jobId}`);
+    if (!job) {
+      console.log(`No job found with ID: ${jobId}`);
+      return next(new NotFoundError(`No job with id ${jobId}`));
+    }
+
+    res.status(StatusCodes.OK).json({
+      job: {
+        id: job._id,
+        v: job.__v,
+        Title: job.Title,
+        status: job.status,
+        userId: job.userId,
+        userName: job.userName,
+        userLastName: job.userLastName,
+        userEmail: job.userEmail,
+        jobType: job.jobType,
+        price: job.price,
+        image: job.image,
+        createdAt: job.createdAt,
+        updatedAt: job.updatedAt,
+        workDescription: job.workDescription,
+        applications: job.applications.map(app => ({
+          workerId: app.workerId._id,
+          workerName: app.workerId.name
+        })),
+        assignedWorker: job.assignedWorker ? {
+          workerId: job.assignedWorker.workerId._id,
+          workerName: job.assignedWorker.workerId.name
+        } : null,
+        completedBy: job.completedBy ? {
+          workerId: job.completedBy._id,
+          name: job.completedBy.name
+        } : null
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching job:', error.message);
+    return next(new BadRequestError('Failed to fetch job details'));
   }
-  res.status(StatusCodes.OK).json({job});
 };
+
+
 
 const updateJob = async (req, res, next) => {
   const {
@@ -395,5 +506,7 @@ module.exports = {
   // uploadProductMedia,
   getAllPosts,
   applyForJob,
-  assignJob
+  assignJob,
+  confirmJobCompletion,
+  getCompletedJobs
 };
