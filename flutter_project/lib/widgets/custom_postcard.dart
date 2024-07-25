@@ -127,9 +127,9 @@ class _CustomPostcardState extends State<CustomPostcard> {
                 widget.image.toString(),
                 fit: BoxFit.fitHeight,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Center(
+                  return Center(
                     child:
-                        Text("Image for this job was corrupted or not found!"),
+                        Text("corruptImage".tr),
                   );
                 },
               ),
@@ -177,9 +177,9 @@ class _CustomPostcardState extends State<CustomPostcard> {
                       backgroundColor: const Color.fromARGB(255, 168, 105, 227),
                     ),
                     onPressed: () {},
-                    child: const Text(
-                      "Accept",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    child: Text(
+                      "accept".tr,
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     )),
               ),
               const SizedBox(

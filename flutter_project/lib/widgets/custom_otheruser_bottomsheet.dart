@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomOtheruserBottomsheet extends StatefulWidget {
   const CustomOtheruserBottomsheet({super.key});
@@ -29,9 +30,9 @@ class _CustomOtheruserBottomsheetState
                       Icons.favorite,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Add to favorite',
-                      style: TextStyle(color: Colors.black),
+                    title: Text(
+                      'addtofav'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ListTile(
@@ -40,9 +41,9 @@ class _CustomOtheruserBottomsheetState
                       Icons.report,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Report post',
-                      style: TextStyle(color: Colors.black),
+                    title: Text(
+                      'report'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ListTile(
@@ -51,9 +52,9 @@ class _CustomOtheruserBottomsheetState
                       Icons.share,
                       color: Colors.black,
                     ),
-                    title: const Text(
-                      'Share',
-                      style: TextStyle(color: Colors.black),
+                    title: Text(
+                      'share'.tr,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   // ListTile(

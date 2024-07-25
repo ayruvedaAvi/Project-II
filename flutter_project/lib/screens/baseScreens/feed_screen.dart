@@ -193,9 +193,8 @@ class _FeedScreenState extends State<FeedScreen> {
         if (getAllJobsController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         } else if (jobs.value == null) {
-          return const Center(
-            child: Text(
-                'Error fetching jobs, something went wrong, please try again later.'),
+          return Center(
+            child: Text('errorFetchFeedScreen'.tr),
           );
         } else {
           return Padding(

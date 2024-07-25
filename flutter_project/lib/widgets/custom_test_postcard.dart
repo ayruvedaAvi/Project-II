@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/controllers/jobActionControllers/job_action_controller.dart';
 import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
 // import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_activeuser_bottomsheet.dart';
 import 'package:flutter_project/widgets/custom_otheruser_bottomsheet.dart';
 import 'package:get/get.dart';
@@ -41,6 +43,7 @@ class CustomTestPostcard extends StatefulWidget {
 
 class _CustomTestPostcardState extends State<CustomTestPostcard> {
   String timeDifference = '';
+  final JobActionController job = Get.put(JobActionController());
 
   @override
   void initState() {
@@ -248,9 +251,9 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                       const SizedBox(
                         width: 10,
                       ),
-                      const Text(
-                        "/ work",
-                        style: TextStyle(
+                      Text(
+                        "work".tr,
+                        style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
@@ -301,20 +304,33 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                               width: 2, color: borderButtonColor),
                           foregroundColor: borderButtonColor,
                         ),
-                        onPressed: () {
-                          // Add apply now action here
+                        onPressed: () async {
+                          var role = await UserSharedPreference
+                              .getStringDataFromStorage('role');
+                          debugPrint('Role: $role');
+                          if (role != null &&
+                              role.toUpperCase() == 'WORKPROVIDER') {
+                            Get.snackbar('You are a work provider',
+                                'You cannot apply for this job',
+                                backgroundColor: Colors.red);
+                          } else {
+                            job.apply(widget.jobModel.id.toString());
+                          }
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 20.0),
-                          child: Text(
-                            'Apply now',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 20.0),
+                            child: Obx(
+                              () => job.isLoading.value
+                                  ? const CircularProgressIndicator()
+                                  : Text(
+                                      'applyNow'.tr,
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                            )),
                       ),
                     ),
                   ],

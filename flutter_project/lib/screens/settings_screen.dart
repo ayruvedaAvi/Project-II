@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/controllers/authControllers/login_controller.dart';
+import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 5.0,
         backgroundColor: Colors.blue,
         centerTitle: true,
-        title: const Text("Settings"),
+        title: Text('settings'.tr),
         shadowColor: Colors.grey,
       ),
       backgroundColor: Colors.grey[100],
@@ -46,11 +47,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(
                 height: 20,
               ),
-              const Align(
+              Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  "Common",
-                  style: TextStyle(color: Colors.grey, fontSize: 21),
+                  'common'.tr,
+                  style: const TextStyle(color: Colors.grey, fontSize: 21),
                 ),
               ),
               const SizedBox(
@@ -66,24 +67,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      const CustomSettingRow(
+                      CustomSettingRow(
                         prefixIcon: Icons.language,
-                        prefixText: "Language",
+                        prefixText: "language".tr,
                         suffixIcon: Icons.arrow_forward_ios,
                         suffixTextBool: true,
-                        suffixText: "English",
+                        suffixText: "english".tr,
                       ), //custom comment
                       Divider(
                         thickness: 1,
                         indent: 60,
                         color: Colors.grey[200],
                       ), //hehe
-                      const CustomSettingRow(
+                      CustomSettingRow(
                         prefixIcon: Icons.language,
-                        prefixText: "Language",
+                        prefixText: "language".tr,
                         suffixIcon: Icons.arrow_forward_ios,
                         suffixTextBool: true,
-                        suffixText: "English",
+                        suffixText: "english".tr,
                       ),
                     ],
                   ),
@@ -92,11 +93,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(
                 height: 30,
               ),
-              const Align(
+              Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  "Account",
-                  style: TextStyle(color: Colors.grey, fontSize: 21),
+                  "account".tr,
+                  style: const TextStyle(color: Colors.grey, fontSize: 21),
                 ),
               ),
               const SizedBox(
@@ -112,9 +113,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      const CustomSettingRow(
+                      CustomSettingRow(
                         prefixIcon: Icons.phone,
-                        prefixText: "Phone Number",
+                        prefixText: "phoneNo".tr,
                         suffixIcon: Icons.arrow_forward_ios,
                         // suffixTextBool: false,
                         // suffixText: "English",
@@ -124,9 +125,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         indent: 60,
                         color: Colors.grey[200],
                       ),
-                      const CustomSettingRow(
+                      CustomSettingRow(
                         prefixIcon: Icons.email,
-                        prefixText: "Email",
+                        prefixText: "email".tr,
                         suffixIcon: Icons.arrow_forward_ios,
                         // suffixTextBool: true,
                         // suffixText: "English",
@@ -138,11 +139,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(
                 height: 30,
               ),
-              const Align(
+              Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  "Security",
-                  style: TextStyle(color: Colors.grey, fontSize: 21),
+                  "security".tr,
+                  style: const TextStyle(color: Colors.grey, fontSize: 21),
                 ),
               ),
               const SizedBox(
@@ -158,9 +159,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      const CustomSettingRow(
+                      CustomSettingRow(
                         prefixIcon: Icons.phonelink_lock,
-                        prefixText: "Lock app in background",
+                        prefixText: "lockAppBackG".tr,
                         suffixIcon: Icons.arrow_forward_ios,
                         // suffixTextBool: false,
                         // suffixText: "English",
@@ -170,21 +171,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         indent: 60,
                         color: Colors.grey[200],
                       ),
-                      const CustomSettingRow(
-                        prefixIcon: Icons.fingerprint,
-                        prefixText: "Use fingerprint",
-                        suffixIcon: Icons.arrow_forward_ios,
-                        // suffixTextBool: true,
-                        // suffixText: "English",
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const RoleselectionScreen());
+                        },
+                        child: CustomSettingRow(
+                          prefixIcon: Icons.fingerprint,
+                          prefixText: "useFingerprint".tr,
+                          suffixIcon: Icons.arrow_forward_ios,
+                          // suffixTextBool: true,
+                          // suffixText: "English",
+                        ),
                       ),
                       Divider(
                         thickness: 1,
                         indent: 60,
                         color: Colors.grey[200],
                       ),
-                      const CustomSettingRow(
+                      CustomSettingRow(
                         prefixIcon: Icons.lock,
-                        prefixText: "Change password",
+                        prefixText: "changePassword".tr,
                         suffixIcon: Icons.arrow_forward_ios,
                         // suffixTextBool: true,
                         // suffixText: "English",
@@ -236,12 +242,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          UserSharedPreference.removeDataFromStorage('token');
-                          Get.offAll(() => const LoginScreen());
+                          LoginController logout = Get.put(LoginController());
+                          logout.logout();
                         },
-                        child: const CustomSettingRow(
+                        child: CustomSettingRow(
                           prefixIcon: Icons.logout,
-                          prefixText: "Sign out",
+                          prefixText: "signOut".tr,
                           suffixIcon: Icons.arrow_forward_ios,
                           // suffixTextBool: true,
                           // suffixText: "English",

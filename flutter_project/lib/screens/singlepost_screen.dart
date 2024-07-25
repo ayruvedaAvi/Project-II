@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
+import 'package:get/get.dart';
 
 class SinglepostScreen extends StatefulWidget {
   final String? profileImg;
@@ -207,9 +208,9 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                       widget.image.toString(),
                       fit: BoxFit.fitHeight,
                       errorBuilder: (context, error, stackTrace) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                              "Image for this job was corrupted or not found!"),
+                              "corruptImage".tr),
                         );
                       },
                     )),
@@ -234,9 +235,9 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                           backgroundColor: borderButtonColor,
                         ),
                         onPressed: () {},
-                        child: const Text(
-                          "Accept",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        child: Text(
+                          "accept".tr,
+                          style: const TextStyle(fontSize: 18, color: Colors.white),
                         )),
                   ),
                   const SizedBox(
@@ -251,9 +252,9 @@ class _SinglepostScreenState extends State<SinglepostScreen> {
                           foregroundColor: borderButtonColor,
                         ),
                         onPressed: () {},
-                        child: const Text(
-                          "Chat",
-                          style: TextStyle(
+                        child: Text(
+                          "chat".tr,
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                         )),

@@ -2,8 +2,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/my_app.dart';
 import 'package:flutter_project/screens/authScreens/splash_screen.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
   debugPrint('title: ${message.notification?.title}');
@@ -71,8 +71,7 @@ class FirebaseApi {
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('fcmToken', fCMToken!);
+    UserSharedPreference.saveDataToStorage('fcmToken', fCMToken);
     debugPrint('token: $fCMToken');
     initPushNotifications();
   }
