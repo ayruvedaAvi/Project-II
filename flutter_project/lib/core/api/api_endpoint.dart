@@ -15,6 +15,7 @@ import 'package:flutter_project/utils/shared_preferences/shared_preference.dart'
 import 'package:image_picker/image_picker.dart';
 
 class ApiEndpoints {
+
   Future<bool> login(LoginModel loginModel) async {
     bool isLogin = false; // Default to false indicating login failed
     String url = baseUrl + loginUrl;
@@ -520,5 +521,80 @@ class ApiEndpoints {
       }
     }
     return jobDetailsModel;
+  }
+
+
+  Future<bool> storeFcmToken(String? fcmToken) async {
+    bool isTokenStored = false; // Default to false indicating token store failed
+    String url = baseUrl + storeFcmTokenUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+
+    try {
+      response = await dio.post(
+        url,
+        data: {
+          'registrationToken': fcmToken,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('FCM token stored successfully');
+        isTokenStored = true; // FCM token store successful
+      } else {
+        throw Exception('Failed to store FCM token: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during FCM token store');
+      }
+    }
+    return isTokenStored;
+  }
+
+  Future<bool> logout() async {
+    bool isLogOut = false; // Default to false indicating logout failed
+    String url = baseUrl + logoutUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+    try {
+      response = await dio.post(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Logout successful');
+        UserSharedPreference.removeDataFromStorage('token');
+        isLogOut = true; // Logout successful
+      } else {
+        throw Exception('Failed to logout: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        debugPrint('Error: ${e.toString()}');
+        throw Exception('An unexpected error occurred during logout');
+      }
+    }
+    return isLogOut;
   }
 }

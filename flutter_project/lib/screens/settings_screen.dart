@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/controllers/authControllers/login_controller.dart';
 import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
@@ -242,8 +242,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          UserSharedPreference.removeDataFromStorage('token');
-                          Get.offAll(() => const LoginScreen());
+                          LoginController logout = Get.put(LoginController());
+                          logout.logout();
                         },
                         child: CustomSettingRow(
                           prefixIcon: Icons.logout,
