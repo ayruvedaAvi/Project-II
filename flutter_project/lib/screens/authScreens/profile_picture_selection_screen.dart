@@ -17,10 +17,11 @@ class _ProfilePictureSelectionScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.black,
-
-      // ),
+      appBar: AppBar(
+        // leading: null,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding:
