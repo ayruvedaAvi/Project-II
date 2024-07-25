@@ -19,5 +19,8 @@ const editJobUrl = "/jobs/edit";
 const deleteJobUrl = "/jobs/delete";
 const getSingleJobUrl = "/jobs/singlejob";
 
+//job actions
+const applyJobUrl = "/jobs/applyjob";
+
 //notification
 const storeFcmTokenUrl = "/notification/store-fcm-token";

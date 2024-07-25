@@ -599,4 +599,48 @@ class ApiEndpoints {
     }
     return isLogOut;
   }
+
+
+  Future<bool> applyJob(jobId) async {
+    bool isJobApplied = false; // Default to false indicating job apply failed
+    String url = baseUrl + applyJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    try {
+      response = await dio.patch(
+        url,
+        data: {
+          'jobId': jobId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Job applied successfully');
+        isJobApplied = true; // Job apply successful
+      } else {
+        throw Exception('Failed to apply job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job apply');
+      }
+    }
+    return isJobApplied;
+  }
 }
