@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
-import 'package:flutter_project/screens/roleselection_screen.dart';
+import 'package:flutter_project/screens/authScreens/profile_picture_selection_screen.dart';
+// import 'package:flutter_project/screens/language_selection_screen.dart';
+// import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
 import 'package:get/get.dart';
@@ -173,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => const RoleselectionScreen());
+                          Get.to(() => const ProfilePictureSelectionScreen());
                         },
                         child: CustomSettingRow(
                           prefixIcon: Icons.fingerprint,
