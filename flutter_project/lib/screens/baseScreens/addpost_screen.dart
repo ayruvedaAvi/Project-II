@@ -330,7 +330,9 @@ class _AddpostScreenState extends State<AddpostScreen> {
                           if (_formKey.currentState!.validate()) {
                             if (widget.isEdit) {
                               _postJobController.editJob(
-                                   widget.job!.id!, _image,);
+                                widget.job!.id!,
+                                _image,
+                              );
                               Get.off(() => const BaseScreen(
                                     initalIndex: 0,
                                   ));

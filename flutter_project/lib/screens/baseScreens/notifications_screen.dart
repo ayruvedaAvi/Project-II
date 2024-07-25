@@ -10,6 +10,8 @@ class NotificationsScreen extends StatelessWidget {
       appBar: AppBar(
         // shadowColor: Colors.grey,
         // elevation: 5,
+        automaticallyImplyLeading: false,
+
         title: const Text(
           "Notifications",
           style: TextStyle(
