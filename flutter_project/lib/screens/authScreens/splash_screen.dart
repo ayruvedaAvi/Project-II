@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
           }
           if (token != null) {
             Get.off(() => const BaseScreen(
-                  initalIndex: 0,
+                  initialIndex: 0,
                 ));
           } else {
             Get.off(() => const OnBordingScreen());

@@ -29,7 +29,7 @@ class VerifyOtpController extends GetxController {
             snackPosition: SnackPosition.TOP,
           );
           isLoading.value = false;
-          Get.off(() => const BaseScreen(initalIndex: 0));
+          Get.off(() => const BaseScreen(initialIndex: 0));
         } else {
           Get.snackbar(
             "Error",

@@ -27,7 +27,7 @@ class LoginController extends GetxController {
       }
       if (isLogin) {
         Get.to(() => const BaseScreen(
-              initalIndex: 0,
+              initialIndex: 0,
             ));
         Get.snackbar(
           "Sucess",
