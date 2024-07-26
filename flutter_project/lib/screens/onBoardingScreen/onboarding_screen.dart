@@ -24,37 +24,32 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
     Onbord(
       image: "assets/Illustration/Illustration-0.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_0.png",
-      title: "Find the job \nyou're capable of",
-      description:
-          "Here you’ll get a job that suits your skills, and you can apply for it with just a click.",
+      title: "ob1title".tr,
+      description: "ob1desc".tr,
     ),
     Onbord(
       image: "assets/Illustration/Illustration-1.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_1.png",
-      title: "Get all the \n works done",
-      description:
-          "You can get all the work done by the professionals, and you can also hire them for your work.",
+      title: "ob2title".tr,
+      description: "ob2desc".tr,
     ),
     Onbord(
       image: "assets/Illustration/Illustration-2.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_2.png",
-      title: "Secure and fast \n self-employments",
-      description: "There are many job options available for your ease.",
+      title: "ob3title".tr,
+      description: "ob3desc".tr,
     ),
     Onbord(
       image: "assets/Illustration/Illustration-3.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_3.png",
-      title:
-          "Every kind of job, \n from doing the dishes \n to room changing service",
-      description:
-          "In particular, Shrami can get a job for you or provide you with human resource.",
+      title: "ob4title".tr,
+      description: "ob4desc".tr,
     ),
     Onbord(
       image: "assets/Illustration/Illustration-4.png",
       imageDarkTheme: "assets/Illustration/Illustration_darkTheme_4.png",
-      title: "Nearby Service Providers",
-      description:
-          "Easily find nearby Service Providers, here with Shrami you can find the Service Providers in your area.",
+      title: "ob5title".tr,
+      description: "ob5desc".tr,
     ),
   ];
 

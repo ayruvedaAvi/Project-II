@@ -1,6 +1,7 @@
 import 'package:flutter_project/core/locales/translations/base_screen_translation.dart';
 import 'package:flutter_project/core/locales/translations/custom_widgets_translation.dart';
 import 'package:flutter_project/core/locales/translations/login_screen_translation.dart';
+import 'package:flutter_project/core/locales/translations/onboarding_screen_translation.dart';
 import 'package:flutter_project/core/locales/translations/post_screen_translation.dart';
 import 'package:flutter_project/core/locales/translations/register_screen_translation.dart';
 import 'package:flutter_project/core/locales/translations/role_selection_translation.dart';
@@ -24,6 +25,7 @@ class MultiLanguage extends Translations {
           ...enUsSinglePostScreen,
           ...enUsUserProfileScreen,
           ...enUsVerifyOTPScreen,
+          ...enUsOnBoardingScreen,
         },
         'ne_NE': {
           ...neNePostScreen,
@@ -36,6 +38,7 @@ class MultiLanguage extends Translations {
           ...neNeSinglePostScreen,
           ...neNeUserProfileScreen,
           ...neNeVerifyOTPScreen,
+          ...neNeOnBoardingScreen,
         },
       };
 }

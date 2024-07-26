@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/login_screen.dart';
 import 'package:flutter_project/screens/authScreens/profile_picture_selection_screen.dart';
+import 'package:flutter_project/screens/language_selection_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 // import 'package:flutter_project/screens/language_selection_screen.dart';
 // import 'package:flutter_project/screens/roleselection_screen.dart';
@@ -176,7 +177,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => const ProfilePictureSelectionScreen());
+                          Get.to(() => const LanguageSelectionScreen());
                         },
                         child: CustomSettingRow(
                           prefixIcon: Icons.fingerprint,

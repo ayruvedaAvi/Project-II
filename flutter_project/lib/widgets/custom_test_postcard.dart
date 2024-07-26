@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
+import 'package:flutter_project/screens/job_accept_screen.dart';
 // import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
 import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
@@ -144,7 +145,8 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(() => SinglepostScreen(
+                    // Get.to(() => SinglepostScreen(
+                    Get.to(() => JobAcceptScreen(
                           profileImg: widget.profileImg,
                           userName: widget.jobModel.userName,
                           workDescription: widget.jobModel.workDescription,

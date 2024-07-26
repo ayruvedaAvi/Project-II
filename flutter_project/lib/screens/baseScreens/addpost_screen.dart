@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/postJob/post_job_controller.dart';
 import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
 import 'package:flutter_project/screens/baseScreens/base_screen.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_text_form_field.dart';
 import 'package:get/get.dart';
@@ -72,7 +73,7 @@ class _AddpostScreenState extends State<AddpostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 10.0,
+        elevation: 5.0,
         automaticallyImplyLeading: false,
         shadowColor: Colors.grey,
         // shape: const RoundedRectangleBorder(
@@ -84,8 +85,9 @@ class _AddpostScreenState extends State<AddpostScreen> {
           "Create Job Post",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: borderButtonColor,
+
+        foregroundColor: Colors.white,
         // centerTitle: true,
         actions: [
           CupertinoSwitch(
