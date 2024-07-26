@@ -49,7 +49,11 @@ class _SplashScreenState extends State<SplashScreen>
                   initialIndex: 0,
                 ));
           } else {
-            Get.off(() => const LanguageSelectionScreen());
+            Get.off(
+              () => const LanguageSelectionScreen(
+                fromSplash: true,
+              ),
+            );
           }
         }
       },

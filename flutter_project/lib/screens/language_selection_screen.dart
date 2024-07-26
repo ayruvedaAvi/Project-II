@@ -3,14 +3,19 @@ import 'package:flutter_project/screens/onBoardingScreen/onboarding_screen.dart'
 import 'package:get/get.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
-  const LanguageSelectionScreen({super.key});
+  final bool fromSplash;
+
+  const LanguageSelectionScreen({
+    super.key,
+    required this.fromSplash,
+  });
   void _selectLanguage(BuildContext context, String language) {
     if (language == 'English') {
       Get.updateLocale(const Locale('en', 'US'));
     } else {
       Get.updateLocale(const Locale('ne', 'NP'));
     }
-    Get.to(() => const OnBordingScreen());
+    fromSplash? Get.to(() => const OnBordingScreen()) : Get.back();
   }
 
   @override
