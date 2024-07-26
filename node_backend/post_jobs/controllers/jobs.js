@@ -308,17 +308,23 @@ const getJob = async (req, res, next) => {
         updatedAt: job.updatedAt,
         workDescription: job.workDescription,
         applications: job.applications.map(app => ({
-          workerId: app.workerId._id,
-          workerName: app.workerId.name
+          workerId: app.workerId ? app.workerId._id : null,
+          workerName: app.workerId ? app.workerId.name : null
         })),
-        assignedWorker: job.assignedWorker ? {
+        assignedWorker: job.assignedWorker && job.assignedWorker.workerId ? {
           workerId: job.assignedWorker.workerId._id,
           workerName: job.assignedWorker.workerId.name
-        } : null,
+        } : {
+          workerId: null,
+          workerName: null
+        },
         completedBy: job.completedBy ? {
           workerId: job.completedBy._id,
           name: job.completedBy.name
-        } : null
+        } : {
+          workerId: null,
+          name: null
+        }
       }
     });
   } catch (error) {

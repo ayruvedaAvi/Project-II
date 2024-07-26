@@ -159,7 +159,6 @@ const sendNotificationOfJobPosted = async (title, body, posterUserId) => {
         userId: token.userId,
         title,
         body,
-   
       });
       return notification.save();
     });
