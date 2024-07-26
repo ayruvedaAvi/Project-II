@@ -80,6 +80,7 @@ class _FeedScreenState extends State<FeedScreen> {
     getName();
   }
 
+//jashgysag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,10 +90,12 @@ class _FeedScreenState extends State<FeedScreen> {
         // shadowColor: Colors.grey,
         backgroundColor: borderButtonColor,
         foregroundColor: Colors.white,
-        title: Text(
-          "SHRAMI",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: GoogleFonts.bonaNova().fontFamily,)
-        ),
+        title: Text("SHRAMI",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.bonaNova().fontFamily,
+            )),
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -177,18 +180,6 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
       ),
       body:
-          // Container(
-          // decoration: const BoxDecoration(
-          //   gradient: LinearGradient(
-          //     begin: Alignment.topLeft,
-          //     end: Alignment.bottomRight,
-          //     colors: [
-          //       Colors.white,
-          //       Colors.white,
-          //     ],
-          //   ),
-          // ),
-          // child:
           Obx(() {
         if (getAllJobsController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());

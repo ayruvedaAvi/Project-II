@@ -5,9 +5,10 @@ import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:get/get.dart';
 
 class GetSingleJobController extends GetxController {
-  RxBool isLoading = true.obs;
+  RxBool isLoading = false.obs;
   JobDetailsModel? jobDetailsModel;
   Future<JobDetailsModel?> getSingleJob(String jobId) async {
+    isLoading.value = true;
     try {
       jobDetailsModel = await ApiEndpoints().getSingleJob(jobId);
       return jobDetailsModel;

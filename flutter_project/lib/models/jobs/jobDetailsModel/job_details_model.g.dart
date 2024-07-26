@@ -22,7 +22,16 @@ JobDetailsModel _$JobDetailsModelFromJson(Map<String, dynamic> json) =>
       jobLocation: json['jobLocation'] as String?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
-    );
+    )
+      ..applications = (json['applications'] as List<dynamic>?)
+          ?.map((e) => Applicant.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..assignedWorker = json['assignedWorker'] == null
+          ? null
+          : Applicant.fromJson(json['assignedWorker'] as Map<String, dynamic>)
+      ..completedBy = json['completedBy'] == null
+          ? null
+          : Applicant.fromJson(json['completedBy'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$JobDetailsModelToJson(JobDetailsModel instance) =>
     <String, dynamic>{
@@ -40,4 +49,17 @@ Map<String, dynamic> _$JobDetailsModelToJson(JobDetailsModel instance) =>
       'image': instance.image,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'applications': instance.applications,
+      'assignedWorker': instance.assignedWorker,
+      'completedBy': instance.completedBy,
+    };
+
+Applicant _$ApplicantFromJson(Map<String, dynamic> json) => Applicant(
+      workerId: json['workerId'] as String?,
+      workerName: json['workerName'] as String?,
+    );
+
+Map<String, dynamic> _$ApplicantToJson(Applicant instance) => <String, dynamic>{
+      'workerId': instance.workerId,
+      'workerName': instance.workerName,
     };

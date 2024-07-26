@@ -100,7 +100,7 @@ const sendNotification = async (req, res) => {
 };
 
 
-const sendNotificationOfJobPosted = async (title, body, posterUserId) => {
+const sendNotificationOfJobPosted = async (title, body, posterUserId,jobId) => {
   try {
     // Fetch all users excluding the poster
     const allUsers = await User.find({ _id: { $ne: posterUserId }, isActive: true }).exec();
@@ -125,7 +125,7 @@ const sendNotificationOfJobPosted = async (title, body, posterUserId) => {
     const message = {
       notification: {
         title,
-        body
+        body,
       }
     };
 
@@ -158,7 +158,8 @@ const sendNotificationOfJobPosted = async (title, body, posterUserId) => {
       const notification = new Notification({
         userId: token.userId,
         title,
-        body
+        body,
+        jobId
       });
       return notification.save();
     });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/authControllers/login_controller.dart';
+import 'package:flutter_project/screens/language_selection_screen.dart';
 import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
@@ -74,6 +75,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         suffixIcon: Icons.arrow_forward_ios,
                         suffixTextBool: true,
                         suffixText: "english".tr,
+                        onTap: () {
+                          Get.to(
+                            () => const LanguageSelectionScreen(
+                                fromSplash: false),
+                          );
+                        },
                       ), //custom comment
                       Divider(
                         thickness: 1,
