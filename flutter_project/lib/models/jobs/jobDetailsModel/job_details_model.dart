@@ -6,22 +6,24 @@ part 'job_details_model.g.dart';
 
 @JsonSerializable()
 class JobDetailsModel {
+  String? id;
+  String? Title;
+  String? workDescription;
+  String? status;
+  String? userId;
+  String? userName;
+  String? userLastName;
+  String? userEmail;
+  String? jobType;
+  String? jobLocation;
+  double? price;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+  List<Applicant>? applications;
+  Applicant? assignedWorker;
+  Applicant? completedBy;
 
-    String? id;
-    String? Title;
-    String? workDescription;
-    String? status;
-    String? userId;
-    String? userName;
-    String? userLastName;
-    String? userEmail;
-    String? jobType;
-    String? jobLocation;
-    double? price;
-    String? image;
-    String? createdAt;
-    String? updatedAt;
-            
   JobDetailsModel({
     this.id,
     this.Title,
@@ -43,4 +45,20 @@ class JobDetailsModel {
       _$JobDetailsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$JobDetailsModelToJson(this);
+}
+
+@JsonSerializable()
+class Applicant {
+  String? workerId;
+  String? workerName;
+
+  Applicant({
+    this.workerId,
+    this.workerName,
+  });
+
+  factory Applicant.fromJson(Map<String, dynamic> json) =>
+      _$ApplicantFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ApplicantToJson(this);
 }

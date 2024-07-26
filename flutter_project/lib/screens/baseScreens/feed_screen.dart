@@ -180,18 +180,6 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
       ),
       body:
-          // Container(
-          // decoration: const BoxDecoration(
-          //   gradient: LinearGradient(
-          //     begin: Alignment.topLeft,
-          //     end: Alignment.bottomRight,
-          //     colors: [
-          //       Colors.white,
-          //       Colors.white,
-          //     ],
-          //   ),
-          // ),
-          // child:
           Obx(() {
         if (getAllJobsController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
