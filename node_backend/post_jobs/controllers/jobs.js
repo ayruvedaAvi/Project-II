@@ -20,7 +20,7 @@ const createJob = async (req, res, next) => {
     return next(new BadRequestError('User not found'));
   }
 
-  if (user.role !== 'work provider') {
+  if (user.role !== 'WorkProvider') {
     return next(new BadRequestError('Only work providers can create jobs'));
   }
 
@@ -65,7 +65,7 @@ const createJob = async (req, res, next) => {
     const notificationTitle = 'New Job Posted';
     const notificationBody = `${user.name} ${user.lastName} posted a new job: ${Title}`;
 
-    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId);
+    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId,job._id);
     res.status(StatusCodes.CREATED).json({ job });
   } catch (error) {
     if (!res.headersSent) {
