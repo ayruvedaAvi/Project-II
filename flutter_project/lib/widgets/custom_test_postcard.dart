@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
 import 'package:flutter_project/screens/job_accept_screen.dart';
 // import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
-import 'package:flutter_project/screens/singlepost_screen.dart';
+// import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/widgets/custom_activeuser_bottomsheet.dart';
 import 'package:flutter_project/widgets/custom_otheruser_bottomsheet.dart';
