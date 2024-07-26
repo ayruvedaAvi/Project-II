@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/authControllers/login_controller.dart';
 import 'package:flutter_project/screens/roleselection_screen.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: Colors.blue,
+        backgroundColor: borderButtonColor,
         centerTitle: true,
         title: Text('settings'.tr),
         shadowColor: Colors.grey,

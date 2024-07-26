@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobActionControllers/job_action_controller.dart';
 import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
+import 'package:flutter_project/screens/job_accept_screen.dart';
 // import 'package:flutter_project/models/jobs/postJobModel/job_model.dart';
-import 'package:flutter_project/screens/singlepost_screen.dart';
+// import 'package:flutter_project/screens/singlepost_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_activeuser_bottomsheet.dart';
@@ -143,54 +144,12 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
             padding:
                 const EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 5),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 15),
-                      decoration: BoxDecoration(
-                          // color: Colors.teal,
-                          border: Border.all(
-                              color: getJobTypeColor(widget.jobModel.jobType)),
-                          borderRadius: const BorderRadius.all(
-                              // topRight: Radius.circular(8),
-                              // bottomLeft: Radius.circular(8),
-                              Radius.circular(20))),
-                      child: Text(
-                        "# ${widget.jobModel.jobType.toString()}",
-                        // style: const TextStyle(color: Colors.teal),
-                        style: TextStyle(
-                            color: getJobTypeColor(widget.jobModel.jobType)),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: getJobTypeColor(widget.jobModel.jobType),
-                        ),
-                        Text(
-                          "Balkumari, Lalitpur",
-                          style: TextStyle(
-                              color: getJobTypeColor(widget.jobModel.jobType)),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 InkWell(
                   onTap: () {
-                    Get.to(() => SinglepostScreen(
+                    // Get.to(() => SinglepostScreen(
+                    Get.to(() => JobAcceptScreen(
                           profileImg: widget.profileImg,
                           userName: widget.jobModel.userName,
                           workDescription: widget.jobModel.workDescription,
@@ -204,59 +163,110 @@ class _CustomTestPostcardState extends State<CustomTestPostcard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.jobModel.Title.toString(),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            decoration: BoxDecoration(
+                                // color: Colors.teal,
+                                border: Border.all(
+                                    color: getJobTypeColor(
+                                        widget.jobModel.jobType)),
+                                borderRadius: const BorderRadius.all(
+                                    // topRight: Radius.circular(8),
+                                    // bottomLeft: Radius.circular(8),
+                                    Radius.circular(20))),
+                            child: Text(
+                              "# ${widget.jobModel.jobType.toString()}",
+                              // style: const TextStyle(color: Colors.teal),
+                              style: TextStyle(
+                                  color:
+                                      getJobTypeColor(widget.jobModel.jobType)),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.location_on,
+                                color: getJobTypeColor(widget.jobModel.jobType),
+                              ),
+                              Text(
+                                "Balkumari, Lalitpur",
+                                style: TextStyle(
+                                    color: getJobTypeColor(
+                                        widget.jobModel.jobType)),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        widget.jobModel.workDescription.toString(),
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            fontSize: 16, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  // padding:
-                  //     const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  // decoration: const BoxDecoration(
-                  //   // color: Colors.blue[50],
-                  //   // border: Border.all(color: Colors.teal),
-                  //   borderRadius: BorderRadius.all(
-                  //     // topRight: Radius.circular(8),
-                  //     // bottomLeft: Radius.circular(8),
-                  //     Radius.circular(10),
-                  //   ),
-                  // ),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Rs ${widget.jobModel.price.toString()}",
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.jobModel.Title.toString(),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            widget.jobModel.workDescription.toString(),
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black54),
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        width: 10,
+                        height: 10,
                       ),
-                      Text(
-                        "work".tr,
-                        style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        // margin: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                        // padding:
+                        //     const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                        // decoration: const BoxDecoration(
+                        //   // color: Colors.blue[50],
+                        //   // border: Border.all(color: Colors.teal),
+                        //   borderRadius: BorderRadius.all(
+                        //     // topRight: Radius.circular(8),
+                        //     // bottomLeft: Radius.circular(8),
+                        //     Radius.circular(10),
+                        //   ),
+                        // ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Rs ${widget.jobModel.price.toString()}",
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "work".tr,
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

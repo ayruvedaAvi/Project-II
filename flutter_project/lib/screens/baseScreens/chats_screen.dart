@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/widgets/custom_chatlist.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -16,14 +17,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
         title: const Text(
           "Conversations",
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+        backgroundColor: borderButtonColor,
       ),
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
           child: Padding(
-        padding: const EdgeInsets.only(right: 15, left: 15),
+        padding: const EdgeInsets.only(right: 15, left: 15, top: 10),
         child: Column(
           children: [
             SizedBox(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/notificationController/notification_controller.dart';
+import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/widgets/custom_notifycard.dart';
 import 'package:get/get.dart';
 
@@ -36,21 +37,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       appBar: AppBar(
         // shadowColor: Colors.grey,
         // elevation: 5,
+        automaticallyImplyLeading: false,
+        backgroundColor: borderButtonColor,
+        foregroundColor: Colors.white,
         title: const Text(
           "Notifications",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 15.0),
             child: Icon(
               Icons.notifications_active,
-              color: Colors.black,
             ),
           )
         ],
-        backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
       body: Obx(() {

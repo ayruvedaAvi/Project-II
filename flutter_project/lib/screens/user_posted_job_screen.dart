@@ -73,7 +73,7 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
         elevation: 5.0,
         centerTitle: true,
         foregroundColor: Colors.white,
-        backgroundColor: Colors.blue,
+        backgroundColor: borderButtonColor,
         shadowColor: Colors.grey,
         title: Text(widget.detailsTopic.toString()),
       ),
