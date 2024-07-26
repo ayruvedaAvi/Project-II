@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/notificationController/notification_controller.dart';
+import 'package:flutter_project/screens/notification/notification_job_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/widgets/custom_notifycard.dart';
 import 'package:get/get.dart';
@@ -14,13 +15,13 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-
-  NotificationController notificationController = Get.put(NotificationController());
+  NotificationController notificationController =
+      Get.put(NotificationController());
   Rxn<List<NotificationModel>> notifications = Rxn<List<NotificationModel>>();
 
-  void getNotifications(){
+  void getNotifications() {
     notificationController.getUserNotification().then((value) {
-      if(value != null){
+      if (value != null) {
         notifications.value = value;
       }
     });
@@ -31,6 +32,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     getNotifications();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +58,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       backgroundColor: Colors.white,
       body: Obx(() {
         if (notificationController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
         if (notifications.value == null || notifications.value!.isEmpty) {
           return const Center(child: Text("No notifications available."));
@@ -65,7 +69,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           itemCount: notifications.value!.length,
           itemBuilder: (context, index) {
             final notification = notifications.value![index];
-            return CustomNotifycard(message: notification.body);
+            return CustomNotifycard(
+              message: notification.body,
+              read: notification.read,
+              onTap: () {
+                // notificationController.markNotificationAsRead(notification.id);
+                Get.to(() => NotificationJobScreen(
+                      jobId: notification.jobId ?? "",
+                    ));
+              },
+            );
           },
         );
       }),
