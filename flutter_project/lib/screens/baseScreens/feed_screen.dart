@@ -80,6 +80,7 @@ class _FeedScreenState extends State<FeedScreen> {
     getName();
   }
 
+//jashgysag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,10 +90,12 @@ class _FeedScreenState extends State<FeedScreen> {
         // shadowColor: Colors.grey,
         backgroundColor: borderButtonColor,
         foregroundColor: Colors.white,
-        title: Text(
-          "SHRAMI",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: GoogleFonts.bonaNova().fontFamily,)
-        ),
+        title: Text("SHRAMI",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.bonaNova().fontFamily,
+            )),
         centerTitle: true,
       ),
       drawer: Drawer(
