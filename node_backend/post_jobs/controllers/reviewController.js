@@ -41,7 +41,7 @@ const createReview = async (req, res, next) => {
 };
 
 const getAllReviewsForUser = async (req, res, next) => {
-  const { id: userId } = req.body; 
+  const { id: userId } = req.body; // User whose reviews are to be fetched
 
   if (!userId) {
     return res.status(400).send({ message: 'User ID is required' });
