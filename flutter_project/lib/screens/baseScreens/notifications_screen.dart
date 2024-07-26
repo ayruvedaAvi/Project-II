@@ -33,63 +33,6 @@ class NotificationsScreen extends StatelessWidget {
             CustomNotifycard(
               message: "Hello guys! Welcome to my youtube channel",
             ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
           ],
         ),
       ),
