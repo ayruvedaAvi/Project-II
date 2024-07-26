@@ -11,7 +11,6 @@ class GetSingleJobController extends GetxController {
     isLoading.value = true;
     try {
       jobDetailsModel = await ApiEndpoints().getSingleJob(jobId);
-      return jobDetailsModel;
     } catch (e) {
       Get.showSnackbar(
         GetSnackBar(
@@ -29,5 +28,6 @@ class GetSingleJobController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+    return jobDetailsModel;
   }
 }

@@ -56,6 +56,7 @@ class _CustomFeedscreenState extends State<CustomFeedscreen> {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return CustomPostcard(
+                      fromPending: false,
                       profileImg: 'assets/images/profile_image.jpg',
                       userName: jobs.value!.jobs![index].userName,
                       workDescription: jobs.value!.jobs![index].workDescription,

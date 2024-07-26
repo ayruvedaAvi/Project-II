@@ -104,6 +104,7 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   return CustomTestPostcard(
+                    fromPending: true,
                     profileImg: 'assets/images/profile_image.jpg',
                     // userName: jobs.value!.jobs![index].userName,
                     // workDescription: jobs.value!.jobs![index].workDescription,
