@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/onBoardingScreen/onboarding_screen.dart';
+import 'package:get/get.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
   const LanguageSelectionScreen({super.key});
   void _selectLanguage(BuildContext context, String language) {
-    // Handle language selection
-    print('Selected language: $language');
-    // You can navigate to another screen or perform other actions here
+    if (language == 'English') {
+      Get.updateLocale(const Locale('en', 'US'));
+    } else {
+      Get.updateLocale(const Locale('ne', 'NP'));
+    }
+    Get.to(() => const OnBordingScreen());
   }
 
   @override

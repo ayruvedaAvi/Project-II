@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/baseScreens/base_screen.dart';
-import 'package:flutter_project/screens/onBoardingScreen/onboarding_screen.dart';
+import 'package:flutter_project/screens/language_selection_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
-// import 'package:flutter_project/widgets/custom_profiledetailscard.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -50,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
                   initialIndex: 0,
                 ));
           } else {
-            Get.off(() => const OnBordingScreen());
+            Get.off(() => const LanguageSelectionScreen());
           }
         }
       },

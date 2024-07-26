@@ -75,7 +75,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               onTap: () {
                 // notificationController.markNotificationAsRead(notification.id);
                 Get.to(() => NotificationJobScreen(
-                      jobId: notification.jobId ?? "",
+                      jobId: notification.jobId ?? '',
                     ));
               },
             );
