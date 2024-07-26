@@ -10,7 +10,6 @@ const notificationSchema = new mongoose.Schema({
   jobId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Job',
-    required: true
   },
   title: {
     type: String, 

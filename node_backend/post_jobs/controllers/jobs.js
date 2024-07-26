@@ -15,12 +15,12 @@ const createJob = async (req, res, next) => {
 
   const userId = req.user.userId;
   const user = await User.findById(userId);
-  
+
   if (!user) {
     return next(new BadRequestError('User not found'));
   }
 
-  if (user.role !== 'WorkProvider') {
+  if (user.role !== 'WorkProvider' ) {
     return next(new BadRequestError('Only work providers can create jobs'));
   }
 
@@ -55,6 +55,13 @@ const createJob = async (req, res, next) => {
       jobType,
       price,
       image: uploadedMediaUrl,
+      applications: [],
+      assignedWorker: {
+        workerId: null,
+        workerName: null,
+      },
+      completedBy: null,
+      completedByName: null,
       // jobLocation: {
       //   type: 'Point',
       //   coordinates: [parseFloat(longitude), parseFloat(latitude)]
@@ -65,15 +72,15 @@ const createJob = async (req, res, next) => {
     const notificationTitle = 'New Job Posted';
     const notificationBody = `${user.name} ${user.lastName} posted a new job: ${Title}`;
 
-    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId,job._id);
+    await sendNotificationOfJobPosted(notificationTitle, notificationBody, userId);
     res.status(StatusCodes.CREATED).json({ job });
   } catch (error) {
+    console.error('Error creating job:', error.message);
     if (!res.headersSent) {
       res.status(500).json({ message: 'Server error' });
     }
   }
 };
-
 const applyForJob = async (req, res, next) => {
   const { jobId } = req.body;
   const workerId = req.user.userId;
