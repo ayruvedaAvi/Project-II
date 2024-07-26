@@ -7,6 +7,7 @@ const getAccessToken = require('../utils/getAccessToken');
 const User = require('../models/User');
 const mongoose = require('mongoose');
 const { BadRequestError } = require('../errors');
+const Job = require('../models/Job');
 
 const storeFcmToken = async (req, res) => {
   console.log('Request received to store FCM token:', req.body);
@@ -172,7 +173,7 @@ const sendNotificationOfJobPosted = async (title, body, posterUserId) => {
 };
 
 
-const sendNotificationToUser = async (title, body, userId) => {
+const sendNotificationToUser = async (title, body, userId,jobId) => {
   try {
     if (!title || !body) {
       throw new Error('Title and body are required');
@@ -202,7 +203,7 @@ const sendNotificationToUser = async (title, body, userId) => {
         message: {
           notification: {
             title,
-            body
+            body,
           },
           token
         }
@@ -229,7 +230,8 @@ const sendNotificationToUser = async (title, body, userId) => {
     const notification = new Notification({
       userId,
       title,
-      body
+      body,
+      jobId
     });
     await notification.save();
 
