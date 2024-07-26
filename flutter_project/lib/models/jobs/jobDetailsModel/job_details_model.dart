@@ -5,6 +5,18 @@ import 'package:json_annotation/json_annotation.dart';
 part 'job_details_model.g.dart';
 
 @JsonSerializable()
+class JobDetailsResponseModel{
+  JobDetailsModel? job;
+
+  JobDetailsResponseModel({this.job});
+
+  factory JobDetailsResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$JobDetailsResponseModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JobDetailsResponseModelToJson(this);
+}
+
+@JsonSerializable()
 class JobDetailsModel {
   String? id;
   String? Title;

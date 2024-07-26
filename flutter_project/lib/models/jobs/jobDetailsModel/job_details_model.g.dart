@@ -6,6 +6,20 @@ part of 'job_details_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+JobDetailsResponseModel _$JobDetailsResponseModelFromJson(
+        Map<String, dynamic> json) =>
+    JobDetailsResponseModel(
+      job: json['job'] == null
+          ? null
+          : JobDetailsModel.fromJson(json['job'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$JobDetailsResponseModelToJson(
+        JobDetailsResponseModel instance) =>
+    <String, dynamic>{
+      'job': instance.job,
+    };
+
 JobDetailsModel _$JobDetailsModelFromJson(Map<String, dynamic> json) =>
     JobDetailsModel(
       id: json['id'] as String?,

@@ -491,6 +491,7 @@ class ApiEndpoints {
 
   Future<JobDetailsModel> getSingleJob  (String jobId)async{
     JobDetailsModel jobDetailsModel = JobDetailsModel();
+    JobDetailsResponseModel jobDetailsResponseModel = JobDetailsResponseModel();
     String url = baseUrl + getSingleJobUrl;
     Response response;
     var dio = HttpServices().getDioInstance();
@@ -512,7 +513,8 @@ class ApiEndpoints {
       );
 
       if (response.statusCode == 200) {
-        jobDetailsModel = JobDetailsModel.fromJson(response.data);
+        jobDetailsResponseModel = JobDetailsResponseModel.fromJson(response.data);
+        jobDetailsModel = jobDetailsResponseModel.job!;
       } else {
         throw Exception('Failed to get job details: ${response.data}');
       }
@@ -676,5 +678,49 @@ class ApiEndpoints {
       notifications = notificationResponseModel.notifications;
     }
     return notifications;
+  }
+
+  Future<bool> acceptJob(jobId, workerId) async {
+    bool isJobAccepted = false; // Default to false indicating job accept failed
+    String url = baseUrl + acceptJobUrl;
+    Response response;
+    var dio = HttpServices().getDioInstance();
+    String? token =
+        await UserSharedPreference.getStringDataFromStorage('token');
+
+    // Check if the token is null or empty
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    try {
+      response = await dio.patch(
+        url,
+        data: {
+          'jobId': jobId,
+          'workerId': workerId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Job accepted successfully');
+        isJobAccepted = true; // Job accept successful
+      } else {
+        throw Exception('Failed to accept job: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred during job accept');
+      }
+    }
+    return isJobAccepted;
   }
 }

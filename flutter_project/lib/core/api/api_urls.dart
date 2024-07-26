@@ -21,6 +21,7 @@ const getSingleJobUrl = "/jobs/singlejob";
 
 //job actions
 const applyJobUrl = "/jobs/applyjob";
+const acceptJobUrl = "/jobs/assign";
 
 //notification
 const storeFcmTokenUrl = "/notification/store-fcm-token";

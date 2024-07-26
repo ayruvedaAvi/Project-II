@@ -59,4 +59,57 @@ class JobActionController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  void acceptJob(jobId, workerId) async {
+
+    isLoading.value = true;
+    bool accepted = false;
+    try {
+      accepted = await ApiEndpoints().acceptJob(jobId, workerId);
+    } catch (e) {
+      Get.showSnackbar(
+        GetSnackBar(
+          title: "Error",
+          message: e.toString(),
+          duration: const Duration(seconds: 4),
+          borderRadius: 10.0,
+          snackPosition: SnackPosition.TOP,
+          borderWidth: 5,
+          borderColor: mainColor,
+          backgroundColor: Colors.red,
+        ),
+      );
+      isLoading.value = false;
+    }
+    if (accepted) {
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Success",
+          message: 'Job accepted successfully',
+          duration: Duration(seconds: 4),
+          borderRadius: 10.0,
+          snackPosition: SnackPosition.TOP,
+          borderWidth: 5,
+          borderColor: mainColor,
+          backgroundColor: Colors.green,
+        ),
+      );
+      isLoading.value = false;
+    } else {
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Error",
+          message: 'Error accepting job',
+          duration: Duration(seconds: 4),
+          borderRadius: 10.0,
+          snackPosition: SnackPosition.TOP,
+          borderWidth: 5,
+          borderColor: mainColor,
+          backgroundColor: Colors.red,
+        ),
+      );
+      isLoading.value = false;
+    }
+
+  }
 }
