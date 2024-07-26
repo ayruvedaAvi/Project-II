@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.da
 
 import 'package:flutter_project/models/login/login_model.dart';
 import 'package:flutter_project/models/login_response/login_response_model.dart';
+import 'package:flutter_project/models/notifications/notification_model.dart';
 import 'package:flutter_project/models/signup/signup_model.dart';
 import 'package:flutter_project/models/signup_response/signup_response_model.dart';
 import 'package:flutter_project/core/api/api_urls.dart';
@@ -642,5 +644,37 @@ class ApiEndpoints {
       }
     }
     return isJobApplied;
+  }
+
+  Future<List<NotificationModel>?> getUserNotification() async {
+    String url = baseUrl + getNotificationsUrl;
+    Response response;
+    List<NotificationModel>? notifications;
+    var dio = HttpServices().getDioInstance();
+    String token =
+        await UserSharedPreference.getStringDataFromStorage('token')?? '';
+    
+    try {
+      response = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        String errorMessage = DioExceptionHandler(exception: e).getErrorMessage();
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('An unexpected error occurred while fetching notifications.');
+      }
+    }
+    if(response.statusCode == 200){
+      NotificationResponseModel notificationResponseModel = NotificationResponseModel.fromJson(response.data);
+      notifications = notificationResponseModel.notifications;
+    }
+    return notifications;
   }
 }

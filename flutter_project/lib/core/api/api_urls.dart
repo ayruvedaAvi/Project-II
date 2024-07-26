@@ -1,5 +1,5 @@
-// const baseUrl = "https://labourlance-hosted.onrender.com/api/v1";
-const baseUrl = "http://10.0.2.2:5000/api/v1";
+const baseUrl = "https://labourlance-hosted.onrender.com/api/v1";
+// const baseUrl = "http://10.0.2.2:5000/api/v1";
 
 //Auth urls
 const loginUrl = "/auth/login";
@@ -24,3 +24,4 @@ const applyJobUrl = "/jobs/applyjob";
 
 //notification
 const storeFcmTokenUrl = "/notification/store-fcm-token";
+const getNotificationsUrl = "/notification/getUserNotifications";
