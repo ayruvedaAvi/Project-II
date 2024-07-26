@@ -28,6 +28,7 @@ NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
       json['read'] as bool,
       json['createdAt'] as String,
       (json['v'] as num).toInt(),
+      json['jobId'] as String?,
     );
 
 Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
@@ -38,4 +39,5 @@ Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
       'read': instance.read,
       'createdAt': instance.createdAt,
       'v': instance.v,
+      'jobId': instance.jobId,
     };

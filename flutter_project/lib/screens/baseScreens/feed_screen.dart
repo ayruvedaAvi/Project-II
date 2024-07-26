@@ -202,21 +202,13 @@ class _FeedScreenState extends State<FeedScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 146,
+                  height: MediaQuery.of(context).size.height - 166,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           CustomTestPostcard(
                             profileImg: 'assets/images/profile_image.jpg',
-                            // userName: jobs.value!.jobs![index].userName,
-                            // workDescription:
-                            //     jobs.value!.jobs![index].workDescription,
-                            // image: jobs.value!.jobs![index].image,
-                            // title: jobs.value!.jobs![index].Title,
-                            // price: jobs.value!.jobs![index].price,
-                            // jobType: jobs.value!.jobs![index].jobType,
-                            // createdAt: jobs.value!.jobs![index].createdAt,
                             jobModel: jobs.value!.jobs![index],
                             onDelete: (S) {},
                           ),

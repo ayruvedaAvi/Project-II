@@ -24,6 +24,7 @@ class NotificationModel {
   final bool read;
   final String createdAt;
   final int v;
+  final String? jobId;
 
   NotificationModel(
     this.id,
@@ -32,6 +33,7 @@ class NotificationModel {
     this.read,
     this.createdAt,
     this.v,
+    this.jobId,
   );
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
