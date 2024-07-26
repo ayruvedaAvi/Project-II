@@ -12,6 +12,7 @@ class CustomPostcard extends StatefulWidget {
   final double? price;
   final String? createdAt;
   final String? jobType;
+  final bool fromPending;
   // final bool? isActiveUser;
   const CustomPostcard({
     super.key,
@@ -23,6 +24,7 @@ class CustomPostcard extends StatefulWidget {
     this.price,
     this.createdAt,
     this.jobType,
+    required this.fromPending,
     // this.isActiveUser = false,
   });
 
@@ -66,7 +68,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
       child: InkWell(
         onTap: () {
-          Get.to(() => SinglepostScreen(
+          Get.to(() => SinglePostScreen(
                 profileImg: widget.profileImg,
                 userName: widget.userName,
                 workDescription: widget.workDescription,
@@ -74,6 +76,7 @@ class _CustomPostcardState extends State<CustomPostcard> {
                 title: widget.title,
                 price: widget.price ?? 0.0,
                 createdAt: timeDifference,
+                fromPending: widget.fromPending,
               ));
         },
         child: Column(

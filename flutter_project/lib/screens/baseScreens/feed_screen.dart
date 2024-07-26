@@ -199,6 +199,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       return Column(
                         children: [
                           CustomTestPostcard(
+                            fromPending: false,
                             profileImg: 'assets/images/profile_image.jpg',
                             jobModel: jobs.value!.jobs![index],
                             onDelete: (S) {},
