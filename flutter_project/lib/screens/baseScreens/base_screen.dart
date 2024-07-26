@@ -21,6 +21,7 @@ class _BaseScreenState extends State<BaseScreen> {
   String? role;
   late final List<Widget> lstWidget;
   int _selectedIndex = 0;
+  // ignore: prefer_final_fields
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   void getRole() async {
@@ -90,6 +91,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: onBackPressed,
       child: Scaffold(
