@@ -14,7 +14,7 @@ const JobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['pending', 'active', 'completed'],
-      default: 'pending',
+      default: 'active',
     },
     userId: {
       type: mongoose.Types.ObjectId,

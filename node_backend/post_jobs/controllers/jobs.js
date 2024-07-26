@@ -145,6 +145,10 @@ const assignJob = async (req, res, next) => {
     throw new UnauthenticatedError('You are not authorized to assign this job');
   }
 
+  if (job.assignedWorker && job.assignedWorker.workerId) {
+    throw new BadRequestError('Job already assigned to a worker');
+  }
+
   const applicant = job.applications.find(app => app.workerId.toString() === workerId);
 
   if (!applicant) {
@@ -161,13 +165,13 @@ const assignJob = async (req, res, next) => {
     workerName: applicant.workerName,
   };
 
-  job.status = 'active';
+  job.status = 'pending';
 
   await job.save();
 
   const notificationTitle = 'Job Assigned';
   const notificationBody = `You have been assigned to the job: ${job.Title}`;
-  await sendNotificationToUser(notificationTitle, notificationBody, workerId);
+  await sendNotificationToUser(notificationTitle, notificationBody, workerId,jobId);
 
   res.status(StatusCodes.OK).json({ message: 'Job assigned successfully' });
 };
@@ -217,7 +221,7 @@ const confirmJobCompletion = async (req, res, next) => {
   const notificationBody = `The job '${job.Title}' has been marked as completed. Check your profile for details.`;
 
   try {
-    await sendNotificationToUser(notificationTitle, notificationBody, worker._id);
+    await sendNotificationToUser(notificationTitle, notificationBody, worker._id,jobId);
   } catch (error) {
     console.error('Error sending notification:', error.message);
     return next(new BadRequestError('Failed to send notification'));
