@@ -336,12 +336,12 @@ class _AddpostScreenState extends State<AddpostScreen> {
                                 _image,
                               );
                               Get.off(() => const BaseScreen(
-                                    initalIndex: 0,
+                                    initialIndex: 0,
                                   ));
                             } else {
                               _postJobController.postJob(_image);
                               Get.off(() => const BaseScreen(
-                                    initalIndex: 0,
+                                    initialIndex: 0,
                                   ));
                             }
                           }

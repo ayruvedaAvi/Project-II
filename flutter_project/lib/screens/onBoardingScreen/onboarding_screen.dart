@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
+import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -77,7 +77,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => const LoginScreen());
+                    Get.to(() => const RoleselectionScreen());
                   },
                   child: Text(
                     "Skip",
@@ -129,7 +129,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                           _pageController.nextPage(
                               curve: Curves.ease, duration: defaultDuration);
                         } else {
-                          Get.to(() => const LoginScreen());
+                          Get.to(() => const RoleselectionScreen());
                         }
                       },
                       style: ElevatedButton.styleFrom(

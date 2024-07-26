@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/controllers/notificationController/notification_controller.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
 import 'package:flutter_project/widgets/custom_notifycard.dart';
+import 'package:get/get.dart';
 
-class NotificationsScreen extends StatelessWidget {
+import '../../models/notifications/notification_model.dart';
+
+class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
 
+  @override
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+
+  NotificationController notificationController = Get.put(NotificationController());
+  Rxn<List<NotificationModel>> notifications = Rxn<List<NotificationModel>>();
+
+  void getNotifications(){
+    notificationController.getUserNotification().then((value) {
+      if(value != null){
+        notifications.value = value;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    getNotifications();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,72 +54,21 @@ class NotificationsScreen extends StatelessWidget {
         ],
       ),
       backgroundColor: Colors.white,
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my youtube channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my discord channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my facebook channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my instagram channel",
-            ),
-            CustomNotifycard(
-              message: "Hello guys! Welcome to my twitter channel",
-            ),
-          ],
-        ),
-      ),
+      body: Obx(() {
+        if (notificationController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (notifications.value == null || notifications.value!.isEmpty) {
+          return const Center(child: Text("No notifications available."));
+        }
+        return ListView.builder(
+          itemCount: notifications.value!.length,
+          itemBuilder: (context, index) {
+            final notification = notifications.value![index];
+            return CustomNotifycard(message: notification.body);
+          },
+        );
+      }),
     );
   }
 }

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/screens/authScreens/login_screen.dart';
-// import 'package:flutter_project/screens/authScreens/profile_picture_selection_screen.dart';
-import 'package:flutter_project/screens/language_selection_screen.dart';
+import 'package:flutter_project/controllers/authControllers/login_controller.dart';
+import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
-// import 'package:flutter_project/screens/language_selection_screen.dart';
-// import 'package:flutter_project/screens/roleselection_screen.dart';
 import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:flutter_project/widgets/custom_setting_row.dart';
 import 'package:get/get.dart';
@@ -36,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: mainColor,
+        backgroundColor: borderButtonColor,
         centerTitle: true,
         title: Text('settings'.tr),
         shadowColor: Colors.grey,
@@ -78,18 +75,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         suffixTextBool: true,
                         suffixText: "english".tr,
                       ), //custom comment
-                      // Divider(
-                      //   thickness: 1,
-                      //   indent: 60,
-                      //   color: Colors.grey[200],
-                      // ), //hehe
-                      // CustomSettingRow(
-                      //   prefixIcon: Icons.language,
-                      //   prefixText: "language".tr,
-                      //   suffixIcon: Icons.arrow_forward_ios,
-                      //   suffixTextBool: true,
-                      //   suffixText: "english".tr,
-                      // ),
+                      Divider(
+                        thickness: 1,
+                        indent: 60,
+                        color: Colors.grey[200],
+                      ), //hehe
+                      CustomSettingRow(
+                        prefixIcon: Icons.language,
+                        prefixText: "language".tr,
+                        suffixIcon: Icons.arrow_forward_ios,
+                        suffixTextBool: true,
+                        suffixText: "english".tr,
+                      ),
                     ],
                   ),
                 ),
@@ -177,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => const LanguageSelectionScreen());
+                          Get.to(() => const RoleselectionScreen());
                         },
                         child: CustomSettingRow(
                           prefixIcon: Icons.fingerprint,
@@ -246,8 +243,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          UserSharedPreference.removeDataFromStorage('token');
-                          Get.offAll(() => const LoginScreen());
+                          LoginController logout = Get.put(LoginController());
+                          logout.logout();
                         },
                         child: CustomSettingRow(
                           prefixIcon: Icons.logout,

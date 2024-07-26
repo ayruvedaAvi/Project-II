@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/authScreens/verifyotp_screen.dart';
 import 'package:flutter_project/core/api/api_endpoint.dart';
+import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
 import 'package:get/get.dart';
 import 'package:flutter_project/models/signup/signup_model.dart';
 
@@ -16,6 +17,7 @@ class SignupController extends GetxController {
 
   Future<void> signup() async {
     isLoading.value = true;
+    String? role = await UserSharedPreference.getStringDataFromStorage("role");
     try {
       final signupModel = SignupModel(
         name: firstNameController.text,
@@ -23,6 +25,7 @@ class SignupController extends GetxController {
         phoneNumber:"+977 ${mobileNumberController.text}",
         email: emailController.text,
         password: passwordController.text,
+        role: role,
       );
       bool isSignup = false;
       isSignup = await ApiEndpoints().signup(signupModel);

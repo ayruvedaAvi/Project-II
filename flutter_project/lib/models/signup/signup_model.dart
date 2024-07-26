@@ -11,6 +11,7 @@ class SignupModel {
   String? phoneNumber;
   String? email;
   String? password;
+  String? role;
 
   SignupModel({
     this.name,
@@ -18,6 +19,7 @@ class SignupModel {
     this.phoneNumber,
     this.email,
     this.password,
+    this.role,
   });
 
   factory SignupModel.fromJson(Map<String, dynamic> json) =>

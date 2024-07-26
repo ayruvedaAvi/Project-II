@@ -100,76 +100,88 @@ const sendNotification = async (req, res) => {
 
 
 const sendNotificationOfJobPosted = async (title, body, posterUserId) => {
-  const allUsers = await User.find().exec();
+  try {
+    // Fetch all users excluding the poster
+    const allUsers = await User.find({ _id: { $ne: posterUserId }, isActive: true }).exec();
 
-  if (!allUsers) {
-    throw new Error('Failed to fetch users');
-  }
-
-  const users = allUsers.filter(user => user._id.toString() !== posterUserId);
-
-  const userIds = users.map(user => user._id);
-  const tokens = await FcmToken.find({ userId: { $in: userIds } }).exec();
-  if (!tokens) {
-    throw new Error('Failed to fetch tokens');
-  }
-
-  const allTokens = tokens.reduce((acc, token) => acc.concat(token.registrationToken), []);
-
-  if (allTokens.length === 0) {
-    throw new Error('No FCM tokens found for users');
-  }
-
-  const message = {
-    notification: {
-      title,
-      body
+    if (!allUsers) {
+      throw new Error('Failed to fetch users');
     }
-  };
 
-  const oAuth2Token = await getAccessToken();
+    const userIds = allUsers.map(user => user._id);
+    const tokens = await FcmToken.find({ userId: { $in: userIds } }).exec();
+    
+    if (!tokens) {
+      throw new Error('Failed to fetch tokens');
+    }
 
-  if (!oAuth2Token) {
-    throw new Error('Failed to get OAuth2 token');
-  }
+    const allTokens = tokens.reduce((acc, token) => acc.concat(token.registrationToken), []);
 
-  const promises = allTokens.map(token => {
-    const tokenMessage = { ...message, token };
-    console.log('Sending request to Firebase with message:', JSON.stringify(tokenMessage, null, 2));
+    if (allTokens.length === 0) {
+      throw new Error('No FCM tokens found for active users');
+    }
 
-    return axios.post(firebaseUrl, { message: tokenMessage }, {
-      headers: {
-        Authorization: `Bearer ${oAuth2Token}`
+    const message = {
+      notification: {
+        title,
+        body
+      }
+    };
+
+    const oAuth2Token = await getAccessToken();
+
+    if (!oAuth2Token) {
+      throw new Error('Failed to get OAuth2 token');
+    }
+
+    const promises = allTokens.map(token => {
+      const tokenMessage = { ...message, token };
+      console.log('Sending request to Firebase with message:', JSON.stringify(tokenMessage, null, 2));
+
+      return axios.post(firebaseUrl, { message: tokenMessage }, {
+        headers: {
+          Authorization: `Bearer ${oAuth2Token}`
+        }
+      });
+    });
+
+    const responses = await Promise.all(promises);
+
+    responses.forEach(response => {
+      if (response.status !== 200) {
+        throw new Error(`Failed to send notification: ${response.statusText}`);
       }
     });
-  });
 
-  const responses = await Promise.all(promises);
-
-  responses.forEach(response => {
-    if (response.status !== 200) {
-      throw new Error(`Failed to send notification: ${response.statusText}`);
-    }
-  });
-
-  const notificationPromises = tokens.map(token => {
-    const notification = new Notification({
-      userId: token.userId,
-      title,
-      body
+    const notificationPromises = tokens.map(token => {
+      const notification = new Notification({
+        userId: token.userId,
+        title,
+        body
+      });
+      return notification.save();
     });
-    return notification.save();
-  });
 
-  await Promise.all(notificationPromises);
+    await Promise.all(notificationPromises);
 
-  console.log('Notifications sent successfully and stored in the database');
+    console.log('Notifications sent successfully and stored in the database');
+  } catch (error) {
+    console.error('Error sending notifications:', error.message);
+    throw new Error('Failed to send notifications');
+  }
 };
+
 
 const sendNotificationToUser = async (title, body, userId) => {
   try {
     if (!title || !body) {
       throw new Error('Title and body are required');
+    }
+
+    const user = await User.findOne({ _id: userId, isActive: true }).exec();
+
+    if (!user) {
+      throw new Error('User not found or not active');
     }
 
     const tokenDoc = await FcmToken.findOne({ userId }).exec();
@@ -181,7 +193,10 @@ const sendNotificationToUser = async (title, body, userId) => {
     const registrationTokens = tokenDoc.registrationToken;
     const oAuth2Token = await getAccessToken();
 
- 
+    if (!oAuth2Token) {
+      throw new Error('Failed to get OAuth2 token');
+    }
+
     const notificationPromises = registrationTokens.map(async (token) => {
       const message = {
         message: {
@@ -209,9 +224,7 @@ const sendNotificationToUser = async (title, body, userId) => {
       }
     });
 
- 
     await Promise.all(notificationPromises);
-
 
     const notification = new Notification({
       userId,
@@ -226,7 +239,24 @@ const sendNotificationToUser = async (title, body, userId) => {
     throw new BadRequestError('Failed to send notifications');
   }
 };
+const getUserNotifications = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    if (!userId) {
+      return res.status(400).send({ message: 'User ID is required' });
+    }
+
+    const notifications = await Notification.find({ userId }).sort({ createdAt: -1 }).exec();
+
+    res.status(200).send({ notifications });
+  } catch (error) {
+    console.error('Error fetching notifications:', error.message);
+    res.status(500).send({ message: 'Failed to fetch notifications', error: error.message });
+  }
+};
 
 
 
-module.exports = { sendNotification, storeFcmToken,sendNotificationOfJobPosted,sendNotificationToUser };
+
+module.exports = { sendNotification, storeFcmToken,sendNotificationOfJobPosted,sendNotificationToUser,getUserNotifications };

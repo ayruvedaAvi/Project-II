@@ -63,7 +63,13 @@ const userSchema = new mongoose.Schema({
         default: false,
     },
     fcmToken:[{
-      type:String}]
+      type:String}],
+
+      completedJobs: [{
+        jobId: mongoose.Schema.Types.ObjectId,
+        jobTitle: String
+      }]
+    
     
 });
 

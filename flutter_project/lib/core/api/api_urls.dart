@@ -18,4 +18,10 @@ const getAllJobsByUserUrl = "/jobs/user";
 const editJobUrl = "/jobs/edit";
 const deleteJobUrl = "/jobs/delete";
 const getSingleJobUrl = "/jobs/singlejob";
-//checking
+
+//job actions
+const applyJobUrl = "/jobs/applyjob";
+
+//notification
+const storeFcmTokenUrl = "/notification/store-fcm-token";
+const getNotificationsUrl = "/notification/getUserNotifications";
