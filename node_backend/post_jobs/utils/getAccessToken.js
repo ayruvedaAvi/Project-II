@@ -2,7 +2,7 @@ const { GoogleAuth } = require('google-auth-library');
 const path = require('path');
 
 const SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'];
-const keyPath = path.resolve(__dirname, '../shrami-329b1-firebase-adminsdk-9lt4u-0d45533262.json');
+const keyPath = path.resolve(__dirname, '../shrami_new.json');
 
 const getAccessToken = async () => {
   try {
