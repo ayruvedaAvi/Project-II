@@ -1,69 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/controllers/jobControllers/getJobs/get_all_jobs_by_user.dart';
 import 'package:flutter_project/models/jobs/getAllJobsModel/get_all_jobs_model.dart';
+import 'package:flutter_project/models/jobs/jobDetailsModel/job_details_model.dart';
 import 'package:flutter_project/utils/constants/colors.dart';
-// import 'package:flutter_project/utils/shared_preferences/shared_preference.dart';
-// import 'package:flutter_project/widgets/custom_postcard.dart';
 import 'package:flutter_project/widgets/custom_test_postcard.dart';
 import 'package:get/get.dart';
 
 class UserPostedJobScreen extends StatefulWidget {
   final String postStatus;
   final String? detailsTopic;
-  const UserPostedJobScreen(
-      {super.key, required this.postStatus, this.detailsTopic});
+  final bool fromPending;
+
+  const UserPostedJobScreen({
+    Key? key,
+    required this.postStatus,
+    this.detailsTopic,
+    required this.fromPending,
+  }) : super(key: key);
 
   @override
   State<UserPostedJobScreen> createState() => _UserPostedJobScreenState();
 }
 
 class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
-  RxString name = ''.obs;
-  GetAllJobsByUserController getAllJobsController =
-      Get.put(GetAllJobsByUserController());
-  Rxn<GetAllJobsModel> jobs = Rxn<GetAllJobsModel>();
-
-  Future<void> getPosts() async {
-    var fetchedJobs = await getAllJobsController.getAllJobs();
-    if (fetchedJobs != null) {
-      jobs.value = fetchedJobs;
-    } else {
-      debugPrint('No jobs fetched');
-    }
-  }
-
-  void removeJob(String jobId) {
-    setState(() {
-      jobs.value!.jobs?.removeWhere((job) => job.id == jobId);
-    });
-  }
-
-  Future<void> filterPosts(String jobStatus) async {
-    var allJobs = await getAllJobsController.getAllJobs();
-    debugPrint(allJobs?.count.toString() ?? 'No jobs found');
-    if (allJobs != null) {
-      jobs.value = allJobs;
-    } else {
-      Get.showSnackbar(
-        const GetSnackBar(
-          title: "Error",
-          message: 'No jobs found',
-          duration: Duration(seconds: 4),
-          borderRadius: 10.0,
-          snackPosition: SnackPosition.TOP,
-          borderWidth: 5,
-          borderColor: mainColor,
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
+  final GetAllJobsByUserController _getAllJobsController = Get.put(GetAllJobsByUserController());
+  final Rxn<GetAllJobsModel> _jobs = Rxn<GetAllJobsModel>();
 
   @override
   void initState() {
     super.initState();
-    getPosts();
-    filterPosts(widget.postStatus.toString());
+    _fetchAndFilterJobs();
+  }
+
+  Future<void> _fetchAndFilterJobs() async {
+    try {
+      var allJobs = await _getAllJobsController.getAllJobs();
+      if (allJobs != null) {
+        var filteredJobs = _filterJobs(allJobs);
+        _jobs.value = GetAllJobsModel(
+          jobs: filteredJobs,
+          count: filteredJobs.length,
+        );
+      } else {
+        _showErrorSnackbar('No jobs found');
+      }
+    } catch (e) {
+      _showErrorSnackbar('Error fetching jobs: $e');
+    }
+  }
+
+  List<JobDetailsModel> _filterJobs(GetAllJobsModel allJobs) {
+    switch (widget.detailsTopic?.toLowerCase()) {
+      case 'active':
+        return allJobs.jobs?.where((job) => job.status == 'active').toList() ?? [];
+      case 'pending':
+        return allJobs.jobs?.where((job) => job.status == 'pending').toList() ?? [];
+      case 'completed':
+        return allJobs.jobs?.where((job) => job.status == 'completed').toList() ?? [];
+      default:
+        return allJobs.jobs ?? [];
+    }
+  }
+
+  void _showErrorSnackbar(String message) {
+    Get.showSnackbar(
+      GetSnackBar(
+        title: "Error",
+        message: message,
+        duration: const Duration(seconds: 4),
+        borderRadius: 10.0,
+        snackPosition: SnackPosition.TOP,
+        borderWidth: 5,
+        borderColor: mainColor,
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  void _removeJob(String jobId) {
+    setState(() {
+      _jobs.value?.jobs?.removeWhere((job) => job.id == jobId);
+    });
   }
 
   @override
@@ -75,52 +92,29 @@ class _UserPostedJobScreenState extends State<UserPostedJobScreen> {
         foregroundColor: Colors.white,
         backgroundColor: borderButtonColor,
         shadowColor: Colors.grey,
-        title: Text(widget.detailsTopic.toString()),
+        title: Text(widget.detailsTopic ?? ''),
       ),
-      // backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       backgroundColor: Colors.grey[200],
-
-      // body: Center(
-      //   child: ElevatedButton(
-      //     onPressed: () {
-      //       Get.back();
-      //     },
-      //     child: const Text('Go back!'),
-      //   ),
-      // ),
       body: Obx(() {
-        if (getAllJobsController.isLoading.value) {
+        if (_getAllJobsController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        } else if (jobs.value == null) {
+        } else if (_jobs.value == null || _jobs.value!.jobs == null) {
           return const Center(
-            child: Text(
-                'Error fetching jobs, something went wrong, please try again later.'),
+            child: Text('No jobs found. Please try again later.'),
           );
         } else {
-          return Padding(
-            padding: const EdgeInsets.only(top: 0, bottom: 10),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return CustomTestPostcard(
-                    fromPending: true,
-                    profileImg: 'assets/images/profile_image.jpg',
-                    // userName: jobs.value!.jobs![index].userName,
-                    // workDescription: jobs.value!.jobs![index].workDescription,
-                    // image: jobs.value!.jobs![index].image,
-                    // title: jobs.value!.jobs![index].Title,
-                    // price: jobs.value!.jobs![index].price,
-                    // jobType: jobs.value!.jobs![index].jobType,
-                    // createdAt: jobs.value!.jobs![index].createdAt,
-                    jobModel: jobs.value!.jobs![index],
-                    isActiveUser: widget.detailsTopic == "Active Jobs",
-                    onDelete: removeJob,
-                  );
-                },
-                itemCount: jobs.value?.jobs?.length ?? 0,
-              ),
-            ),
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            itemCount: _jobs.value!.jobs!.length,
+            itemBuilder: (context, index) {
+              return CustomTestPostcard(
+                fromPending: widget.fromPending,
+                profileImg: 'assets/images/profile_image.jpg',
+                jobModel: _jobs.value!.jobs![index],
+                isActiveUser: true,
+                onDelete: _removeJob,
+              );
+            },
           );
         }
       }),
